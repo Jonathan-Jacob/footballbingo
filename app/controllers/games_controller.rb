@@ -1,18 +1,17 @@
 class GamesController < ApplicationController
 
   def index
-    @games = Game.where(user_id: current_user).order(created_at: :desc)
+    @games = policy_scope(Game)
   end
 
   # all group games / all user names
-
 
   def show
     @game = Game.find(params[:id])
     authorize @game
   end
 
-   def new
+  def new
     @game = Game.new
     authorize @game
   end
@@ -20,7 +19,6 @@ class GamesController < ApplicationController
   def create
     @game = Game.new(game_params)
     authorize @game
-    @game.user = current_user
     if @game.save
       redirect_to game_path(@game)
     else
@@ -29,18 +27,15 @@ class GamesController < ApplicationController
   # connection to group
   end
 
-  def join
+  def join_game
+    # edit
     @game = Game.find(params[:id])
-    @game.us = params[:booking][:status]
-    @treehouse = @booking.treehouse
-    @booking.save
+    @game
+    @game.save
     authorize @game
     redirect_to game_path(@game)
   end
-
-
 end
-
 
  private
 
