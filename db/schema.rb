@@ -88,6 +88,15 @@ ActiveRecord::Schema.define(version: 2021_03_02_185009) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "user_groups", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "group_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["group_id"], name: "index_user_groups_on_group_id"
+    t.index ["user_id"], name: "index_user_groups_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -118,6 +127,6 @@ ActiveRecord::Schema.define(version: 2021_03_02_185009) do
   add_foreign_key "games", "matches"
   add_foreign_key "groups", "users"
   add_foreign_key "match_events", "matches"
-  add_foreign_key "users_groups", "groups"
-  add_foreign_key "users_groups", "users"
+  add_foreign_key "user_groups", "groups"
+  add_foreign_key "user_groups", "users"
 end
