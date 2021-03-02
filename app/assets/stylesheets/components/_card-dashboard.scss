@@ -9,3 +9,19 @@
 .card-groupname {
   border-bottom: 1px solid black;
 }
+
+.card-game {
+  height: 160px;
+  a {
+    color: black;
+    font-size: 80px;
+    transition: font-size .2s;
+  }
+  a:hover {
+    text-decoration: none;
+    font-size: 120px;
+    color: black;
+  }
+}
+
+
