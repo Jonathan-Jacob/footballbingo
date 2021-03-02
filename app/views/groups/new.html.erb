@@ -1,0 +1,8 @@
+<div class="container">
+  <h1>New group</h1>
+  <%= simple_form_for @group, html: {multipart: true} do |f| %>
+    <%= f.input :name, label: "Enter group name" %>
+    <%# <%= f.association :user, collection: User.all.map { |user| user.nickname }, label: "Add user" %>
+    <%= f.submit 'Submit', class: "btn btn-success" %>
+  <% end %>
+</div>

@@ -1,4 +1,5 @@
 class GamesController < ApplicationController
+  before_action :set_game, only: [:show, :join_game]
 
   def index
     @games = policy_scope(Game)
@@ -7,7 +8,6 @@ class GamesController < ApplicationController
   # all group games / all user names
 
   def show
-    @game = Game.find(params[:id])
     authorize @game
   end
 
@@ -31,7 +31,7 @@ class GamesController < ApplicationController
 
   def join_game
     # edit
-    @bingo_card = BingoCard.new(bingo_card_params)
+    @bingo_card = BingoCard.new(user: current_user, game: @game)
     authorize @bingo_card
     if @bingo_card.save
       redirect_to game_path(@game)
@@ -46,7 +46,7 @@ class GamesController < ApplicationController
     params.require(:game).permit(:match_id, :group_id)
   end
 
-  def bingo_card_params
-    params.require(:bingo_card).permit(:user_id, :game_id)
+  def set_game
+    @game = Game.find(params[:id])
   end
 end

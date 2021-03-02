@@ -6,6 +6,7 @@ class GroupsController < ApplicationController
   def show
     @group = Group.find(params[:id])
     authorize @group
+    @games = @group.games
   end
 
   def new
@@ -17,18 +18,10 @@ class GroupsController < ApplicationController
     @group = Group.new(group_params)
     authorize @group
     @group.user = current_user
+    # user_group = UserGroup.new(group: @group, user: current_user)
+    # user_group.save!
     if @group.save
-      redirect_to_group_path(@group)
-    else
-      render 'new'
-    end
-  end
-
-  def add_user
-    @users_group = UsersGroup.new(users_group_params)
-    authorize @users_group
-    if @users_group.save
-      redirect_to_group_path(@group)
+      redirect_to group_path(@group)
     else
       render 'new'
     end
@@ -36,11 +29,13 @@ class GroupsController < ApplicationController
 
   private
 
-  def users_group_params
+  def user_group_params
     params.require(:users_group).permit(:user_id, :group_id)
   end
 
   def group_params
-    params.require(:group).permit(:name, :user_id)
+    params.require(:group).permit(:name)
   end
 end
+
+#simple_form_for [@group, @users_group] points to users_group_id
