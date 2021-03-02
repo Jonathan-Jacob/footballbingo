@@ -6,7 +6,7 @@ class GroupsController < ApplicationController
 
   def show
     @group = Group.find(params[:id])
-    authorize group
+    authorize @group
   end
 
   def new
