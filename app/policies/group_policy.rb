@@ -6,15 +6,8 @@ class GroupPolicy < ApplicationPolicy
   end
 
   def show?
-    record.users_groups.any? { |users_group| users_group.user == current_user }
-  end
-
-  def add_user?
-    record.user == current_user?
-  end
-
-  def new?
-    create?
+    true
+    # record.user_groups.any? { |user_group| user_group.user == current_user }
   end
 
   def create?
