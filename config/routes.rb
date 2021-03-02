@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   devise_for :users
   root to: 'pages#home'
+
   resources :games, only: [:show, :new, :create]
   resources :groups, only: [:show, :new, :create]
   post '/groups/:id', to: 'groups#add_user'
