@@ -18,8 +18,10 @@ class GamesController < ApplicationController
 
   def create
     @game = Game.new(game_params)
+    @bingo_card = BingoCard.new(user: current_user, game: @game)
     authorize @game
-    if @game.save
+    authorize @bingo_card
+    if @game.save && @bingo_card.save
       redirect_to game_path(@game)
     else
       render 'new'
@@ -29,16 +31,22 @@ class GamesController < ApplicationController
 
   def join_game
     # edit
-    @game = Game.find(params[:id])
-    @game
-    @game.save
-    authorize @game
-    redirect_to game_path(@game)
+    @bingo_card = BingoCard.new(bingo_card_params)
+    authorize @bingo_card
+    if @bingo_card.save
+      redirect_to game_path(@game)
+    else
+      render 'new'
+    end
   end
-end
 
- private
+  private
 
   def game_params
-    params.require(:game).permit(:match_id, group_id )
+    params.require(:game).permit(:match_id, :group_id)
   end
+
+  def bingo_card_params
+    params.require(:bingo_card).permit(:user_id, :game_id)
+  end
+end
