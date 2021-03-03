@@ -1,0 +1,56 @@
+.btn-greenstart {
+  color: white;
+  background-color: #61B32E;
+  border: 1px solid #DDDDDD;
+  padding: 8px 24px;
+  border-radius: 50px;
+  font-weight: lighter;
+  font-family: $football-font;
+  width: 150px;
+
+}
+
+.btn-greenstart:hover {
+  opacity: 1;
+}
+
+.btn-ghost {
+  display: flex;
+  align-item: center;
+  justify-content: center;
+  color: white;
+  border: 1px solid rgba(74, 74, 74, .5);
+  padding: 18px 21px;
+  border-radius: 8px;
+  width: 220px;
+  font-weight: bold;
+  font-size: 25.5px;
+  // opacity: 0.8;
+  transition: opacity 0.3s ease;
+  background-color: rgba(74, 74, 74, .5);
+}
+
+.btn-ghost:hover {
+  opacity: 1;
+  background-color: #333333;
+
+}
+
+.btn-ghost-start {
+  color: white;
+  border: 1px solid #4A4A4A;
+  padding: 8px 24px;
+  width: 85px;
+  height: 85px;
+  border-radius: 50%;
+  font-weight: bold;
+  font-size: 26px;
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+  background-color: #4A4A4A;
+}
+
+.btn-ghost-start:hover {
+  opacity: 1;
+  background-color: #333333;
+}
