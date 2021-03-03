@@ -2,17 +2,21 @@
     <h1 class="mt-5">Your Games</h1>
     <div class="d-flex justify-content-start">
 
+      <% @games.each do |game| %>
+      <%= link_to group_game_path(game.group, game) do %>
       <div class="card-dashboard m-3">
         <div class="card-groupname">
-         <p>Batch 530 </p>
+          <p> <%= game.group.name %> </p>
         </div>
         <div class="card-game">
-          <p> BVB</p>
+          <p> <%= game.group.user_groups.count %> Members </p>
+          <p>  <%= game.match.team_1 %>  </p>
           <p>vs</p>
-          <p> HSV </p>
-
+          <p>  <%= game.match.team_2 %> </p>
         </div>
       </div>
+      <% end %>
+      <% end %>
 
     </div>
   <div>
@@ -25,7 +29,7 @@
           <p> <%= group.name %> </p>
         </div>
         <div class="card-game">
-          <p>35 Members ??? </p>
+          <p> <%= pluralize(group.user_groups.count, 'Member') %> </p>
           <p>6 upcoming games ???? </p>
         </div>
       </div>
