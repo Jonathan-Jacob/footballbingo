@@ -18,8 +18,8 @@ class GroupsController < ApplicationController
     @group = Group.new(group_params)
     authorize @group
     @group.user = current_user
-    # user_group = UserGroup.new(group: @group, user: current_user)
-    # user_group.save!
+    user_group = UserGroup.new(group: @group, user: current_user)
+    user_group.save!
     if @group.save
       redirect_to group_path(@group)
     else
