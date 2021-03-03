@@ -18,6 +18,7 @@ class GamePolicy < ApplicationPolicy
   end
 
   def show?
-    record.bingo_cards.any? { |bingo_card| bingo_card.user == current_user }
+    true
+    # record.bingo_cards.any? { |bingo_card| bingo_card.user == current_user }
   end
 end
