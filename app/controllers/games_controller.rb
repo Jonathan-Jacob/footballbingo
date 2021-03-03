@@ -1,5 +1,5 @@
 class GamesController < ApplicationController
-  before_action :set_game, only: [:show, :join_game]
+  before_action :set_game, :set_group, only: [:show, :join_game]
 
   def index
     @games = policy_scope(Game)
@@ -40,6 +40,11 @@ class GamesController < ApplicationController
     end
   end
 
+  def show
+    @game = Game.find(params[:id])
+    authorize @game
+  end
+
   private
 
   def game_params
@@ -49,5 +54,10 @@ class GamesController < ApplicationController
   def set_game
     @game = Game.find(params[:id])
   end
+
+  def set_group
+    @group = Group.find(params[:group_id])
+  end
+
 end
 
