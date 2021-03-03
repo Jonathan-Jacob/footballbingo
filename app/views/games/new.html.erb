@@ -1,15 +1,11 @@
-<%= competitions = ["Premier League", "1. Bundesliga", "2.Bundesliga", "La Liga", "Serie A"]
 
 <div class="container">
-  <h1>@group.name</h1>
-  <%= simple_form_for @game, html: {multipart: true} do |f| %>
-    <%= f.input :Competition, collection: {  }, label: "Chose competition" %>
-    <%= f.input :Match, collection: {}, label: "Choose match"
-    <% if @.errors.messages%>
-      <p class="mt-0 text-danger" style="font-size: small">Address <%= @.errors.messages[:address].first %></p>
-      <% end %>
+  <h1> <%=  @group.name %> </h1>
+  <%= simple_form_for [@group, @game] do |f| %>
 
-    <%= f.submit '', class: "btn btn-success" %>
+    <%= f.association :match, label: "Choose match", label_method: :teams %>
+
+    <%= f.submit 'Create Game', class: "btn btn-success" %>
 
   <% end %>
 

@@ -1,4 +1,5 @@
 <div class="container">
+
   <h1><%= @group.name %></h1>
   <ul>
     <% @group.users.each do |user| %>
@@ -17,10 +18,15 @@
       <%end%>
     </ul>
   </div>
+  <%= link_to "Create a new Game", new_group_game_path(@group)  %>
   <% if @group.user == current_user %>
     <%= simple_form_for [@group, @user_group] do |f| %>
     <%= f.association :user, collection: User.all.map { |user| [ user.id, user.nickname ] }, label_method: :second, value_method: :first %>
     <%= f.submit "Submit", class: "btn btn-primary" %>
+    <% end %>
   <% end %>
-<% end %>
+  <br>
+  <br>
+  <br>
+  <%= link_to "Back to Dashboard", dashboard_path %>
 </div>

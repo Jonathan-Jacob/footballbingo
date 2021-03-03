@@ -1,24 +1,25 @@
 <div class="container">
     <h1 class="mt-5">Your Games</h1>
     <div class="d-flex justify-content-start">
-      <% @bingo_cards.each do |bingo_card| %>
+
       <div class="card-dashboard m-3">
         <div class="card-groupname">
-         <p>Batch 530 <%= bingo_card.game.group.name %> </p>
+         <p>Batch 530 </p>
         </div>
         <div class="card-game">
-          <p> <%= bingo_card.game.match.team_1 %> </p>
+          <p> BVB</p>
           <p>vs</p>
-          <p> <%= bingo_card.game.match.team_2 %> </p>
-          <p> <%= bingo_card.game.match.date_time %> </p>
+          <p> HSV </p>
+
         </div>
       </div>
-      <% end %>
+
     </div>
   <div>
     <h1 class="mt-5">Your Groups</h1>
     <div class="d-flex justify-content-start">
       <% @groups.each do |group| %>
+      <%= link_to group_path(group) do %>
       <div class="card-dashboard m-3">
         <div class="card-groupname">
           <p> <%= group.name %> </p>
@@ -28,6 +29,7 @@
           <p>6 upcoming games ???? </p>
         </div>
       </div>
+      <% end %>
       <% end %>
       <div class="card-dashboard m-3">
         <div class="card-groupname">
