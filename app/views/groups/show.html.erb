@@ -1,14 +1,17 @@
 <div class="container">
-  <h1>My games</h1>
+  <h1> <%= @group.name %> Games</h1>
   <div class="grid">
     <ul>
-      <%= @games.each do |game| %>
+      <% @games.each do |game| %>
         <li class='gamecard'>
-          <p>game.value1</p>
-          <p>game.value2</p>
-          <p>game.value3</p>
+          <p> <%= game.match.team_1 %> vs <%= game.match.team_2 %></p>
         </li>
       <%end%>
     </ul>
   </div>
+   <%= link_to "Create a new Game", new_group_game_path(@group)  %>
+   <br>
+   <br>
+   <br>
+   <%= link_to "Back to Dashboard", dashboard_path %>
 </div>

@@ -1,6 +1,6 @@
 class DashboardController < ApplicationController
   def show
-    @bingo_cards = BingoCard.where(user_id: current_user.id)
+    @games = Game.where(user: current_user)
     @groups = Group.where(user: current_user)
   end
 end

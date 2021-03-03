@@ -4,4 +4,8 @@ class Match < ApplicationRecord
 
   validates :team_1, presence: true
   validates :team_2, presence: true
+
+  def teams
+    "#{team_1} vs #{team_2}"
+  end
 end
