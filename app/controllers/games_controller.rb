@@ -13,14 +13,14 @@ class GamesController < ApplicationController
   end
 
   def new
-    @game = Game.new
+    @game = Game.new(group: @group)
     authorize @game
   end
 
   def create
     @game = Game.new(game_params)
-    authorize @game
     @game.group = @group
+    authorize @game
     # @bingo_card = BingoCard.new(user: current_user, game: @game)
     # authorize @bingo_card
     if @game.save
@@ -40,11 +40,6 @@ class GamesController < ApplicationController
     else
       render 'new'
     end
-  end
-
-  def show
-    @game = Game.find(params[:id])
-    authorize @game
   end
 
   private
