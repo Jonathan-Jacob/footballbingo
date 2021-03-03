@@ -1,12 +1,17 @@
 class UserGroupsController < ApplicationController
-  before_action :set_group, only: :create
+  before_action :set_group
+
+  def index
+    policy_scope(UserGroup)
+    redirect_to group_path(@group)
+  end
 
   def create
     @user_group = UserGroup.new(user_group_params)
     @user_group.group = @group
     authorize @user_group
     if @user_group.save
-      redirect_to_group_path(@group)
+      redirect_to group_path(@group)
     else
       render 'groups/show'
     end

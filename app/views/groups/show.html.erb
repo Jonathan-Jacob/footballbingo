@@ -1,14 +1,26 @@
 <div class="container">
+  <h1><%= @group.name %></h1>
+  <ul>
+    <% @group.users.each do |user| %>
+      <li><%= user.nickname %></li>
+    <%end%>
+  </ul>
   <h1>My games</h1>
   <div class="grid">
     <ul>
-      <%= @games.each do |game| %>
+      <% @group.games.each do |game| %>
         <li class='gamecard'>
-          <p>game.value1</p>
-          <p>game.value2</p>
-          <p>game.value3</p>
+          <%= game.match.team_1 %>
+          <%= game.match.team_2 %>
+          <%= game.match.date_time %>
         </li>
       <%end%>
     </ul>
   </div>
+  <% if @group.user == current_user %>
+    <%= simple_form_for [@group, @user_group] do |f| %>
+    <%= f.association :user, collection: User.all.map { |user| [ user.id, user.nickname ] }, label_method: :second, value_method: :first %>
+    <%= f.submit "Submit", class: "btn btn-primary" %>
+  <% end %>
+<% end %>
 </div>

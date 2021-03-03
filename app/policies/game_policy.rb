@@ -10,15 +10,14 @@ class GamePolicy < ApplicationPolicy
   end
 
   def create?
-    record.group.users_groups.any? { |users_group| users_group.user == current_user }
+    record.group.users_groups.any? { |users_group| users_group.user == @user }
   end
 
   def join_game?
-    record.group.users_groups.any? { |users_group| users_group.user == current_user }
+    record.group.users_groups.any? { |users_group| users_group.user == @user }
   end
 
   def show?
-    true
-    # record.bingo_cards.any? { |bingo_card| bingo_card.user == current_user }
+    record.bingo_cards.any? { |bingo_card| bingo_card.user == @user }
   end
 end
