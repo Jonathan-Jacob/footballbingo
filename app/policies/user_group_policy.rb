@@ -6,6 +6,6 @@ class UserGroupPolicy < ApplicationPolicy
   end
 
   def create?
-    record.group.user == user
+    record.group.user == @user
   end
 end
