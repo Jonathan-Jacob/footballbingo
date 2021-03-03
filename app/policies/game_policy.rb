@@ -10,11 +10,11 @@ class GamePolicy < ApplicationPolicy
   end
 
   def create?
-    record.group.users_groups.any? { |users_group| users_group.user == current_user }
+    record.group.users_groups.any? { |users_group| users_group.user == user }
   end
 
   def join_game?
-    record.group.users_groups.any? { |users_group| users_group.user == current_user }
+    record.group.users_groups.any? { |users_group| users_group.user == user }
   end
 
   def show?

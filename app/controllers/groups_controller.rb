@@ -6,7 +6,7 @@ class GroupsController < ApplicationController
   def show
     @group = Group.find(params[:id])
     authorize @group
-    @games = @group.games
+    @user_group = UserGroup.new
   end
 
   def new
