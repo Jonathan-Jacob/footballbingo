@@ -42,6 +42,11 @@ class GamesController < ApplicationController
     end
   end
 
+  def show
+    @game = Game.find(params[:id])
+    authorize @game
+  end
+
   private
 
   def game_params
@@ -52,7 +57,8 @@ class GamesController < ApplicationController
     @game = Game.find(params[:id])
   end
 
-   def set_group
+  def set_group
     @group = Group.find(params[:group_id])
   end
 end
+

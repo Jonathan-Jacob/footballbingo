@@ -3,10 +3,9 @@ Rails.application.routes.draw do
   root to: 'pages#home'
   get '/dashboard', to: 'dashboard#show', as: :dashboard
 
-
   resources :groups, only: [:show, :new, :create] do
-    resources :user_groups, only: :create
     resources :games, only: [:show, :new, :create]
+    resources :user_groups, only: [:index, :create]
   end
   # post '/groups/:id', to: 'groups#add_user'
   # post '/games/:id', to: 'games#join_game'
