@@ -4,28 +4,34 @@ class Match < ApplicationRecord
 
   has_many :games
   has_many :match_events
-
+  belongs_to :competition
   validates :team_1, presence: true
   validates :team_2, presence: true
+
+  require 'json'
+  require 'open-uri'
 
   def teams
     "#{team_1} vs #{team_2}"
   end
 
-  def self.read_matches
-    data = []
-    api_url = "https://soccer.sportmonks.com/api/v2.0/fixtures/between/#{start_date}/#{end_date}?#{ENV["SPORTMONKS_URL"]}api_token=CYKQiMHdrgenG9Uwe91lnRk3lMI0LOiowonRns3ryM6xygFyxmfa0p4E3jA2&include=localTeam,visitorTeam,league"
+  def self.read_json
+    pages = 0
+    json = ""
+    api_url = "https://soccer.sportmonks.com/api/v2.0/fixtures/between/#{start_date}/#{end_date}?api_token=CYKQiMHdrgenG9Uwe91lnRk3lMI0LOiowonRns3ryM6xygFyxmfa0p4E3jA2&include=localTeam,visitorTeam,league,deleted=1"
     open(api_url) do |stream|
       json = JSON.parse(stream.read)
-      json['data'].each_with_index do |fixture, index|
-        data[index] = ""
-        data[index] << fixture['league']['data']['name']
-        data[index] << ": " << fixture['localTeam']['data']['name']
-        data[index] << " vs " << fixture['visitorTeam']['data']['name']
-        data[index] << " at " << fixture['time']['starting_at']['date_time']
+      pages = json['meta']['pagination']['total_pages']
+    end
+    if pages >= 2
+      (2..pages).each do |page|
+        open(api_url + "&page=#{page}") do |stream|
+          json_page = JSON.parse(stream.read)
+          json['data'] += json_page['data']
+        end
       end
     end
-    data
+    json
   end
 
   def self.start_date
@@ -36,4 +42,17 @@ class Match < ApplicationRecord
     (Date.today + 8).to_s
   end
 
+  def update_status(status)
+    not_started = %w[NS POSTP DELAYED TBA]
+    ongoing = %w[LIVE HT ET PEN_LIVE BREAK INT ABAN SUSP]
+    finished = %w[FT AET FT_PEN CANCL AWARDED WO Deleted]
+    if not_started.include?(status)
+      self.status = "not_started"
+    elsif ongoing.include?(status)
+      self.status = "ongoing"
+    elsif finished.include?(status)
+      self.status = "finished"
+    end
+    save
+  end
 end
