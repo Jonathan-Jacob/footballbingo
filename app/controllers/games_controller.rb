@@ -1,6 +1,6 @@
 class GamesController < ApplicationController
   before_action :set_game, only: [:show, :join_game]
-  before_action :set_group, only: [:new, :create]
+  before_action :set_group, only: [:new, :create, :show]
 
   def index
     @games = policy_scope(Game)
@@ -9,6 +9,7 @@ class GamesController < ApplicationController
   # all group games / all user names
 
   def show
+    @game.group = @group
     authorize @game
   end
 
