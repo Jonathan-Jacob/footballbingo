@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     resources :user_groups, only: [:index, :create]
     resources :bingo_cards, only: [:show]
   end
+  resources :matches, only: [:index]
   # post '/groups/:id', to: 'groups#add_user'
   # post '/games/:id', to: 'games#join_game'
 

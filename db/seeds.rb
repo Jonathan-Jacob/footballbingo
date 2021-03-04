@@ -5,3 +5,27 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+competition_seed_data = [
+  #api_id, name, country
+  [2, 'Champions League', 'UEFA'],
+  [5, 'Europa League', 'UEFA'],
+  [8, 'Premier League', 'ENG'],
+  [9, 'Championship', 'ENG'],
+  [72, 'Eredivisie', 'NED'],
+  [82, 'Bundesliga', 'GER'],
+  [85, '2. Bundesliga', 'GER'],
+  [181, 'Tipico Bundesliga', 'AUT'],
+  [262, 'Fortuna Liga', 'CZE'],
+  [301, 'Ligue 1', 'FRA'],
+  [325, 'Super League', 'GRE'],
+  [384, 'Serie A', 'ITA'],
+  [387, 'Serie B', 'ITA'],
+  [462, 'Primeira Liga', 'POR'],
+  [486, 'Premier League', 'RUS'],
+  [564, 'La Liga', 'ESP'],
+  [591, 'Super League', 'SUI'],
+  [600, 'Süper Lig', 'TUR']
+  [732, 'World Cup', 'FIFA'],
+  [1326, 'European Championship', 'UEFA']
+]
