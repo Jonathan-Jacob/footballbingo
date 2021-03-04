@@ -1,4 +1,7 @@
 class Match < ApplicationRecord
+  require 'json'
+  require 'open-uri'
+
   has_many :games
   has_many :match_events
   belongs_to :competition

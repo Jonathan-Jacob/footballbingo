@@ -1,0 +1,16 @@
+.container-home {
+display: flex;
+justify-content: center;
+align-items: center;
+flex-direction: column;
+h1, h2, h3, h4 {
+  font-family: $football-font2;
+}
+h5{
+  font-family: $football-font;
+  color: #6E7C7C;
+}
+}
+
+
+
