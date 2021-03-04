@@ -1,0 +1,57 @@
+.bingo-container{
+  @extend .container;
+  display: flex;
+  margin: auto;
+  padding: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.before-grid {
+  display: flex;
+  text-align: center;
+}
+
+.the-grid {
+ display: flex;
+ padding: 5px;
+}
+
+.bingo-tile {
+  border-radius: 3px;
+  color: white;
+  display: flex;
+  background-color: rgba(41, 145, 55, 0.74);
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  background-image: url(../images/tile-background.jpg);
+
+}
+.grid {
+  border-radius: 5px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  grid-gap: 1.5%;
+}
+
+.grid > div {
+  border-radius: 5px;
+  background: rgba(0, 0, 0, 1);
+  padding: 2px;
+  display: grid;
+  box-shadow: 3px 3px 5px 3px rgba(0, 0, 0, 0.7);
+
+}
+
+.grid > div::before {
+  content: "";
+  padding-bottom: 100%;
+}
+
+.grid > div::before,
+.grid > div > .bingo-tile {
+  grid-area: 1 / 1 / 2 / 2;
+}
