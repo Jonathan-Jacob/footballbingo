@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
   devise_for :users
-  root to: 'dashboard#show'
-  get '/', to: 'dashboard#show', as: :dashboard
+  authenticated do
+    root to: 'dashboard#show'
+    get '/', to: 'dashboard#show', as: :dashboard
+  end
+
+    root to: 'pages#home', as: :root_two
 
   resources :groups, only: [:show, :new, :create] do
     resources :games, only: [:show, :new, :create]
