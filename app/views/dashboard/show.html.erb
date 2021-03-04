@@ -1,33 +1,39 @@
 <div class="container">
     <h1 class="mt-5">Your Games</h1>
     <div class="d-flex justify-content-start">
-      <% @bingo_cards.each do |bingo_card| %>
+
+      <% @games.each do |game| %>
+      <%= link_to group_game_path(game.group, game) do %>
       <div class="card-dashboard m-3">
         <div class="card-groupname">
-         <p>Batch 530 <%= bingo_card.game.group.name %> </p>
+          <p> <%= game.group.name %> </p>
         </div>
         <div class="card-game">
-          <p> <%= bingo_card.game.match.team_1 %> </p>
+          <p> <%= game.group.user_groups.count %> Members </p>
+          <p>  <%= game.match.team_1 %>  </p>
           <p>vs</p>
-          <p> <%= bingo_card.game.match.team_2 %> </p>
-          <p> <%= bingo_card.game.match.date_time %> </p>
+          <p>  <%= game.match.team_2 %> </p>
         </div>
       </div>
       <% end %>
+      <% end %>
+
     </div>
   <div>
     <h1 class="mt-5">Your Groups</h1>
     <div class="d-flex justify-content-start">
       <% @groups.each do |group| %>
+      <%= link_to group_path(group) do %>
       <div class="card-dashboard m-3">
         <div class="card-groupname">
           <p> <%= group.name %> </p>
         </div>
         <div class="card-game">
-          <p>35 Members ??? </p>
+          <p> <%= pluralize(group.user_groups.count, 'Member') %> </p>
           <p>6 upcoming games ???? </p>
         </div>
       </div>
+      <% end %>
       <% end %>
       <div class="card-dashboard m-3">
         <div class="card-groupname">
@@ -36,7 +42,7 @@
         <div class="card-game d-flex justify-content-center align-items-center">
           <div>
             <h1>
-              <%= link_to '#' do %>
+              <%= link_to new_group_path do %>
               <i class="fas fa-plus"></i>
               <% end %>
             </h1>

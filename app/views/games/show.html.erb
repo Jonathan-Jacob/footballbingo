@@ -1,0 +1,30 @@
+<div class="container">
+    <h1 class="mt-5">Your Games</h1>
+    <div class="d-flex justify-content-start">
+     <%= link_to dashboard_path do %>
+      <div class="card-dashboard m-3">
+        <div class="card-groupname">
+         <p><%= @game.group.name %> </p>
+        </div>
+        <div class="card-game">
+          <p> <%= @game.match.team_1 %> </p>
+          <p>vs</p>
+          <p> <%= @game.match.team_2 %> </p>
+          <p> <%= @game.match.date_time %> </p>
+        </div>
+      </div>
+      <% end %>
+    </div>
+  <div>
+    <h1 class="mt-5">All participants</h1>
+    <div class="d-flex justify-content-start">
+        <div class="card-groupname">
+          <% @game.group.user_groups.each do |user| %>
+            <p> <%= user.user.nickname %> </p>
+          <% end %>
+    </div>
+  </div>
+</div>
+
+
+

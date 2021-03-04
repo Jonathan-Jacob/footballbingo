@@ -1,12 +1,12 @@
 Rails.application.routes.draw do
   devise_for :users
-  root to: 'pages#home'
-  get '/dashboard', to: 'dashboard#show', as: :dashboard
-
-  resources :games, only: [:show, :new, :create]
+  root to: 'dashboard#show'
+  get '/', to: 'dashboard#show', as: :dashboard
 
   resources :groups, only: [:show, :new, :create] do
-    resources :user_groups, only: :create
+    resources :games, only: [:show, :new, :create]
+    resources :user_groups, only: [:index, :create]
+    resources :bingo_cards, only: [:show]
   end
   # post '/groups/:id', to: 'groups#add_user'
   # post '/games/:id', to: 'games#join_game'
