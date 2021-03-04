@@ -1,7 +1,5 @@
 <div style="background-color: grey;">
-
   <h1><%= @group.name %></h1>
-
   <h2>Group Games</h2>
 
 <!-- Games Grid with New Game Button at end -->
@@ -39,24 +37,17 @@
     </div>
    </div>
 
+  <!-- Displaying all Memebers of Group -->
   <h2>Group Members</h2>
-
     <% @group.users.each do |user| %>
     <h3> <%= user.nickname %> </h3>
     <%end%>
 
-
-
+  <!-- Adding New Member to Group -->
   <% if @group.user == current_user %>
     <%= simple_form_for [@group, @user_group] do |f| %>
     <%= f.association :user, collection: User.all.map { |user| [ user.id, user.nickname ] }, label_method: :second, value_method: :first %>
     <%= f.submit "Submit", class: "btn btn-primary" %>
     <% end %>
   <% end %>
-  <br>
-  <br>
-  <br>
-  <%= link_to "Back to Dashboard", dashboard_path %>
-
-
 </div>
