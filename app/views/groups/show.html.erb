@@ -1,24 +1,52 @@
-<div class="container">
+<div style="background-color: grey;">
 
   <h1><%= @group.name %></h1>
-  <ul>
+
+  <h2>Group Games</h2>
+
+<!-- Games Grid with New Game Button at end -->
+  <div class="cards-dashboard">
+    <% @group.games.each do |game| %>
+    <%= link_to  game_bingo_cards_path(game.id), class: "dashboard-link", method: :post do %>
+    <div class="card-dashboard">
+      <div class="card-groupname">
+        <p> <%= game.group.name %> </p>
+      </div>
+      <div class="card-game">
+        <p> <%= game.group.user_groups.count %> Members </p>
+        <p>  <%= game.match.team_1 %>  </p>
+        <p>vs</p>
+        <p>  <%= game.match.team_2 %> </p>
+      </div>
+    </div>
+    <% end %>
+    <% end %>
+
+    <!-- New Game Button -->
+    <div class="card-dashboard">
+      <div class="card-groupname">
+        <p class="text-center">Create a Game</p>
+      </div>
+      <div class="card-game d-flex justify-content-center align-items-center">
+        <div>
+          <h1>
+            <%= link_to new_group_game_path(@group) do %>
+            <i class="fas fa-plus"></i>
+            <% end %>
+          </h1>
+        </div>
+      </div>
+    </div>
+   </div>
+
+  <h2>Group Members</h2>
+
     <% @group.users.each do |user| %>
-      <li><%= user.nickname %></li>
+    <h3> <%= user.nickname %> </h3>
     <%end%>
-  </ul>
-  <h1>My games</h1>
-  <div class="grid">
-    <ul>
-      <% @group.games.each do |game| %>
-        <li class='gamecard'>
-          <%= game.match.team_1 %>
-          <%= game.match.team_2 %>
-          <%= game.match.date_time %>
-        </li>
-      <%end%>
-    </ul>
-  </div>
-  <%= link_to "Create a new Game", new_group_game_path(@group)  %>
+
+
+
   <% if @group.user == current_user %>
     <%= simple_form_for [@group, @user_group] do |f| %>
     <%= f.association :user, collection: User.all.map { |user| [ user.id, user.nickname ] }, label_method: :second, value_method: :first %>
@@ -29,4 +57,6 @@
   <br>
   <br>
   <%= link_to "Back to Dashboard", dashboard_path %>
+
+
 </div>

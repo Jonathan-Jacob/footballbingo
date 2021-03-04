@@ -1,52 +1,62 @@
 
-<h1 class="mt-5">Your Games</h1>
-<div class="cards-dashboard">
-  <% @games.each do |game| %>
-  <%= link_to  game_bingo_cards_path(game.id), class: "dashboard-link", method: :post do %>
-  <div class="card-dashboard m-3">
-    <div class="card-groupname">
-      <p> <%= game.group.name %> </p>
+<div style="background-color: grey;">
+
+  <h1 class="mt-5 text-center">Your Games</h1>
+
+  <!-- Games Grid - all Games of Current_User -->
+  <div class="cards-dashboard">
+    <% @games.each do |game| %>
+    <%= link_to  game_bingo_cards_path(game.id), class: "dashboard-link", method: :post do %>
+    <div class="card-dashboard">
+      <div class="card-groupname">
+        <p> <%= game.group.name %> </p>
+      </div>
+      <div class="card-game">
+        <p> <%= game.group.user_groups.count %> Members </p>
+        <p>  <%= game.match.team_1 %>  </p>
+        <p>vs</p>
+        <p>  <%= game.match.team_2 %> </p>
+      </div>
     </div>
-    <div class="card-game">
-      <p> <%= game.group.user_groups.count %> Members </p>
-      <p>  <%= game.match.team_1 %>  </p>
-      <p>vs</p>
-      <p>  <%= game.match.team_2 %> </p>
-    </div>
+    <% end %>
+    <% end %>
   </div>
-  <% end %>
-  <% end %>
-</div>
-<h1 class="mt-5">Your Groups</h1>
-<div class="cards-dashboard">
-  <% @groups.each do |group| %>
-  <%= link_to group_path(group), class: "dashboard-link" do %>
-  <div class="card-dashboard m-3">
-    <div class="card-groupname">
-      <p> <%= group.name %> </p>
+
+  <h1 class="mt-5 text-center">Your Groups</h1>
+  <!-- Groups Grid - all Groups of Current_User with
+        New Group Button at end -->
+  <div class="cards-dashboard">
+    <% @groups.each do |group| %>
+    <%= link_to group_path(group), class: "dashboard-link" do %>
+    <div class="card-dashboard">
+      <div class="card-groupname">
+        <p> <%= group.name %> </p>
+      </div>
+      <div class="card-game">
+        <p> <%= pluralize(group.user_groups.count, 'Member') %> </p>
+      </div>
     </div>
-    <div class="card-game">
-      <p> <%= pluralize(group.user_groups.count, 'Member') %> </p>
-    </div>
-  </div>
-  <% end %>
-  <% end %>
-  <div class="card-dashboard m-3">
-    <div class="card-groupname">
-      <p>Create a New Group</p>
-    </div>
-    <div class="card-game d-flex justify-content-center align-items-center">
-      <div>
-        <h1>
-          <%= link_to new_group_path do %>
-          <i class="fas fa-plus"></i>
-          <% end %>
-        </h1>
+    <% end %>
+    <% end %>
+
+    <!-- New Group Button -->
+    <div class="card-dashboard">
+      <div class="card-groupname">
+        <p class="text-center">Create a New Group</p>
+      </div>
+      <div class="card-game d-flex justify-content-center align-items-center">
+        <div>
+          <h1>
+            <%= link_to new_group_path do %>
+            <i class="fas fa-plus"></i>
+            <% end %>
+          </h1>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
+</div>
 
 
 
