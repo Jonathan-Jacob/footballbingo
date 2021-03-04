@@ -14,7 +14,7 @@ class BingoCardsController < ApplicationController
     if @bingo_card.save
       redirect_to game_bingo_card_path(@game, @bingo_card)
     else
-      redirect_to group_game_path(@game.group, @game)
+      redirect_to dashboard_path
     end
   end
 
