@@ -1,14 +1,25 @@
 .btn-greenstart {
   color: white;
-  background-color: #61B32E;
+  background-color: #73D065;
   border: 1px solid #DDDDDD;
-  padding: 8px 24px;
+  // padding: 9px 34px;
   border-radius: 50px;
   font-weight: lighter;
   font-family: $football-font;
-  width: 150px;
+  width: 210px;
 
 }
+
+.btn-greenpw {
+  color: #73D065;
+  border: 1px solid #73D065;
+  border-radius: 50px;
+  font-weight: normal;
+  font-family: $football-font;
+  width: 210px;
+
+}
+
 
 .btn-greenstart:hover {
   opacity: 1;
@@ -54,3 +65,15 @@
   opacity: 1;
   background-color: #333333;
 }
+
+.upload-photo {
+  font-family: $football-font;
+  border: 1px solid #DDDDDD;
+  border-radius: 8px;
+  width: 210px;
+  padding: 8px;
+  margin-top: 10px;
+
+}
+
+

@@ -1,10 +1,11 @@
-<div class="container">
-  <h2>Sign up</h2>
+<div class="container-signlog">
+  <br>
+  <h2>SIGN UP</h2>
 
   <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
     <%= f.error_notification %>
 
-    <div class="form-inputs">
+    <div class="form-inputs px-5 text-center signlog-form">
       <%= f.input :nickname,
                   required: true,
                   autofocus: true,
@@ -20,11 +21,11 @@
       <%= f.input :password_confirmation,
                   required: true,
                   input_html: { autocomplete: "new-password" } %>
-      <%= f.input :photo, as: :file, input_html: { multiple: false } %>
+      <%= f.input :photo, as: :file, input_html: { multiple: false, class: 'd-none' }, label_html: { class: 'upload-photo'}, label: '📷 Upload a photo'%>
     </div>
 
-    <div class="form-actions">
-      <%= f.button :submit, "Sign up" %>
+    <div class="form-actions px-5 text-center">
+      <%= f.button :submit, "Sign up", class: "btn btn-greenstart" %>
     </div>
   <% end %>
 
