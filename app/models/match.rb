@@ -88,6 +88,7 @@ class Match < ApplicationRecord
         joker_goals_away = 0
         (api_data[:lineup][:data] + api_data[:bench][:data]).each do |player_data|
           if player_data[:team_id] == home_id
+            data_hash[:home_players][:"h#{player_data[:number]}"] = player_data[:player_name]
             data_hash[:goals][:home_players][:"h#{player_data[:number]}"] = player_data[:stats][:goals][:scored].nil? ? 0 : player_data[:stats][:goals][:scored]
             if player_data[:type] == 'bench' && data_hash[:goals][:home_players][:"h#{player_data[:number]}"].present?
               joker_goals_home += data_hash[:goals][:home_players][:"h#{player_data[:number]}"]
@@ -101,6 +102,7 @@ class Match < ApplicationRecord
             penalties_saved_home += player_data[:stats][:other][:pen_saved].nil? ? 0 : player_data[:stats][:other][:pen_saved]
             own_goals_home += player_data[:stats][:goals][:owngoals].nil? ? 0 : player_data[:stats][:goals][:owngoals]
           elsif player_data[:team_id] == away_id
+            data_hash[:away_players][:"a#{player_data[:number]}"] = player_data[:player_name]
             data_hash[:goals][:away_players][:"a#{player_data[:number]}"] = player_data[:stats][:goals][:scored].nil? ? 0 : player_data[:stats][:goals][:scored]
             if player_data[:type] == 'bench' && data_hash[:goals][:home_players][:"h#{player_data[:number]}"].present?
               joker_goals_away += data_hash[:goals][:home_players][:"h#{player_data[:number]}"]
@@ -153,6 +155,8 @@ class Match < ApplicationRecord
 
   def init_data
     data_hash = {
+      home_players: {},
+      away_players: {},
       goals: {
         all: 0,
         home: 0,
