@@ -1,18 +1,25 @@
 <div class="container">
     <h1 class="mt-5">Your Games</h1>
     <div class="d-flex justify-content-start">
-     <%= link_to  game_bingo_cards_path(@game.id), method: :post do %>
-      <div class="card-dashboard m-3">
-        <div class="card-groupname">
-         <p><%= @game.group.name %> </p>
-        </div>
-        <div class="card-game">
-          <p> <%= @game.match.team_1 %> </p>
-          <p>vs</p>
-          <p> <%= @game.match.team_2 %> </p>
-          <p> <%= @game.match.date_time %> </p>
-        </div>
-      </div>
+      <% @game.bingo_cards.each do |bingo_card| %>
+        <% if bingo_card.user == current_user %>
+          <%= link_to  game_bingo_card_path(@game, bingo_card) %>
+          <% else %>
+            <%= link_to  game_bingo_cards_path(@game.id), method: :post do %>
+              <div class="card-dashboard m-3">
+                <div class="card-groupname">
+                 <p><%= @game.group.name %> </p>
+                </div>
+                <div class="card-game">
+                  <p> <%= @game.match.team_1 %> </p>
+                  <p>vs</p>
+                  <p> <%= @game.match.team_2 %> </p>
+                  <p> <%= @game.match.date_time %> </p>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        <% end %>
       <% end %>
     </div>
   <div>

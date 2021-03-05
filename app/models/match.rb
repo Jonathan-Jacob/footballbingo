@@ -12,7 +12,7 @@ class Match < ApplicationRecord
   require 'open-uri'
 
   def teams
-    "#{team_1} vs #{team_2}"
+    "#{team_1} vs #{team_2}   #{date_time}"
   end
 
   def self.read_matches
