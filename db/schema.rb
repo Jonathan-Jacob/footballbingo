@@ -88,7 +88,7 @@ ActiveRecord::Schema.define(version: 2021_03_04_115140) do
   end
 
   create_table "matches", force: :cascade do |t|
-    t.datetime "date_time"
+    t.time "date_time"
     t.string "status"
     t.string "team_1"
     t.string "team_2"
