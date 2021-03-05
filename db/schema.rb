@@ -79,19 +79,12 @@ ActiveRecord::Schema.define(version: 2021_03_04_115140) do
     t.index ["user_id"], name: "index_groups_on_user_id"
   end
 
-  create_table "match_events", force: :cascade do |t|
-    t.text "action"
-    t.bigint "match_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["match_id"], name: "index_match_events_on_match_id"
-  end
-
   create_table "matches", force: :cascade do |t|
     t.datetime "date_time"
     t.string "status"
     t.string "team_1"
     t.string "team_2"
+    t.json "data"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "competition_id", null: false
@@ -128,7 +121,6 @@ ActiveRecord::Schema.define(version: 2021_03_04_115140) do
   add_foreign_key "games", "groups"
   add_foreign_key "games", "matches"
   add_foreign_key "groups", "users"
-  add_foreign_key "match_events", "matches"
   add_foreign_key "matches", "competitions"
   add_foreign_key "user_groups", "groups"
   add_foreign_key "user_groups", "users"

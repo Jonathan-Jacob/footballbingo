@@ -5,6 +5,7 @@ class CreateMatches < ActiveRecord::Migration[6.0]
       t.string :status
       t.string :team_1
       t.string :team_2
+      t.json :data
 
       t.timestamps
     end

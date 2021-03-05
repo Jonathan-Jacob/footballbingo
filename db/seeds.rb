@@ -42,26 +42,27 @@ puts "done.\n\n"
 
 puts "reading api..."
 
-matches = Match.read_json
+matches = Match.read_matches
 
 puts "done.\n\n"
 
 puts "updating/creating matches..."
 
-if matches['data'].present?
-  matches['data'].each do |match_json|
-    if match = Match.find_by(api_id: match_json['id'])
-      match.update(competition: Competition.find_by(api_id: match_json['league_id']),
-                   team_1: match_json['localTeam']['data']['name'],
-                   team_2: match_json['visitorTeam']['data']['name'],
-                   date_time: DateTime.strptime(match_json['time']['starting_at']['date_time'], '%Y-%m-%d %H:%M:%S'))
+if matches[:data].present?
+  matches[:data].each do |match_json|
+    if match = Match.find_by(api_id: match_json[:id])
+      match.update(competition: Competition.find_by(api_id: match_json[:league_id]),
+                   team_1: match_json[:localTeam][:data][:name],
+                   team_2: match_json[:visitorTeam][:data][:name],
+                   date_time: DateTime.strptime(match_json[:time][:starting_at][:date_time], '%Y-%m-%d %H:%M:%S'))
     else
-      match = Match.create(competition: Competition.find_by(api_id: match_json['league_id']),
-                   team_1: match_json['localTeam']['data']['name'],
-                   team_2: match_json['visitorTeam']['data']['name'],
-                   date_time: DateTime.strptime(match_json['time']['starting_at']['date_time'], '%Y-%m-%d %H:%M:%S'))
+      match = Match.create(competition: Competition.find_by(api_id: match_json[:league_id]),
+                   team_1: match_json[:localTeam][:data][:name],
+                   team_2: match_json[:visitorTeam][:data][:name],
+                   api_id: match_json[:id],
+                   date_time: DateTime.strptime(match_json[:time][:starting_at][:date_time], '%Y-%m-%d %H:%M:%S'))
     end
-    match.update_status(match_json['time']['status'])
+    match.update_status(match_json[:time][:status])
   end
 end
 
