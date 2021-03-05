@@ -6,11 +6,13 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  background-image: url(images/scr_field.jpeg);
 }
 
 .before-grid {
   display: flex;
   text-align: center;
+  margin-bottom: 5%;
 }
 
 .the-grid {
@@ -21,12 +23,20 @@
 .bingo-tile {
   border-radius: 3px;
   color: white;
+  background-color: white;
   display: flex;
-  background-color: rgba(41, 145, 55, 0.74);
+  background-image: url('https://res.cloudinary.com/jjjscf/image/upload/v1614944541/ozusws9bjzg7lac4i4g2.jpg');
+  opacity: 0.9;
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  background-size: cover; /* Resize the background image to cover the entire container */
+
   text-align: center;
   align-items: center;
   justify-content: center;
-  background-image: url(../images/tile-background.jpg);
+    p {
+      margin-bottom: 0;
+    }
 
 }
 .grid {
@@ -39,10 +49,10 @@
 
 .grid > div {
   border-radius: 5px;
-  background: rgba(0, 0, 0, 1);
-  padding: 2px;
+  background: rgba(255, 255, 255, 1);
+  padding: 1px;
   display: grid;
-  box-shadow: 3px 3px 5px 3px rgba(0, 0, 0, 0.7);
+  box-shadow: 3px 3px 5px 3px rgba(0, 0, 0, 0.55);
 
 }
 
@@ -54,4 +64,5 @@
 .grid > div::before,
 .grid > div > .bingo-tile {
   grid-area: 1 / 1 / 2 / 2;
+
 }

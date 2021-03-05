@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_04_115140) do
+ActiveRecord::Schema.define(version: 2021_03_05_135738) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,12 +46,13 @@ ActiveRecord::Schema.define(version: 2021_03_04_115140) do
   end
 
   create_table "bingo_tiles", force: :cascade do |t|
-    t.text "action"
-    t.string "status"
     t.bigint "bingo_card_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "match_event_id", null: false
+    t.integer "position"
     t.index ["bingo_card_id"], name: "index_bingo_tiles_on_bingo_card_id"
+    t.index ["match_event_id"], name: "index_bingo_tiles_on_match_event_id"
   end
 
   create_table "competitions", force: :cascade do |t|
@@ -79,8 +80,20 @@ ActiveRecord::Schema.define(version: 2021_03_04_115140) do
     t.index ["user_id"], name: "index_groups_on_user_id"
   end
 
+  create_table "match_events", force: :cascade do |t|
+    t.bigint "match_id", null: false
+    t.string "action"
+    t.string "agent"
+    t.integer "amount"
+    t.string "status"
+    t.string "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["match_id"], name: "index_match_events_on_match_id"
+  end
+
   create_table "matches", force: :cascade do |t|
-    t.datetime "date_time"
+    t.time "date_time"
     t.string "status"
     t.string "team_1"
     t.string "team_2"
@@ -118,9 +131,11 @@ ActiveRecord::Schema.define(version: 2021_03_04_115140) do
   add_foreign_key "bingo_cards", "games"
   add_foreign_key "bingo_cards", "users"
   add_foreign_key "bingo_tiles", "bingo_cards"
+  add_foreign_key "bingo_tiles", "match_events"
   add_foreign_key "games", "groups"
   add_foreign_key "games", "matches"
   add_foreign_key "groups", "users"
+  add_foreign_key "match_events", "matches"
   add_foreign_key "matches", "competitions"
   add_foreign_key "user_groups", "groups"
   add_foreign_key "user_groups", "users"
