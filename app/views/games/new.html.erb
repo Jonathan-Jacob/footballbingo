@@ -1,12 +1,7 @@
-
-<div class="container">
+<div class="px-3">
   <h1> <%=  @group.name %> </h1>
   <%= simple_form_for [@group, @game] do |f| %>
-
-    <%= f.association :match, label: "Choose match", label_method: :teams %>
-
-    <%= f.submit 'Create Game', class: "btn btn-success" %>
-
+    <%= f.association :match, label: "Choose a match", label_method: :teams %>
+    <%= f.submit 'Create Game', class: "btn btn-greenstart" %>
   <% end %>
-
 </div>

@@ -5,5 +5,6 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
   has_many :groups
   has_many :bingo_cards
+  has_many :games, through: :bingo_cards
   has_one_attached :photo
 end

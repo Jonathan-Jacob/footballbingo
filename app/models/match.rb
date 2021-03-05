@@ -12,13 +12,13 @@ class Match < ApplicationRecord
   require 'open-uri'
 
   def teams
-    "#{team_1} vs #{team_2}"
+    "#{team_1} vs #{team_2}   #{date_time}"
   end
 
   def self.read_json
     pages = 0
     json = ""
-    api_url = "https://soccer.sportmonks.com/api/v2.0/fixtures/between/#{start_date}/#{end_date}?api_token=CYKQiMHdrgenG9Uwe91lnRk3lMI0LOiowonRns3ryM6xygFyxmfa0p4E3jA2&include=localTeam,visitorTeam,league,deleted=1"
+    api_url = "https://soccer.sportmonks.com/api/v2.0/fixtures/between/#{start_date}/#{end_date}?api_token=#{ENV["SPORTMONKS_URL"]}&include=localTeam,visitorTeam,league,deleted=1"
     open(api_url) do |stream|
       json = JSON.parse(stream.read)
       pages = json['meta']['pagination']['total_pages']

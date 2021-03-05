@@ -14,7 +14,7 @@ Rails.application.routes.draw do
 
   resources :matches, only: [:index]
   resources :games, only: [:show, :new, :create] do
-    resources :bingo_cards, only: [:show, :create]
+    resources :bingo_cards, only: [:show, :create, :index]
   end
 
   # post '/groups/:id', to: 'groups#add_user'
