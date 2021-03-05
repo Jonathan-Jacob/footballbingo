@@ -6,54 +6,15 @@
   </div>
   <div class="the-grid">
     <div class="grid">
-      <div>
-        <div class="bingo-tile"><h4 style="font-size:2vw;">The extremly long happening is the happening</h4></div>
-      </div>
-      <div>
-        <div class="bingo-tile"><h4 style="font-size:2vw;">The extremly long happening is the happening</h4></div>
-      </div>
-      <div>
-        <div class="bingo-tile"><h4 style="font-size:2vw;">The extremly long happening is the happening</h4></div>
-      </div>
-      <div>
-        <div class="bingo-tile"><h4 style="font-size:2vw;">The extremly long happening is the happening</h4></div>
-      </div>
-      <div>
-        <div class="bingo-tile"><h4 style="font-size:2vw;">The extremly long happening is the happening</h4></div>
-      </div>
-      <div>
-        <div class="bingo-tile"><h4 style="font-size:2vw;">The extremly long happening is the happening</h4></div>
-      </div>
-      <div>
-        <div class="bingo-tile"><h4 style="font-size:2vw;">The extremly long happening is the happening</h4></div>
-      </div>
-      <div>
-        <div class="bingo-tile"><h4 style="font-size:2vw;">The extremly long happening is the happening</h4></div>
-      </div>
-      <div>
-        <div class="bingo-tile"><h4 style="font-size:2vw;">The extremly long happening is the happening</h4></div>
-      </div>
-      <div>
-        <div class="bingo-tile"><h4 style="font-size:2vw;">The extremly long happening is the happening</h4></div>
-      </div>
-      <div>
-        <div class="bingo-tile"><h4 style="font-size:2vw;">The extremly long happening is the happening</h4></div>
-      </div>
-      <div>
-        <div class="bingo-tile"><h4 style="font-size:2vw;">The extremly long happening is the happening</h4></div>
-      </div>
-      <div>
-        <div class="bingo-tile"><h4 style="font-size:2vw;">The extremly long happening is the happening</h4></div>
-      </div>
-      <div>
-        <div class="bingo-tile"><h4 style="font-size:2vw;">The extremly long happening is the happening</h4></div>
-      </div>
-      <div>
-        <div class="bingo-tile"><h4 style="font-size:2vw;">The extremly long happening is the happening</h4></div>
-      </div>
-      <div>
-        <div class="bingo-tile"><h4 style="font-size:2vw;">The extremly long happening is the happening</h4></div>
-      </div>
+    <% if @bingo_tiles.count == 16 %>
+      <% (0..15).each do |index| %>
+        <div>
+          <div class="bingo-tile"><p style="font-size:3.5vw;"><%= BingoTile.find_by(position: index).match_event.description %></p></div>
+        </div>
+      <% end %>
+    <% else %>
+      <h3>Please come back later</h3>
+    <% end %>
     </div>
   </div>
 </div>
