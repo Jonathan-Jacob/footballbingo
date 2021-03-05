@@ -7,6 +7,7 @@ class BingoCardsController < ApplicationController
   def show
     @bingo_card = BingoCard.find(params[:id])
     authorize @bingo_card
+    @bingo_tiles = BingoTile.where(bingo_card: @bingo_card)
   end
 
   def create
