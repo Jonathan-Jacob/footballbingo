@@ -5,7 +5,17 @@
   <div class="cards-dashboard">
     <% @group.games.each do |game| %>
       <%= link_to  game_bingo_cards_path(game.id), class: "dashboard-link", method: :post do %>
-        <%   render "card_game", game: game %>
+        <div class="card-dashboard">
+          <div class="card-groupname">
+            <p> <%= game.group.name %> </p>
+          </div>
+          <div class="card-game">
+            <p> <%= game.group.user_groups.count %> Members </p>
+            <p>  <%= game.match.team_1 %>  </p>
+            <p>vs</p>
+            <p>  <%= game.match.team_2 %> </p>
+          </div>
+        </div>
       <% end %>
     <% end %>
 
@@ -29,13 +39,13 @@
     <!-- Displaying all Memebers of Group -->
     <h2 class="text-center px-3 mt-3">Group Members</h2>
     <% @group.users.each do |user| %>
-    <h3 class="text-center px-3"> <%= user.nickname.capitalize %> </h3>
+    <h3 class="text-center px-3" id="member-<%= user.id %>"> <%= user.nickname.capitalize %> </h3>
     <%end%>
   </div>
   <div class="px-3 pt-3 mb-5">
     <!-- Adding New Member to Group -->
     <% if @group.user == current_user %>
-      <%= simple_form_for [@group, @user_group] do |f| %>
+      <%= simple_form_for [@group, @user_group], remote: true do |f| %>
       <%= f.association :user, label: "Add a Buddy to your group", collection: User.all.map { |user| [ user.id, user.nickname ] }, label_method: :second, value_method: :first %>
       <%= f.submit "Submit", class: "btn btn-greenstart" %>
       <% end %>
