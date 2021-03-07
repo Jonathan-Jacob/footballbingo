@@ -1,21 +1,23 @@
 .selector-prev {
   @extend .carousel-control-prev;
   top: 115px;
+  left: 4px;
   height: 48px;
   width: 12%;
   border: 0px;
   background-color: $football-green;
-  border-radius: 24px;
+  border-radius: 50%;
   opacity: 1;
 }
 
 .selector-next {
   @extend .carousel-control-next;
   top: 115px;
+  right: 4px;
   height: 48px;
   width: 12%;
   border: 0px;
   background-color: $football-green;
-  border-radius: 24px;
+  border-radius: 50%;
   opacity: 1;
 }
