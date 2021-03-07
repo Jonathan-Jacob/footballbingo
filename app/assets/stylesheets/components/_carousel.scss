@@ -1,0 +1,13 @@
+.selector-prev {
+  @extend .carousel-control-prev;
+  top: 115px;
+  height: 48px;
+  width: 12%;
+}
+
+.selector-next {
+  @extend .carousel-control-next;
+  top: 115px;
+  height: 48px;
+  width: 12%;
+}
