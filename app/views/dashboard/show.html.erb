@@ -12,30 +12,13 @@
           <h1 class="mt-5 text-center">Your Games</h1>
           <!-- Games Grid - all Games of Current_User -->
           <div class="cards-dashboard">
-            <% @games.each do |game| %>
-              <div class="card-dashboard">
-                <div class="card-groupname">
-                  <p> <%= game.group.name %> </p>
-                </div>
-                <div class="card-game">
-                  <p> <%= game.group.user_groups.count %> Members </p>
-                  <p>  <%= game.match.team_1 %>  </p>
-                  <p>vs</p>
-                  <p>  <%= game.match.team_2 %> </p>
-                  <% game.bingo_cards.each do |bingo_card| %>
-                    <% if bingo_card.user == current_user %>
-                      <% if bingo_card.id.present? %>
-                        <%= link_to "Bingo Card", game_bingo_card_path(game, bingo_card), class: "dashboard-link btn-sm btn-greenstart" %>
-                      <% end %>
-                    <% end %>
-                  <% end %>
-                </div>
-              </div>
-            <% end %>
+            <% current_user.bingo_cards.each do |bingo_card| %>
+              <%= render "card_game", bingo_card: bingo_card %>
+            <% end %> 
           </div>
         </div>
         <div class="carousel-item">
-          <h1 class="mt-5 text-center">Your Groups</h1>
+          <h1 class="mt-5 text-center">Your Teams</h1>
           <div class="cards-dashboard">
             <!-- New Group Button -->
             <%= render "card_group_new" %>

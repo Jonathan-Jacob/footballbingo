@@ -28,6 +28,8 @@ Rails.application.routes.draw do
     resources :bingo_cards, only: [:show, :create, :index]
   end
 
+  # get 'pages/members', to:
+
   # post '/groups/:id', to: 'groups#add_user'
   # post '/games/:id', to: 'games#join_game'
 

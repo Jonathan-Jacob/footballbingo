@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(version: 2021_03_08_142238) do
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "status", default: "not_started"
     t.index ["game_id"], name: "index_bingo_cards_on_game_id"
     t.index ["user_id"], name: "index_bingo_cards_on_user_id"
   end
@@ -102,7 +103,7 @@ ActiveRecord::Schema.define(version: 2021_03_08_142238) do
 
   create_table "matches", force: :cascade do |t|
     t.datetime "date_time"
-    t.string "status"
+    t.string "status", default: "not_started"
     t.string "team_1"
     t.string "team_2"
     t.json "data"

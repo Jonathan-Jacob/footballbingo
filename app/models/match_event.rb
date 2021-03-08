@@ -1,6 +1,6 @@
 class MatchEvent < ApplicationRecord
   belongs_to :match
-  has_many :bingo_tiles
+  has_many :bingo_tiles, dependent: :destroy
 
   def self.generate(match)
     %w[all home away].each do |agent|
