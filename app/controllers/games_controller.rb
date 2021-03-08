@@ -22,8 +22,8 @@ class GamesController < ApplicationController
     @game = Game.new(game_params)
     @game.group = @group
     authorize @game
-    # @bingo_card = BingoCard.new(user: current_user, game: @game)
-    # authorize @bingo_card
+    @bingo_card = BingoCard.new(user: current_user, game: @game)
+    authorize @bingo_card
     if @game.save
       redirect_to group_path(@group)
     else
