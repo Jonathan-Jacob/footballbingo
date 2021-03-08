@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <svg xmlns="http://www.w3.org/2000/svg" height="684" width="452" xmlns:xlink="http://www.w3.org/1999/xlink">
-<rect opacity=".7" height="684" width="452" fill="#0b0" ry="6"/>
+<rect opacity="1" height="684" width="452" fill="#73D065" ry="6"/>
 <g stroke="#efe" stroke-width="3" fill="none">
 <path d="m11.22 22.62v638.8h429.6v-638.8z"/>
 <path d="m11.26 342h429.4"/>

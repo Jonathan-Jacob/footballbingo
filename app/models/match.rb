@@ -1,8 +1,6 @@
 class Match < ApplicationRecord
-  require 'json'
-  require 'open-uri'
-
   has_many :games
+  has_many :bingo_cards, through: :games
   has_many :match_events
   belongs_to :competition
   validates :team_1, presence: true
@@ -15,58 +13,29 @@ class Match < ApplicationRecord
     "#{team_1} vs #{team_2}   #{date_time}"
   end
 
-  def self.read_matches
-    pages = 0
-    json = {}
-    api_url = "https://soccer.sportmonks.com/api/v2.0/fixtures/between/#{start_date}/#{end_date}?api_token=#{ENV["SPORTMONKS_URL"]}&include=localTeam,visitorTeam,league,deleted=1"
-    open(api_url) do |stream|
-      json = JSON.parse(stream.read, symbolize_names: true)
-      pages = json[:meta][:pagination][:total_pages]
-    end
-    if pages >= 2
-      (2..pages).each do |page|
-        open(api_url + "&page=#{page}") do |stream|
-          json_page = JSON.parse(stream.read, symbolize_names: true)
-          json[:data] += json_page[:data]
+  def self.update_matches
+    Match.where(date_time < start_date).destroy_all
+    matches = read_matches
+    if matches[:data].present?
+      matches[:data].each do |match_json|
+        if (match = Match.find_by(api_id: match_json[:id]))
+          match.update(competition: Competition.find_by(api_id: match_json[:league_id]),
+                       team_1: match_json[:localTeam][:data][:name],
+                       team_2: match_json[:visitorTeam][:data][:name],
+                       date_time: DateTime.strptime(match_json[:time][:starting_at][:date_time], '%Y-%m-%d %H:%M:%S'))
+        else
+          match = Match.create(competition: Competition.find_by(api_id: match_json[:league_id]),
+                       team_1: match_json[:localTeam][:data][:name],
+                       team_2: match_json[:visitorTeam][:data][:name],
+                       api_id: match_json[:id],
+                       date_time: DateTime.strptime(match_json[:time][:starting_at][:date_time], '%Y-%m-%d %H:%M:%S'))
         end
+        match.update_status(match_json[:time][:status])
       end
     end
-    json
   end
 
-  def self.read_events
-    json = {}
-    api_url = "https://soccer.sportmonks.com/api/v2.0/fixtures/between/2021-03-04/2021-03-04?api_token=#{ENV["SPORTMONKS_URL"]}&include=localTeam,visitorTeam,events,lineup,bench,stats"
-    # api_url = "https://soccer.sportmonks.com/api/v2.0/livescores?api_token=#{ENV["SPORTMONKS_URL"]}&include=localTeam,visitorTeam,events,lineup,bench,stats"
-    open(api_url) do |stream|
-      json = JSON.parse(stream.read, symbolize_names: true)
-    end
-    json
-  end
-
-  def self.start_date
-    (Date.today - 1).to_s
-  end
-
-  def self.end_date
-    (Date.today + 8).to_s
-  end
-
-  def update_status(status)
-    not_started = %w[NS POSTP DELAYED TBA]
-    ongoing = %w[LIVE HT ET PEN_LIVE BREAK INT ABAN SUSP]
-    finished = %w[FT AET FT_PEN CANCL AWARDED WO Deleted]
-    if not_started.include?(status)
-      self.status = "not_started"
-    elsif ongoing.include?(status)
-      self.status = "ongoing"
-    elsif finished.include?(status)
-      self.status = "finished"
-    end
-    save
-  end
-
-  def self.store_data
+  def self.update_livescores
     return if Match.count < 1
 
     raw_data = read_events
@@ -151,6 +120,59 @@ class Match < ApplicationRecord
         match.save
       end
     end
+  end
+
+  private
+
+  def self.read_matches
+    pages = 0
+    json = {}
+    api_url = "https://soccer.sportmonks.com/api/v2.0/fixtures/between/#{start_date}/#{end_date}?api_token=#{ENV["SPORTMONKS_URL"]}&include=localTeam,visitorTeam,league,deleted=1"
+    open(api_url) do |stream|
+      json = JSON.parse(stream.read, symbolize_names: true)
+      pages = json[:meta][:pagination][:total_pages]
+    end
+    if pages >= 2
+      (2..pages).each do |page|
+        open(api_url + "&page=#{page}") do |stream|
+          json_page = JSON.parse(stream.read, symbolize_names: true)
+          json[:data] += json_page[:data]
+        end
+      end
+    end
+    json
+  end
+
+  def self.read_events
+    json = {}
+    api_url = "https://soccer.sportmonks.com/api/v2.0/fixtures/between/2021-03-04/2021-03-04?api_token=#{ENV["SPORTMONKS_URL"]}&include=localTeam,visitorTeam,events,lineup,bench,stats"
+    # api_url = "https://soccer.sportmonks.com/api/v2.0/livescores?api_token=#{ENV["SPORTMONKS_URL"]}&include=localTeam,visitorTeam,events,lineup,bench,stats"
+    open(api_url) do |stream|
+      json = JSON.parse(stream.read, symbolize_names: true)
+    end
+    json
+  end
+
+  def self.start_date
+    (Date.today - 1).to_s
+  end
+
+  def self.end_date
+    (Date.today + 8).to_s
+  end
+
+  def update_status(status)
+    not_started = %w[NS POSTP DELAYED TBA]
+    ongoing = %w[LIVE HT ET PEN_LIVE BREAK INT ABAN SUSP]
+    finished = %w[FT AET FT_PEN CANCL AWARDED WO Deleted]
+    if not_started.include?(status)
+      self.status = "not_started"
+    elsif ongoing.include?(status)
+      self.status = "ongoing"
+    elsif finished.include?(status)
+      self.status = "finished"
+    end
+    save
   end
 
   def init_data
