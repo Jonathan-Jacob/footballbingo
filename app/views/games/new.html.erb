@@ -1,7 +1,8 @@
-<div class="px-3">
+<div class="form-adapt px-3 text-center">
+  <br>
   <h1> <%=  @group.name %> </h1>
   <%= simple_form_for [@group, @game] do |f| %>
     <%= f.association :match, label: "Choose a match", label_method: :teams %>
-    <%= f.submit 'Create Game', class: "btn btn-greenstart" %>
+    <%= f.submit 'Create Game', class: "btn btn-greenstart mt-2" %>
   <% end %>
 </div>
