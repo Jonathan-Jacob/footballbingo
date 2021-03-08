@@ -2,9 +2,10 @@ h1 {
   font-family: $football-font2;
 }
 
-body{
+body, h2, h3 {
   font-family: $football-font;
 }
+
 .cards-dashboard {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;

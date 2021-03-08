@@ -11,7 +11,7 @@ class UserGroupsController < ApplicationController
     @user_group.group = @group
     authorize @user_group
     if @user_group.save
-      redirect_to group_path(@group)
+      redirect_to group_path(@group, anchor: "member-#{@group.user.id}")
     else
       render 'groups/show'
     end

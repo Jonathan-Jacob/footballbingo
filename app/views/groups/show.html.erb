@@ -4,9 +4,18 @@
 <!-- Games Grid with New Game Button at end -->
   <div class="cards-dashboard">
     <% @group.games.each do |game| %>
-      <%= link_to  game_bingo_cards_path(game.id), class: "dashboard-link", method: :post do %>
-        <%   render "card_game", game: game %>
-      <% end %>
+      <div class="card-dashboard">
+        <div class="card-groupname">
+          <p> <%= game.group.name %> </p>
+        </div>
+        <div class="card-game">
+          <p> <%= game.group.user_groups.count %> Members </p>
+          <p>  <%= game.match.team_1 %>  </p>
+          <p>vs</p>
+          <p>  <%= game.match.team_2 %> </p>
+          <%= link_to "Bingo Card",  game_bingo_cards_path(game.id), class: "dashboard-link  btn-sm btn-greenstart", method: :post %>
+        </div>
+      </div>
     <% end %>
 
     <!-- New Game Button -->
