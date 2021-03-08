@@ -39,9 +39,5 @@ yarn-debug.log*
 # Ignore Mac and Linux file system files
 *.swp
 .DS_Store
-<<<<<<< HEAD
-=======
-
->>>>>>> cbc18dd28ca904597575639ed54b37add34728cf
 # Ignore Redis dump
 dump.rdb
