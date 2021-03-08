@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   devise_for :users
   require "sidekiq/web"
-  
+
   authenticate :user, ->(user) { user.admin? } do
     mount Sidekiq::Web => '/sidekiq'
   end
@@ -22,6 +22,8 @@ Rails.application.routes.draw do
   resources :games, only: [:show, :new, :create] do
     resources :bingo_cards, only: [:show, :create, :index]
   end
+
+  get "/competition_matches", to: "games#filter", defaults: {format: :json}
 
   # post '/groups/:id', to: 'groups#add_user'
   # post '/games/:id', to: 'games#join_game'

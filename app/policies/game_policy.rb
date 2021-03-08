@@ -5,6 +5,10 @@ class GamePolicy < ApplicationPolicy
     end
   end
 
+  def filter?
+    true
+  end
+
   def new?
     create?
   end

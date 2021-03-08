@@ -46,6 +46,8 @@ ActiveRecord::Schema.define(version: 2021_03_06_224723) do
   end
 
   create_table "bingo_tiles", force: :cascade do |t|
+    t.text "action"
+    t.string "status"
     t.bigint "bingo_card_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
