@@ -14,7 +14,7 @@ class Match < ApplicationRecord
   end
 
   def self.update_matches
-    Match.where(date_time < start_date).destroy_all
+    Match.where("date_time < ?", start_date).destroy_all
     matches = read_matches
     if matches[:data].present?
       matches[:data].each do |match_json|
@@ -64,7 +64,7 @@ class Match < ApplicationRecord
             end
             data_hash[:assists][:home_players][:"h#{player_data[:number]}"] = player_data[:stats][:goals][:assists].nil? ? 0 : player_data[:stats][:goals][:assists]
             data_hash[:fouls][:home_players][:"h#{player_data[:number]}"] = player_data[:stats][:fouls][:committed].nil? ? 0 : player_data[:stats][:fouls][:committed]
-            data_hash[:fouled][:home_players][:"h#{player_data[:number]}"] = player_data[:stats][:fouls][:drawn].nil? ? 0 : player_data[:stats][:fouls][:drawn] 
+            data_hash[:fouled][:home_players][:"h#{player_data[:number]}"] = player_data[:stats][:fouls][:drawn].nil? ? 0 : player_data[:stats][:fouls][:drawn]
             data_hash[:yellow][:home_players][:"h#{player_data[:number]}"] = player_data[:stats][:cards][:yellowcards].nil? ? 0 : player_data[:stats][:cards][:yellowcards]
             woodwork_home += player_data[:stats][:other][:hit_woodwork].nil? ? 0 : player_data[:stats][:other][:hit_woodwork]
             penalties_scored_home += player_data[:stats][:other][:pen_scored].nil? ? 0 : player_data[:stats][:other][:pen_scored]
@@ -78,7 +78,7 @@ class Match < ApplicationRecord
             end
             data_hash[:assists][:away_players][:"a#{player_data[:number]}"] = player_data[:stats][:goals][:assists].nil? ? 0 : player_data[:stats][:goals][:assists]
             data_hash[:fouls][:away_players][:"a#{player_data[:number]}"] = player_data[:stats][:fouls][:committed].nil? ? 0 : player_data[:stats][:fouls][:committed]
-            data_hash[:fouled][:away_players][:"a#{player_data[:number]}"] = player_data[:stats][:fouls][:drawn].nil? ? 0 : player_data[:stats][:fouls][:drawn] 
+            data_hash[:fouled][:away_players][:"a#{player_data[:number]}"] = player_data[:stats][:fouls][:drawn].nil? ? 0 : player_data[:stats][:fouls][:drawn]
             data_hash[:yellow][:away_players][:"a#{player_data[:number]}"] = player_data[:stats][:cards][:yellowcards].nil? ? 0 : player_data[:stats][:cards][:yellowcards]
             woodwork_away += player_data[:stats][:other][:hit_woodwork].nil? ? 0 : player_data[:stats][:other][:hit_woodwork]
             penalties_scored_away += player_data[:stats][:other][:pen_scored].nil? ? 0 : player_data[:stats][:other][:pen_scored]
