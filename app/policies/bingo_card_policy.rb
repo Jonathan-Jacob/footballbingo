@@ -6,10 +6,10 @@ class BingoCardPolicy < ApplicationPolicy
   end
 
   def show?
-    record.user == current_user
+    record.user == @user
   end
 
   def create?
-    record.user == current_user
+    record.user == @user
   end
 end
