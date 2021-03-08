@@ -1,0 +1,12 @@
+update_matches_job:
+  cron: "0 3 * * *"
+  class: "UpdateMatchWorker"
+  queue: important
+update_livescores_job:
+  cron: "* * * * *"
+  class: "UpdateLivescoresWorker"
+  queue: important
+populate_bingo_cards_job:
+  cron: "*/5 * * * *"
+  class: "PopulateBingoCardsWorker"
+  queue: default

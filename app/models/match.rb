@@ -1,7 +1,7 @@
 class Match < ApplicationRecord
-  has_many :games
+  has_many :games, dependent: :destroy
   has_many :bingo_cards, through: :games
-  has_many :match_events
+  has_many :match_events, dependent: :destroy
   belongs_to :competition
   validates :team_1, presence: true
   validates :team_2, presence: true
@@ -121,8 +121,6 @@ class Match < ApplicationRecord
       end
     end
   end
-
-  private
 
   def self.read_matches
     pages = 0

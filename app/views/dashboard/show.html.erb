@@ -12,19 +12,9 @@
           <h1 class="mt-5 text-center">Your Games</h1>
           <!-- Games Grid - all Games of Current_User -->
           <div class="cards-dashboard">
-            <% @games.each do |game| %>
-              <div class="card-dashboard">
-                <div class="card-groupname text-center">
-                  <p> <%= game.group.name %> </p>
-                </div>
-                <div class="card-game">
-                  <p> <%= game.group.user_groups.count %> Players </p>
-                  <p class="btn btn-border">  <%= game.match.team_1 %>  </p>
-                  <p>vs</p>
-                  <p class="btn btn-border">  <%= game.match.team_2 %> </p>
-                </div>
-              </div>
-            <% end %>
+            <% current_user.bingo_cards.each do |bingo_card| %>
+              <%= render "card_game", bingo_card: bingo_card %>
+            <% end %> 
           </div>
         </div>
         <div class="carousel-item">
