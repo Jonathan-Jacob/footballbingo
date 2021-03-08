@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_06_224723) do
+ActiveRecord::Schema.define(version: 2021_03_08_105927) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(version: 2021_03_06_224723) do
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "status", default: "not_started"
     t.index ["game_id"], name: "index_bingo_cards_on_game_id"
     t.index ["user_id"], name: "index_bingo_cards_on_user_id"
   end
@@ -94,7 +95,7 @@ ActiveRecord::Schema.define(version: 2021_03_06_224723) do
 
   create_table "matches", force: :cascade do |t|
     t.datetime "date_time"
-    t.string "status"
+    t.string "status", default: "not_started"
     t.string "team_1"
     t.string "team_2"
     t.json "data"

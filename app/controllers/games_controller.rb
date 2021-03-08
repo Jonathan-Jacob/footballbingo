@@ -24,6 +24,7 @@ class GamesController < ApplicationController
     authorize @game
     @bingo_card = BingoCard.new(user: current_user, game: @game)
     authorize @bingo_card
+    @bingo_card.populate
     if @game.save
       redirect_to group_path(@group)
     else
