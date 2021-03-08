@@ -11,18 +11,25 @@
         <h1 class="mt-5 text-center">Your Games</h1>
         <!-- Games Grid - all Games of Current_User -->
         <div class="cards-dashboard">
-          <% current_user.games.each do |game| %>
-            <% game.bingo_cards.each do |bingo_card| %>
-              <% if bingo_card.id.nil? %>
-                <%= link_to  game_bingo_cards_path(game.id), class: "dashboard-link", method: :post do %>
-                  <%= render "card_game", game: game, bingo_card: bingo_card %>
+          <% @games.each do |game| %>
+            <div class="card-dashboard">
+              <div class="card-groupname">
+                <p> <%= game.group.name %> </p>
+              </div>
+              <div class="card-game">
+                <p> <%= game.group.user_groups.count %> Members </p>
+                <p>  <%= game.match.team_1 %>  </p>
+                <p>vs</p>
+                <p>  <%= game.match.team_2 %> </p>
+                <% game.bingo_cards.each do |bingo_card| %>
+                  <% if bingo_card.user == current_user %>
+                    <% if bingo_card.id.present? %>
+                      <%= link_to "Bingo Card", game_bingo_card_path(game, bingo_card), class: "dashboard-link btn-sm btn-greenstart" %>
+                    <% end %>
+                  <% end %>
                 <% end %>
-              <% else %>
-                <%= link_to game_bingo_card_path(game, bingo_card), class: "dashboard-link" do %>
-                  <%= render "card_game", game: game, bingo_card: bingo_card %>
-                <% end %>
-              <% end %>
-            <% end %>
+              </div>
+            </div>
           <% end %>
         </div>
       </div>
@@ -33,10 +40,8 @@
           <%= render "card_group_new" %>
         <!-- Groups Grid - all Groups of Current_User with
               New Group Button at end -->
-          <% @groups.each do |group| %>
-            <% if group.users.include?(current_user) %>
-              <%= render "card_group", group: group %>
-            <% end %>
+          <% @user_groups.each do |user_group| %>
+            <%= render "card_group", group: user_group.group %>
           <% end %>
         </div>
       </div>
