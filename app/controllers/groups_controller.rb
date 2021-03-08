@@ -20,6 +20,9 @@ class GroupsController < ApplicationController
     @group.user = current_user
     if @group.save
       user_group = UserGroup.new(group: @group, user: current_user)
+      @chatroom = Chatroom.new(name: @group.name)
+      @chatroom.group = @group
+      @chatroom.save
       user_group.save
       redirect_to group_path(@group)
     else

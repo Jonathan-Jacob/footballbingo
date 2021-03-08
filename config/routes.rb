@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   devise_for :users
   require "sidekiq/web"
-  
+
   authenticate :user, ->(user) { user.admin? } do
     mount Sidekiq::Web => '/sidekiq'
   end
@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   resources :groups, only: [:show, :new, :create] do
     resources :games, only: [:show, :new, :create]
     resources :user_groups, only: [:index, :create]
+    resources :chatrooms, only: :show
   end
 
   resources :matches, only: [:index]

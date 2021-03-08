@@ -57,8 +57,10 @@ ActiveRecord::Schema.define(version: 2021_03_08_105415) do
 
   create_table "chatrooms", force: :cascade do |t|
     t.string "name"
+    t.bigint "group_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["group_id"], name: "index_chatrooms_on_group_id"
   end
 
   create_table "competitions", force: :cascade do |t|
@@ -149,6 +151,7 @@ ActiveRecord::Schema.define(version: 2021_03_08_105415) do
   add_foreign_key "bingo_cards", "users"
   add_foreign_key "bingo_tiles", "bingo_cards"
   add_foreign_key "bingo_tiles", "match_events"
+  add_foreign_key "chatrooms", "groups"
   add_foreign_key "games", "groups"
   add_foreign_key "games", "matches"
   add_foreign_key "groups", "users"
