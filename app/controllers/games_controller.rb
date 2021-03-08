@@ -20,27 +20,19 @@ class GamesController < ApplicationController
 
   def create
     @game = Game.new(game_params)
-    @game.group = @group
-    authorize @game
-    @bingo_card = BingoCard.new(user: current_user, game: @game)
-    authorize @bingo_card
-    @bingo_card.populate
-    if @game.save
-      redirect_to group_path(@group)
-    else
+    if @game.too_late_to_start?
       render 'new'
-    end
-  # connection to group
-  end
-
-  def join_game
-    # edit
-    @bingo_card = BingoCard.new(user: current_user, game: @game)
-    authorize @bingo_card
-    if @bingo_card.save
-      redirect_to game_path(@game)
     else
-      render 'new'
+      @game.group = @group
+      authorize @game
+      @bingo_card = BingoCard.new(user: current_user, game: @game)
+      authorize @bingo_card
+      @bingo_card.populate
+      if @game.save
+        redirect_to group_path(@group)
+      else
+        render 'new'
+      end
     end
   end
 
@@ -58,4 +50,3 @@ class GamesController < ApplicationController
     @group = Group.find(params[:group_id])
   end
 end
-
