@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_08_105927) do
+ActiveRecord::Schema.define(version: 2021_03_08_142238) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,6 +56,12 @@ ActiveRecord::Schema.define(version: 2021_03_08_105927) do
     t.index ["match_event_id"], name: "index_bingo_tiles_on_match_event_id"
   end
 
+  create_table "chatrooms", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "competitions", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
@@ -78,6 +84,8 @@ ActiveRecord::Schema.define(version: 2021_03_08_105927) do
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "chatroom_id", null: false
+    t.index ["chatroom_id"], name: "index_groups_on_chatroom_id"
     t.index ["user_id"], name: "index_groups_on_user_id"
   end
 
@@ -104,6 +112,16 @@ ActiveRecord::Schema.define(version: 2021_03_08_105927) do
     t.bigint "competition_id", null: false
     t.integer "api_id"
     t.index ["competition_id"], name: "index_matches_on_competition_id"
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.string "content"
+    t.bigint "chatroom_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["chatroom_id"], name: "index_messages_on_chatroom_id"
+    t.index ["user_id"], name: "index_messages_on_user_id"
   end
 
   create_table "user_groups", force: :cascade do |t|
@@ -136,9 +154,12 @@ ActiveRecord::Schema.define(version: 2021_03_08_105927) do
   add_foreign_key "bingo_tiles", "match_events"
   add_foreign_key "games", "groups"
   add_foreign_key "games", "matches"
+  add_foreign_key "groups", "chatrooms"
   add_foreign_key "groups", "users"
   add_foreign_key "match_events", "matches"
   add_foreign_key "matches", "competitions"
+  add_foreign_key "messages", "chatrooms"
+  add_foreign_key "messages", "users"
   add_foreign_key "user_groups", "groups"
   add_foreign_key "user_groups", "users"
 end
