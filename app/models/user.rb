@@ -8,3 +8,6 @@ class User < ApplicationRecord
   has_many :games, through: :bingo_cards
   has_one_attached :photo
 end
+
+# in rails c run the following line to make the user u an admin
+# u.update_attribute :admin, true
