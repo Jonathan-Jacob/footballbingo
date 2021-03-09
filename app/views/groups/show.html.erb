@@ -54,13 +54,14 @@
     </div>
   </div>
   <!-- Group Chat Function -->
-  <div>
-    <h1>Chat</h1>
-    <div id="messages" data-chatroom-id="<%= @group.chatroom.id %>">
+  <div class="container">
+    <h3>Team-Chat</h3>
+    <div class="container-chat" id="messages" data-chatroom-id="<%= @group.chatroom.id %>">
       <% @group.chatroom.messages.each do |message| %>
         <%= render "messages/message", message: message %>
       <% end %>
     </div>
+    <br>
     <%= simple_form_for [@group.chatroom, @message ], remote: true do |f| %>
       <%= f.input :content, label: false %>
     <% end %>

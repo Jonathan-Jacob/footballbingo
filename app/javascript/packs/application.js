@@ -32,6 +32,6 @@ import {initFilter} from "../scripts/filter"
 document.addEventListener('turbolinks:load', () => {
   // Call your functions here, e.g:
   // initSelect2();
-  initFilter()
   initChatroomCable();
+  initFilter();
 });

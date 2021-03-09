@@ -1,0 +1,39 @@
+.container-chat {
+  border: 1px solid $football-green;
+  border-radius: 8px;
+  height: 30vh;
+  overflow: scroll;
+  padding: 4px;
+}
+
+.user-message {
+  display: inline-block;
+  clear: both;
+  float: right;
+  max-width: 75%;
+  p {
+    text-align: center;
+    color: white;
+    background-color: $football-green;
+    padding: 2px;
+    border-radius: 8px;
+  }
+}
+
+.buddy-message {
+  text-align: center;
+  display: inline-block;
+  clear: both;
+  float: left;
+  max-width: 65%;
+  p {
+    background-color: $football-light-green;
+    padding: 2px;
+    border-radius: 4px;
+  }
+}
+
+.author {
+  font-size: 12px;
+}
+
