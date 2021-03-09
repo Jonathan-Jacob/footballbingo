@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_09_112319) do
+ActiveRecord::Schema.define(version: 2021_03_09_153849) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,7 +52,7 @@ ActiveRecord::Schema.define(version: 2021_03_09_112319) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "match_event_id", null: false
     t.integer "position"
-    t.string "status", default: "not happened"
+    t.string "status", default: "not_happened"
     t.index ["bingo_card_id"], name: "index_bingo_tiles_on_bingo_card_id"
     t.index ["match_event_id"], name: "index_bingo_tiles_on_match_event_id"
   end
@@ -150,6 +150,15 @@ ActiveRecord::Schema.define(version: 2021_03_09_112319) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "winners", force: :cascade do |t|
+    t.bigint "game_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["game_id"], name: "index_winners_on_game_id"
+    t.index ["user_id"], name: "index_winners_on_user_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "bingo_cards", "games"
   add_foreign_key "bingo_cards", "users"
@@ -166,4 +175,6 @@ ActiveRecord::Schema.define(version: 2021_03_09_112319) do
   add_foreign_key "messages", "users"
   add_foreign_key "user_groups", "groups"
   add_foreign_key "user_groups", "users"
+  add_foreign_key "winners", "games"
+  add_foreign_key "winners", "users"
 end

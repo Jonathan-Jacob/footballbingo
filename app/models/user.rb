@@ -6,6 +6,7 @@ class User < ApplicationRecord
   has_many :groups, dependent: :destroy
   has_many :bingo_cards, dependent: :destroy
   has_many :games, through: :bingo_cards
+  has_many :winners, dependent: :destroy
   has_one_attached :photo
 end
 
