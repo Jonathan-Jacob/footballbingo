@@ -17,6 +17,9 @@ Rails.application.routes.draw do
     resources :games, only: [:show, :new, :create]
     resources :user_groups, only: [:index, :create]
     resources :chatrooms, only: :show
+    member do
+      get :members
+    end
   end
 
   resources :chatrooms, only: :show do
@@ -29,7 +32,12 @@ Rails.application.routes.draw do
   end
 
   get "/competition_matches", to: "games#filter", defaults: {format: :json}
-  # get 'pages/members', to:
+  # get "members", to: "pages#members"
+  get "learn_more", to: "pages#learn_more"
+
+  # Generic syntax:
+  # verb 'path', to: 'controller#action'
+
 
   # post '/groups/:id', to: 'groups#add_user'
   # post '/games/:id', to: 'games#join_game'

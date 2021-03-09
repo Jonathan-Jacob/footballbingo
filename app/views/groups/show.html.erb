@@ -5,21 +5,20 @@
   <div class="cards-dashboard">
 
     <% @group.games.each do |game| %>
-      <div class="card-dashboard">
-        <div class="card-groupname text-center">
-          <p> <%= game.group.name %> </p>
+      <%= link_to game_bingo_cards_path(game.id), class: "dashboard-link" do %>
+        <div class="card-dashboard">
+          <div class="card-groupname text-center">
+            <p> <%= game.group.name %> </p>
+          </div>
+          <div class="card-game">
+            <p style="margin-bottom: 12px"> <%= game.group.user_groups.count %> Players </p>
+            <p> <%= game.match.team_1 %>  </p>
+            <p> vs</p>
+            <p> <%= game.match.team_2 %> </p>
+          </div>
         </div>
-        <div class="card-game">
-          <p style="font-weight:lighter;"> <%= game.group.user_groups.count %> Players </p>
-          <p class="btn btn-border">  <%= game.match.team_1 %>  </p>
-          <p>vs</p>
-          <p class="btn btn-border">  <%= game.match.team_2 %> </p>
-          <br>
-          <%= link_to "Bingo Card",  game_bingo_cards_path(game.id), class: "dashboard-link  btn-sm btn-greenstart", method: :post %>
-        </div>
-      </div>
+      <% end %>
     <% end %>
-
     <!-- New Game Button -->
     <div class="card-dashboard">
       <div class="card-groupname">

@@ -21,6 +21,7 @@ class GroupsController < ApplicationController
     @group.user = current_user
     @chatroom = Chatroom.new(name: @group.name)
     @chatroom.save
+    
     @group.chatroom = @chatroom
     if @group.save
       user_group = UserGroup.new(group: @group, user: current_user)
@@ -29,6 +30,11 @@ class GroupsController < ApplicationController
     else
       render 'new'
     end
+  end
+
+  def members
+    @group = Group.find(params[:id])
+    authorize @group
   end
 
   private
