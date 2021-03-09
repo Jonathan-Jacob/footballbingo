@@ -38,6 +38,35 @@ class MatchEvent < ApplicationRecord
 
   def self.update(match)
     data_hash = JSON.parse(match.data, symbolize_names: true)
+    revert_action = false;
+    match.match_events.each do |match_event|
+      if %w[all home away].include?(match_event.agent)
+        if data_hash[match_event.action].present? && data_hash[match_event.action][match_event.agent].present? && data_hash[match_event.action][match_event.agent] >= match_event.amount
+          match_event.status = "happened"
+        elsif data_hash[match_event.action].present? && data_hash[match_event.action][match_event.agent].present? && data_hash[match_event.action][match_event.agent] < match_event.amount
+          match_event.status = "not_happened"
+        end
+      else
+        if match.event.agent.present? && match.event.agent[0] == "h"
+          if data_hash[match_event.action].present? && data_hash[match_event.action][:home_players].present? && data_hash[match_event.action][:home_players][match_event.agent].present? && data_hash[match_event.action][:home_players][match_event.agent] >= match_event.amount
+            match_event.status = "happened"
+          elsif data_hash[match_event.action].present? && data_hash[match_event.action][:home_players].present? && data_hash[match_event.action][:home_players][match_event.agent].present? && data_hash[match_event.action][:home_players][match_event.agent] < match_event.amount
+            match_event.status = "not_happened"
+          end
+        elsif match.event.agent.present? && match.event.agent[0] == "a"
+          if data_hash[match_event.action].present? && data_hash[match_event.action][:away_players].present? && data_hash[match_event.action][:away_players][match_event.agent].present? && data_hash[match_event.action][:away_players][match_event.agent] >= match_event.amount
+            match_event.status = "happened"
+          elsif data_hash[match_event.action].present? && data_hash[match_event.action][:away_players].present? && data_hash[match_event.action][:away_players][match_event.agent].present? && data_hash[match_event.action][:away_players][match_event.agent] < match_event.amount
+            match_event.status = "not_happened"
+          end
+        end
+      end
+      match_event.save
+      match_event.bingo_tiles.each do |bingo_tile|
+        revert_action = true if bingo_tile.update == "reverted"
+      end
+    end
+    revert_action
   end
 
   def describe_event
