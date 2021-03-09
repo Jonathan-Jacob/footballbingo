@@ -19,6 +19,10 @@ const updateMatches = (event) => {
 
 const initFilter = () => {
   const input = document.querySelector("#competition_match")
-  input.addEventListener("change", updateMatches)
+
+  if (input) {
+    input.addEventListener("change", updateMatches)
+  }
 }
+
 export {initFilter}
