@@ -14,14 +14,14 @@ class GamePolicy < ApplicationPolicy
   end
 
   def create?
-    record.group.user_groups.any? { |user_group| user_group.user == @user }
+    record.group.users.include?(@user)
   end
 
   def join_game?
-    record.group.user_groups.any? { |user_group| user_group.user == @user }
+    record.group.users.include?(@user)
   end
 
   def show?
-    record.group.user_groups.any? { |user_group| user_group.user == @user }
+    record.group.users.include?(@user)
   end
 end

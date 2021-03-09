@@ -1,9 +1,9 @@
 <%= link_to group_path(group), class: "dashboard-link" do %>
   <div class="card-dashboard">
-    <div class="card-groupname">
+    <div class="card-groupname text-center">
       <p> <%= group.name %> </p>
     </div>
-    <div class="card-game">
+    <div class="card-game text-center">
       <p> <%= pluralize(group.user_groups.count, 'Member') %> </p>
     </div>
   </div>

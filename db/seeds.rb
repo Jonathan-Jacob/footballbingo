@@ -42,6 +42,6 @@ puts "done.\n\n"
 
 puts "reading api, updating/creating matches..."
 
-matches = Match.update_matches
+# matches = Match.update_matches
 
 puts "done."

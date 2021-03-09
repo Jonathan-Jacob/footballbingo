@@ -36,9 +36,16 @@ body, h2, h3 {
   text-align: center;
   border: 1px solid black;
   box-shadow: rgba(255, 255, 255, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  // background: linear-gradient(to bottom, white 59%, $football-green 31%);
   a {
     color: black;
     text-decoration: none;
+  }
+  .add {
+    background: none;
+    .fas {
+    // color: $football-green;
+    }
   }
 }
 
@@ -49,16 +56,18 @@ body, h2, h3 {
   padding: 4px;
   font-size: 1.5em;
   margin: auto 0px;
+  color:$football-green;
 }
 
 .card-game {
   font-weight: bold;
   padding: 8px;
+  // background-color:$football-green;
   a {
     color: black;
   }
   p {
-    margin-bottom: 2px;
+    margin-bottom: 0px;
   }
 }
 

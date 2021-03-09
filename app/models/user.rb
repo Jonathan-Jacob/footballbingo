@@ -3,8 +3,8 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
-  has_many :groups
-  has_many :bingo_cards
+  has_many :groups, dependent: :destroy
+  has_many :bingo_cards, dependent: :destroy
   has_many :games, through: :bingo_cards
   has_one_attached :photo
 end

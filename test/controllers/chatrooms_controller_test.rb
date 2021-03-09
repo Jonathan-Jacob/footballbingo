@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class UpdateLivescoresJobTest < ActiveJob::TestCase
+class ChatroomsControllerTest < ActionDispatch::IntegrationTest
   # test "the truth" do
   #   assert true
   # end

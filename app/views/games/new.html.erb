@@ -1,5 +1,4 @@
 <%= render "choose_competition", group: @group, game: @game %>
-
 <div class="px-3">
   <h1> <%=  @group.name %> </h1>
   <%= simple_form_for [@group, @game] do |f| %>
