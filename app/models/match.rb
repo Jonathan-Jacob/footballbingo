@@ -38,6 +38,7 @@ class Match < ApplicationRecord
   def self.update_livescores
     return if Match.count < 1
 
+    live_matches = []
     raw_data = read_events
     raw_data[:data].each do |api_data|
       if (match = Match.find_by(api_id: api_data[:id]))
@@ -118,8 +119,10 @@ class Match < ApplicationRecord
         end
         match.data = data_hash.to_json
         match.save
+        live_matches.push(match)
       end
     end
+    live_matches
   end
 
   def self.read_matches

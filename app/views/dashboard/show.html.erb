@@ -21,8 +21,7 @@
         <div class="cards-dashboard">
           <!-- New Group Button -->
           <%= render "card_group_new" %>
-        <!-- Groups Grid - all Groups of Current_User with
-              New Group Button at end -->
+          <!-- Groups Grid - all Groups of Current_User -->
           <% @user_groups.each do |user_group| %>
             <%= render "card_group", group: user_group.group %>
           <% end %>
