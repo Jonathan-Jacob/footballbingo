@@ -1,0 +1,37 @@
+<div class="message-container" id="message-<%= message.id %>">
+  <% if message.user == current_user %>
+    <div class="user-message">
+      <i class="author">
+        <span><%= message.user.nickname %></span>
+        <small><%= message.created_at.strftime("%a %b %e at %l:%M%p") %></small>
+      </i>
+      <p class="mb-0"><%= message.content %></p>
+    </div>
+  <% else %>
+    <div class="buddy-message">
+      <i class="author">
+        <span><%= message.user.nickname %></span>
+        <small><%= message.created_at.strftime("%a %b %e at %l:%M%p") %></small>
+      </i>
+      <p class="mb-0"><%= message.content %></p>
+    </div>
+  <% end %>
+</div>
+
+
+const pickMessageSide = () => {
+ let messages = document.querySelectorAll(".message-container");
+ let  container = document.getElementById("messages");
+
+  if (messages.length > 0 && container) {
+      messages.forEach( (message) => {
+        if (message.dataset.senderId === container.dataset.currentUser ) {
+          message.classList.remove('buddy-message');
+          message.classList.add('user-message');
+        } else {
+          message.classList.remove('user-message');
+          message.classList.add('buddy-message');
+        }
+      })
+  }
+}
