@@ -10,7 +10,7 @@ class Match < ApplicationRecord
   require 'open-uri'
 
   def teams
-    "#{team_1} vs #{team_2}   #{date_time}"
+    "#{team_1} vs #{team_2} - kickoff #{date_time.strftime("%d.%B %Y - %H:%Mh")}"
   end
 
   def self.update_matches
