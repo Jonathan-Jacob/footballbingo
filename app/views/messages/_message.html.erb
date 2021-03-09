@@ -1,7 +1,9 @@
-<div class="message-container" id="message-<%= message.id %>">
-  <i class="author">
-    <span><%= message.user.nickname %></span>
-    <small><%= message.created_at.strftime("%a %b %e at %l:%M%p") %></small>
-  </i>
-  <p class="mb-0"><%= message.content %></p>
+<div class="message-container" id="message-<%= message.id %>" data-sender-id="message.user.id">
+  <div class="buddy-message">
+    <i class="author">
+      <span><%= message.user.nickname %></span>
+      <small><%= message.created_at.strftime("%a %b %e at %l:%M%p") %></small>
+    </i>
+    <p class="mb-0"><%= message.content %></p>
+  </div>
 </div>
