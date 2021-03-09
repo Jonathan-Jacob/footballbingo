@@ -38,19 +38,15 @@ class GamesController < ApplicationController
 
   def create
     @game = Game.new(game_params)
-    if @game.too_late_to_start?
-      render 'new'
-    else
-      @game.group = @group
-      authorize @game
+    @game.group = @group
+    authorize @game    
+    if @game.save
       @bingo_card = BingoCard.new(user: current_user, game: @game)
       authorize @bingo_card
       @bingo_card.populate
-      if @game.save
-        redirect_to group_path(@group)
-      else
-        render 'new'
-      end
+      redirect_to group_path(@group)
+    else
+      render 'new'
     end
   end
 
