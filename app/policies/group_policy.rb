@@ -12,4 +12,8 @@ class GroupPolicy < ApplicationPolicy
   def create?
     true
   end
+
+  def members?
+    record.users.include?(user)
+  end
 end

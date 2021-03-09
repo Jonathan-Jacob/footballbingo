@@ -1,6 +1,0 @@
-<h1 class="p-3 text-center"><%= @group.name %></h1>
-
- <h2 class="text-center px-3 mt-3">Team members</h2>
-    <% @group.users.each do |user| %>
-    <h3 class="text-center px-3"> <%= user.nickname.capitalize %> </h3>
-    <%end%>
