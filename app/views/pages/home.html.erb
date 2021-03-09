@@ -1,18 +1,11 @@
- <div class="banner" style="background-color: #E5E5E5;">
-
-  <div class="container-home justify-content-center">
-      <br>
-      <h1 class="text-center">Football bingo</h1>
-      <h5 class="text-center">&#x26BD Enter the world of Football bingo! &#x26BD</h5>
-      <br>
-      <br>
-      <div class="card-home text-center mt- 5" style="background-image: url(<%= asset_path 'lpg-field.svg' %>)">
-
-        <%= link_to "SIGN UP", new_user_registration_path, class: "btn btn-ghost top" %>
-
-        <%= link_to "LOG IN", new_user_session_path, class: "btn btn-ghost middle" %>
-
-        <%= link_to "LEARN MORE! ", "#", class: "btn btn-ghost bottom" %>
-      </div>
+<div class="container-home">
+  <br>
+  <h1 class="text-center display-4">FOOTBALL BINGO</h1>
+  <h5 class="text-center">&#x26BD Enter the world of Football Bingo! &#x26BD</h5>
+  <br>
+  <div class="card-home text-center mt- 5" style="background-image: url(<%= asset_path 'lpg-field.svg' %>)">
+    <%= link_to "SIGN UP", new_user_registration_path, class: "btn btn-ghost top" %>
+    <%= link_to "LOG IN", new_user_session_path, class: "btn btn-ghost middle" %>
+    <%= link_to "LEARN MORE! ", "#", class: "btn btn-ghost bottom" %>
   </div>
 </div>

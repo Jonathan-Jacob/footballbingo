@@ -1,85 +1,75 @@
 .btn-greenstart {
   color: white;
-  background-color: #73D065;
-  border: 1px solid #DDDDDD;
+  background-color: $football-green;
+  border: 1px solid $football-green;
   // padding: 9px 34px;
   border-radius: 50px;
   font-weight: lighter;
-  font-family: $football-font;
+  font-family: $body-font;
   width: 210px;
-
 }
 
 .btn-greenpw {
-  color: #73D065;
-  border: 1px solid #73D065;
+  color: $football-green;
+  border: 1px solid $football-green;
   border-radius: 50px;
   font-weight: normal;
-  font-family: $football-font;
+  font-family: $body-font;
   width: 210px;
-
 }
 
+.btn-greenpw:hover {
+  color: black;
+  background-color: $football-light-green;
+  border: 1px solid $football-light-green;
+}
 
 .btn-greenstart:hover {
-  opacity: 1;
+  color: black;
+  background-color: $football-light-green;
+  border: 1px solid $football-light-green;
 }
 
 .btn-ghost {
   display: flex;
-  align-item: center;
+  align-items: center;
   justify-content: center;
   color: white;
-  border: 1px solid rgba(74, 74, 74, .5);
+  border: none;
   padding: 18px 21px;
   border-radius: 8px;
   width: 220px;
   font-weight: bold;
-  font-size: 25.5px;
-  // opacity: 0.8;
-  transition: opacity 0.3s ease;
-  background-color: rgba(74, 74, 74, .5);
+  font-size: 24px;
+  background-color:rgba(13, 0, 0, 0.4);
 }
 
 .btn-ghost:hover {
-  opacity: 1;
-  background-color: #333333;
-
-}
-
-.btn-ghost-start {
+  border: none;
   color: white;
-  border: 1px solid #4A4A4A;
-  padding: 8px 24px;
-  width: 85px;
-  height: 85px;
-  border-radius: 50%;
-  font-weight: bold;
-  font-size: 26px;
-  opacity: 0.6;
-  transition: opacity 0.3s ease;
-  background-color: #4A4A4A;
+  background-color:rgba(13, 0, 0, 0.6);
 }
 
-.btn-ghost-start:hover {
-  opacity: 1;
-  background-color: #333333;
+.btn-ghost:focus, .btn-ghost.focus {
+  box-shadow: none;
 }
 
 .upload-photo {
-  font-family: $football-font;
+  font-family: $body-font;
   border: 1px solid #DDDDDD;
   border-radius: 8px;
   width: 210px;
   padding: 8px;
   margin-top: 10px;
+}
 
+.upload-photo:hover {
+  color: $football-green;
 }
 
 .btn-plus {
   border: 4px solid $football-green;
   border-radius: 50%;
-
 }
 
 .btn-border {

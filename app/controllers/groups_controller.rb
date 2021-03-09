@@ -4,8 +4,8 @@ class GroupsController < ApplicationController
   end
 
   def show
-    @group = Group.find(params[:id])
     @message = Message.new
+    @group = Group.find(params[:id])
     authorize @group
     @user_group = UserGroup.new
   end

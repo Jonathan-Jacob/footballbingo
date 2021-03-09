@@ -1,33 +1,31 @@
 <div class="container-xl">
-  <div style="background-color: #F4F4F4;">
-    <button class="selector-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    </button>
-    <button class="selector-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    </button>
-    <div id="carouselExampleControls" class="carousel carousel-dark slide" data-bs-interval="false" data-bs-ride="carousel">
-      <div class="carousel-inner">
-        <div class="carousel-item active">
-          <h1 class="mt-5 text-center">Your Games</h1>
-          <!-- Games Grid - all Games of Current_User -->
-          <div class="cards-dashboard">
-            <% current_user.bingo_cards.each do |bingo_card| %>
-              <%= render "card_game", bingo_card: bingo_card %>
-            <% end %> 
-          </div>
+  <button class="selector-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+  </button>
+  <button class="selector-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+  </button>
+  <div id="carouselExampleControls" class="carousel carousel-dark slide" data-bs-interval="false" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <h1 class="mt-3 text-center">Your Games</h1>
+        <!-- Games Grid - all Games of Current_User -->
+        <div class="cards-dashboard">
+          <% current_user.bingo_cards.each do |bingo_card| %>
+            <%= render "card_game", bingo_card: bingo_card %>
+          <% end %> 
         </div>
-        <div class="carousel-item">
-          <h1 class="mt-5 text-center">Your Teams</h1>
-          <div class="cards-dashboard">
-            <!-- New Group Button -->
-            <%= render "card_group_new" %>
-          <!-- Groups Grid - all Groups of Current_User with
-                New Group Button at end -->
-            <% @user_groups.each do |user_group| %>
-              <%= render "card_group", group: user_group.group %>
-            <% end %>
-          </div>
+      </div>
+      <div class="carousel-item">
+        <h1 class="mt-3 text-center">Your Teams</h1>
+        <div class="cards-dashboard">
+          <!-- New Group Button -->
+          <%= render "card_group_new" %>
+        <!-- Groups Grid - all Groups of Current_User with
+              New Group Button at end -->
+          <% @user_groups.each do |user_group| %>
+            <%= render "card_group", group: user_group.group %>
+          <% end %>
         </div>
       </div>
     </div>

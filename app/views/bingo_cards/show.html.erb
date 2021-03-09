@@ -1,20 +1,20 @@
 <div class="bingo-container">
   <div class="before-grid">
-    <div class="header">
+    <div class="mt-5 header">
       <h1>Bingo Bingo Bingo</h1>
     </div>
   </div>
-  <div class="the-grid">
-    <div class="grid">
-    <% if @bingo_tiles.count == 16 %>
-      <% (0..15).each do |index| %>
-        <div>
-          <div class="bingo-tile"><p style="font-size:3.5vw;"><%= BingoTile.find_by(position: index).match_event.description %></p></div>
+  <% if @bingo_tiles.count == 16 %>
+    <div class="the-grid">
+      <div class="grid">    
+        <% (0..15).each do |index| %>
+          <div>
+            <div class="bingo-tile"><p style="font-size:3.5vw;"><%= BingoTile.find_by(position: index).match_event.description %></p></div>
+          </div>
         </div>
-      <% end %>
-    <% else %>
-      <h3>Please come back later</h3>
+      </div>
     <% end %>
-    </div>
-  </div>
+  <% else %>
+    <h3>Your Bingo card will be created before the game begins.</h3>
+  <% end %>
 </div>

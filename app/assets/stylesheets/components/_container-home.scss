@@ -1,34 +1,31 @@
 .container-home {
-display: flex;
-justify-content: center;
-align-items: center;
-flex-direction: column;
-h1, h2, h3, h4 {
-  font-family: $football-font2;
-}
-h5{
-  font-family: $football-font;
-  color: #6E7C7C;
-}
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  h1, h2, h3, h4 {
+    font-family: $headers-font;
+  }
+  h5{
+    font-family: $body-font;
+  }
 }
 
 .container-signlog {
   h1, h2, h3, h4 {
-  font-family: $football-font2;
-}
-display: flex;
-justify-content: center;
-align-items: center;
-flex-direction: column;
-
+    font-family: $headers-font;
+  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .container-center {
-display: flex;
-justify-content: center;
-align-items: center;
-flex-direction: column;
-
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 

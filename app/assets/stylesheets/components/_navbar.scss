@@ -2,6 +2,13 @@
   justify-content: space-between;
   background: $football-green;
   height: 67px;
+  .navbar-toggler {
+    border: none;
+  }
+  .navbar-toggler-icon {
+    background-image: url("toggler.svg");
+    width: 30px;
+  }
 }
 
 .navbar-lewagon .navbar-collapse {
