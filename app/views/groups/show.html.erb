@@ -1,4 +1,4 @@
-<div class="container-xl">
+<div class="container-xl text-center">
   <%# <div style="background-color: #F4F4F4;"> %>
   <h1 class="mt-3 text-center"><%= @group.name %></h1>
   <!-- Games Grid with New Game Button at end -->
@@ -11,7 +11,7 @@
             <p> <%= game.group.name %> </p>
           </div>
           <div class="card-game">
-            <p style="margin-bottom: 12px"> <%= game.group.user_groups.count %> Players </p>
+            <h6 style="margin-bottom: 12px"> <%= game.group.user_groups.count %> Players </h6>
             <p> <%= game.match.team_1 %>  </p>
             <p> vs</p>
             <p> <%= game.match.team_2 %> </p>
@@ -35,23 +35,9 @@
       </div>
     </div>
   </div>
-  <div>
-    <!-- Displaying all Memebers of Group -->
-    <h2 class="text-center px-3 mt-3">Team members</h2>
-    <% @group.users.each do |user| %>
-    <h3 class="text-center px-3"> <%= user.nickname.capitalize %> </h3>
-    <%end%>
-  </div>
-  <div class="px-3 pt-3 mb-5 form-adapt text-center">
-    <!-- Adding New Member to Group -->
-    <% if @group.user == current_user %>
-      <%= simple_form_for([@group, @user_group], remote: true) do |f| %>
-      <%= f.association :user, label: "New teammember", collection: User.all.map { |user| [ user.id, user.nickname ] }, input_html: { class: 'select2' }, label_method: :second, value_method: :first %>
-      <%= f.submit "Submit", class: "btn btn-greenstart" %>
-      <% end %>
-    <% end %>
-    </div>
-  </div>
+
+  <%= link_to "Show team members", members_group_path, class: "btn btn-team"  %>
+
   <!-- Group Chat Function -->
   <div class="container">
     <h3>Team-Chat</h3>

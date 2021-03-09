@@ -5,6 +5,6 @@
   <%= simple_form_for @group, html: {multipart: true} do |f| %>
     <%= f.input :name, label: "Enter group name" %>
     <%# <%= f.association :user, collection: User.all.map { |user| user.nickname }, label: "Add user" %>
-    <%= f.submit 'Submit', class: "btn btn-greenstart mt-2" %>
+    <%= f.submit 'New team', class: "btn btn-greenstart mt-2" %>
   <% end %>
 </div>
