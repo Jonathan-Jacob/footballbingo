@@ -7,14 +7,14 @@ class MatchEvent < ApplicationRecord
   def self.generate(match)
     %w[all home away].each do |agent|
       %w[goals fouls yellow yellow_red red penalties_scored penalties_saved woodwork own_goals joker_goals].each do |action|
-        m = MatchEvent.new(match: match, agent: agent, action: action, amount: 1, status: 'unchecked')
+        m = MatchEvent.new(match: match, agent: agent, action: action, amount: 1)
         m.describe_event
         p m.description
         m.save
       end
       %w[goals fouls yellow].each do |action|
         [2, 3].each do |amount|
-          m = MatchEvent.new(match: match, agent: agent, action: action, amount: amount, status: 'unchecked')
+          m = MatchEvent.new(match: match, agent: agent, action: action, amount: amount)
           m.describe_event
           p m.description
           m.save
@@ -23,7 +23,7 @@ class MatchEvent < ApplicationRecord
     end
     %w[goals fouls yellow].each do |action|
       [4, 5].each do |amount|
-        m = MatchEvent.new(match: match, agent: 'all', action: action, amount: amount, status: 'unchecked')
+        m = MatchEvent.new(match: match, agent: 'all', action: action, amount: amount)
         m.describe_event
         p m.description
         m.save

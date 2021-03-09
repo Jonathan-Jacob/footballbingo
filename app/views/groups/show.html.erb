@@ -5,18 +5,14 @@
   <div class="cards-dashboard">
 
     <% @group.games.each do |game| %>
-      <%= link_to game_bingo_cards_path(game.id), class: "dashboard-link" do %>
-        <div class="card-dashboard">
-          <div class="card-groupname text-center">
-            <p> <%= game.group.name %> </p>
-          </div>
-          <div class="card-game">
-            <p style="margin-bottom: 12px"> <%= game.group.user_groups.count %> Players </p>
-            <p> <%= game.match.team_1 %>  </p>
-            <p> vs</p>
-            <p> <%= game.match.team_2 %> </p>
-          </div>
-        </div>
+      <% if BingoCard.find_by(game: game, user: current_user) %>
+        <%= link_to game_bingo_card_path(game, BingoCard.find_by(game: game, user: current_user)), class: "dashboard-link" do %>
+          <%= render "card_game_new", game: game %>
+        <% end %>
+      <% else %>
+        <%= link_to game_bingo_cards_path(game), method: "post", class: "dashboard-link" do %>
+          <%= render "card_game_new", game: game %>
+        <% end %>
       <% end %>
     <% end %>
     <!-- New Game Button -->
@@ -36,7 +32,7 @@
     </div>
   </div>
   <div>
-    <!-- Displaying all Memebers of Group -->
+    <!-- Displaying all Members of Group -->
     <h2 class="text-center px-3 mt-3">Team members</h2>
     <% @group.users.each do |user| %>
     <h3 class="text-center px-3"> <%= user.nickname.capitalize %> </h3>
