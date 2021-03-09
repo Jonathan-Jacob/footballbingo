@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_08_142238) do
+ActiveRecord::Schema.define(version: 2021_03_09_072004) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(version: 2021_03_08_142238) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "match_event_id", null: false
     t.integer "position"
+    t.string "status", default: "not happened"
     t.index ["bingo_card_id"], name: "index_bingo_tiles_on_bingo_card_id"
     t.index ["match_event_id"], name: "index_bingo_tiles_on_match_event_id"
   end
@@ -96,7 +97,7 @@ ActiveRecord::Schema.define(version: 2021_03_08_142238) do
     t.string "action"
     t.string "agent"
     t.integer "amount"
-    t.string "status"
+    t.string "status", default: "not_happened"
     t.string "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
