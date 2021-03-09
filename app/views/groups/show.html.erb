@@ -56,7 +56,7 @@
   <!-- Group Chat Function -->
   <div class="container">
     <h3>Team-Chat</h3>
-    <div class="container-chat" id="messages" data-chatroom-id="<%= @group.chatroom.id %>">
+    <div class="container-chat" id="messages" data-chatroom-id="<%= @group.chatroom.id %>" data-current-user="<%= current_user.id %>">
       <% @group.chatroom.messages.each do |message| %>
         <%= render "messages/message", message: message %>
       <% end %>

@@ -39,7 +39,10 @@ class GamesController < ApplicationController
   def create
     @game = Game.new(game_params)
     @game.group = @group
-    authorize @game    
+    authorize @game
+    @chatroom = Chatroom.new()
+    @chatroom.save
+    @game.chatroom = @chatroom
     if @game.save
       @bingo_card = BingoCard.new(user: current_user, game: @game)
       authorize @bingo_card

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_08_142238) do
+ActiveRecord::Schema.define(version: 2021_03_09_112319) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -75,6 +75,8 @@ ActiveRecord::Schema.define(version: 2021_03_08_142238) do
     t.bigint "group_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "chatroom_id", null: false
+    t.index ["chatroom_id"], name: "index_games_on_chatroom_id"
     t.index ["group_id"], name: "index_games_on_group_id"
     t.index ["match_id"], name: "index_games_on_match_id"
   end
@@ -152,6 +154,7 @@ ActiveRecord::Schema.define(version: 2021_03_08_142238) do
   add_foreign_key "bingo_cards", "users"
   add_foreign_key "bingo_tiles", "bingo_cards"
   add_foreign_key "bingo_tiles", "match_events"
+  add_foreign_key "games", "chatrooms"
   add_foreign_key "games", "groups"
   add_foreign_key "games", "matches"
   add_foreign_key "groups", "chatrooms"
