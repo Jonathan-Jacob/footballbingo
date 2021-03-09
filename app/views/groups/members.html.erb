@@ -1,0 +1,22 @@
+<div class="container-xl" style="max-width: 310px;">
+  <h1 class="p-3 text-center"><%= @group.name %></h1>
+
+
+
+<h2 class="text-center px-3 mt-3">Team members</h2>
+<br>
+    <% @group.users.each do |user| %>
+      <div class="card-member">
+        <%= image_tag "Placeholder.jpg", class: "avatar-bordered-medium avatar-position" %>
+        <div class="card-member-infos">
+          <p><%= user.nickname.capitalize %></p>
+        </div>
+      </div>
+    <br>
+    <br>
+    <%end%>
+</div>
+
+
+
+
