@@ -28,6 +28,7 @@ Rails.application.routes.draw do
     resources :bingo_cards, only: [:show, :create, :index]
   end
 
+  get "/competition_matches", to: "games#filter", defaults: {format: :json}
   # get 'pages/members', to:
 
   # post '/groups/:id', to: 'groups#add_user'

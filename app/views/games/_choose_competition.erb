@@ -1,0 +1,7 @@
+<div class="px-3">
+  <h1> <%=  group.name %> </h1>
+  <%= simple_form_for :competition do |f| %>
+    <%= f.input :match, collection: @competitions, label: "Choose a competition"%>
+    <%= f.submit 'Create Game', class: "btn btn-greenstart" %>
+  <% end %>
+</div>
