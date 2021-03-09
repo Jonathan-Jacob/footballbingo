@@ -16,9 +16,9 @@ Rails.application.routes.draw do
   resources :groups, only: [:show, :new, :create] do
     resources :games, only: [:show, :new, :create]
     resources :user_groups, only: [:index, :create]
-     resources :chatrooms, only: :show
-     member do
-     get :members
+    resources :chatrooms, only: :show
+    member do
+      get :members
     end
   end
 

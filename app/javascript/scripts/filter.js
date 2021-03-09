@@ -9,7 +9,7 @@ const updateMatches = (event) => {
     success: (data) => {
       let optionsHtml = '<option value=""></option>'
       data.matches.forEach((match) => {
-        optionsHtml += `<option value="${match.id}">${match.team_1} vs ${match.team_2} at ${match.date_time}</option>`
+        optionsHtml += `<option value="${match.id}">${match.team_1} vs ${match.team_2} kickoff at ${match.date_time.strftime("%d. %B %Y %H:%M")}</option>`
       });
       matchesInput.innerHTML = optionsHtml
     }
@@ -19,6 +19,10 @@ const updateMatches = (event) => {
 
 const initFilter = () => {
   const input = document.querySelector("#competition_match")
-  input.addEventListener("change", updateMatches)
+
+  if (input) {
+    input.addEventListener("change", updateMatches)
+  }
 }
+
 export {initFilter}

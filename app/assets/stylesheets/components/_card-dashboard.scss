@@ -67,7 +67,12 @@ body, h2, h3 {
     color: black;
   }
   p {
-    margin-bottom: 0px;
+    margin-bottom: -5px;
+  }
+  h6 {
+    font-weight: bold;
+    font-family: $body-font;
+    font-size: 20px;
   }
 }
 
