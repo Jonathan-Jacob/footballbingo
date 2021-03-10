@@ -34,5 +34,4 @@ document.addEventListener('turbolinks:load', () => {
   initSelect2();
   initFilter()
   initChatroomCable();
-  initFilter();
 });

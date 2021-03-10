@@ -12,5 +12,6 @@ class BingoTilesController < ApplicationController
 
   def set_game
     @game = Game.find(params[:game_id])
+    @bingo_card = BingoCard.find(params[:bingo_card_id])
   end
 end
