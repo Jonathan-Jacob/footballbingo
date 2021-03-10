@@ -7,7 +7,11 @@
   <br>
     <% @group.users.each do |user| %>
       <div class="card-member">
-        <%= image_tag "Placeholder.jpg", class: "avatar-bordered-medium avatar-position" %>
+        <% if user.photo.attached? %>
+          <%= cl_image_tag user.photo.key, class: "avatar-bordered-medium avatar-position" %>
+        <% else %>
+         <%= image_tag "Placeholder.jpg", class: "avatar-bordered-medium avatar-position" %>
+        <% end %>
         <div class="card-member-infos">
           <p><%= user.nickname.capitalize %></p>
         </div>
