@@ -3,11 +3,11 @@
   </div>
   <% if @bingo_tiles.count == 16 %>
     <div class="the-grid">
-      <div class="grid">
+      <div class="grid" id="grid" data-bingo-card-id="<%= @bingo_card.id %>">
         <% (0..15).each do |index| %>
           <div>
             <% bingo_tile = BingoTile.find_by(bingo_card: @bingo_card, position: index) %>
-            <%= link_to game_bingo_card_bingo_tile_path(@game, @bingo_card, bingo_tile), class: "bingo-tile #{bingo_tile.status}", method: "patch" do %>
+            <%= link_to game_bingo_card_bingo_tile_path(@game, @bingo_card, bingo_tile), class: "bingo-tile #{bingo_tile.status}", data_bingo_tile_id: bingo_tile.id, method: "patch" do %>
               <p style="font-size: clamp(12px, 3vw, 18px);"><%= bingo_tile.match_event.description %></p>
             <% end %>
           </div>          

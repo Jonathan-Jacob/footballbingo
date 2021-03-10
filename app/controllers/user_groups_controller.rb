@@ -14,7 +14,7 @@ class UserGroupsController < ApplicationController
       redirect_to group_path(@group, anchor: "member-#{@group.user.id}")
     else
       @message = Message.new
-      render 'groups/show'
+      render 'groups/members'
     end
   end
 

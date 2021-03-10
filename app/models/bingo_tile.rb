@@ -6,6 +6,11 @@ class BingoTile < ApplicationRecord
     if match_event.status == "happened"
       self.status = "accepted"
       save
+      if bingo_card.bingo? && Winner.find_by(game: bingo_card.game).present?
+        winner = Winner.new(game: bingo_card.game, user: bingo_card.user)
+        winner.save
+      end
+      
       return "accepted"
 
     elsif status == "pending"
