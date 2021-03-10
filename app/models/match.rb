@@ -31,16 +31,25 @@ class Match < ApplicationRecord
     matches = read_matches
     if matches[:data].present?
       matches[:data].each do |match_json|
+        
         if (match = Match.find_by(api_id: match_json[:id]))
+          home_color = match_json[:colors].present? && match_json[:colors][:localteam].present? && match_json[:colors][:localteam][:color].present? ? match_json[:colors][:localteam][:color] : match.home_color
+          away_color = match_json[:colors].present? && match_json[:colors][:visitorteam].present? && match_json[:colors][:visitorteam][:color].present? ? match_json[:colors][:visitorteam][:color] : match.away_color
           match.update(competition: Competition.find_by(api_id: match_json[:league_id]),
                        team_1: match_json[:localTeam][:data][:name],
                        team_2: match_json[:visitorTeam][:data][:name],
+                       home_color: home_color,
+                       away_color: away_color,
                        date_time: DateTime.strptime(match_json[:time][:starting_at][:date_time], '%Y-%m-%d %H:%M:%S'))
         else
+          home_color = match_json[:colors].present? && match_json[:colors][:localteam].present? && match_json[:colors][:localteam][:color].present? ? match_json[:colors][:localteam][:color] : "#AAAAAA"
+          away_color = match_json[:colors].present? && match_json[:colors][:visitorteam].present? && match_json[:colors][:visitorteam][:color].present? ? match_json[:colors][:visitorteam][:color] : "#AAAAAA"
           match = Match.create(competition: Competition.find_by(api_id: match_json[:league_id]),
                        team_1: match_json[:localTeam][:data][:name],
                        team_2: match_json[:visitorTeam][:data][:name],
                        api_id: match_json[:id],
+                       home_color: home_color,
+                       away_color: away_color,
                        date_time: DateTime.strptime(match_json[:time][:starting_at][:date_time], '%Y-%m-%d %H:%M:%S'))
         end
         match.update_status(match_json[:time][:status])
