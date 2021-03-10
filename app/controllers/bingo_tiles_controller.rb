@@ -4,8 +4,9 @@ class BingoTilesController < ApplicationController
   def update
     @bingo_tile = BingoTile.find(params[:id])
     authorize @bingo_tile
-    @bingo_tile.update
+    @bingo_tile.check
     @game.check_winners
+    redirect_to game_bingo_card_path(@game, @bingo_tile.bingo_card)
   end
 
   private

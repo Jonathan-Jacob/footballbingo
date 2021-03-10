@@ -8,8 +8,11 @@
 
 require 'date'
 
-puts "creating competitions..."
+puts "clearing database..."
+Competition.destroy_all
+puts "done.\n\n"
 
+puts "creating competitions..."
 competition_seed_data = [
   #api_id, name, country
   [2, 'Champions League', 'UEFA'],
@@ -33,15 +36,11 @@ competition_seed_data = [
   [732, 'World Cup', 'FIFA'],
   [1326, 'European Championship', 'UEFA']
 ]
-
 competition_seed_data.each do |data|
-  Competition.create(api_id: data[0], name: data[1], country: data[2]) unless Competition.find_by(api_id: data[0])
+  Competition.create(api_id: data[0], name: data[1], country: data[2])
 end
-
 puts "done.\n\n"
 
 puts "reading api, updating/creating matches..."
-
 matches = Match.update_matches
-
 puts "done."

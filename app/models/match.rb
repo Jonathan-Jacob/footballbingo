@@ -56,6 +56,12 @@ class Match < ApplicationRecord
         own_goals_away = 0
         joker_goals_home = 0
         joker_goals_away = 0
+        goals_home = 0
+        goals_away = 0
+        fouls_home = 0
+        fouls_away = 0
+        yellow_home = 0
+        yellow_away = 0
         (api_data[:lineup][:data] + api_data[:bench][:data]).each do |player_data|
           if player_data[:team_id] == home_id
             data_hash[:home_players][:"h#{player_data[:number]}"] = player_data[:player_name]
@@ -71,6 +77,9 @@ class Match < ApplicationRecord
             penalties_scored_home += player_data[:stats][:other][:pen_scored].nil? ? 0 : player_data[:stats][:other][:pen_scored]
             penalties_saved_home += player_data[:stats][:other][:pen_saved].nil? ? 0 : player_data[:stats][:other][:pen_saved]
             own_goals_home += player_data[:stats][:goals][:owngoals].nil? ? 0 : player_data[:stats][:goals][:owngoals]
+            goals_home += player_data[:stats][:goals][:scored].nil? ? 0 : player_data[:stats][:goals][:scored]
+            fouls_home += player_data[:stats][:fouls][:committed].nil? ? 0 : player_data[:stats][:fouls][:committed]
+            yellow_home += player_data[:stats][:cards][:yellowcards].nil? ? 0 : player_data[:stats][:cards][:yellowcards]
           elsif player_data[:team_id] == away_id
             data_hash[:away_players][:"a#{player_data[:number]}"] = player_data[:player_name]
             data_hash[:goals][:away_players][:"a#{player_data[:number]}"] = player_data[:stats][:goals][:scored].nil? ? 0 : player_data[:stats][:goals][:scored]
@@ -85,6 +94,9 @@ class Match < ApplicationRecord
             penalties_scored_away += player_data[:stats][:other][:pen_scored].nil? ? 0 : player_data[:stats][:other][:pen_scored]
             penalties_saved_away += player_data[:stats][:other][:pen_saved].nil? ? 0 : player_data[:stats][:other][:pen_saved]
             own_goals_away += player_data[:stats][:goals][:owngoals].nil? ? 0 : player_data[:stats][:goals][:owngoals]
+            goals_away += player_data[:stats][:goals][:scored].nil? ? 0 : player_data[:stats][:goals][:scored]
+            fouls_away += player_data[:stats][:fouls][:committed].nil? ? 0 : player_data[:stats][:fouls][:committed]
+            yellow_away += player_data[:stats][:cards][:yellowcards].nil? ? 0 : player_data[:stats][:cards][:yellowcards]
           end
         end
         data_hash[:woodwork][:home] = woodwork_home
@@ -102,21 +114,29 @@ class Match < ApplicationRecord
         data_hash[:joker_goals][:home] = joker_goals_home
         data_hash[:joker_goals][:away] = joker_goals_away
         data_hash[:joker_goals][:all] = joker_goals_home + joker_goals_away
+        data_hash[:goals][:home] = goals_home
+        data_hash[:goals][:away] = goals_away
+        data_hash[:goals][:all] = goals_home + goals_away
+        data_hash[:fouls][:home] = fouls_home
+        data_hash[:fouls][:away] = fouls_away
+        data_hash[:fouls][:all] = fouls_home + fouls_away
+        data_hash[:fouls][:home] = fouls_home
+        data_hash[:fouls][:away] = fouls_away
+        data_hash[:fouls][:all] = fouls_home + fouls_away
+        data_hash[:yellow][:home] = yellow_home
+        data_hash[:yellow][:away] = yellow_away
+        data_hash[:yellow][:all] = yellow_home + yellow_away
         api_data[:stats][:data].each do |stats_data|
           if stats_data[:team_id] == home_id
-            data_hash[:goals][:home] = stats_data[:goals].nil? ? 0 : stats_data[:goals]
-            data_hash[:fouls][:home] = stats_data[:fouls].nil? ? 0 : stats_data[:fouls]
-            data_hash[:yellow][:home] = stats_data[:yellowcards].nil? ? 0 : stats_data[:yellowcards]
             data_hash[:yellow_red][:home] = stats_data[:yellowredcards].nil? ? 0 : stats_data[:yellowredcards]
             data_hash[:red][:home] = stats_data[:redcards].nil? ? 0 : stats_data[:redcards]
           elsif stats_data[:team_id] == away_id
-            data_hash[:goals][:away] = stats_data[:goals].nil? ? 0 : stats_data[:goals]
-            data_hash[:fouls][:away] = stats_data[:fouls].nil? ? 0 : stats_data[:fouls]
-            data_hash[:yellow][:away] = stats_data[:yellowcards].nil? ? 0 : stats_data[:yellowcards]
             data_hash[:yellow_red][:away] = stats_data[:yellowredcards].nil? ? 0 : stats_data[:yellowredcards]
             data_hash[:red][:away] = stats_data[:redcards].nil? ? 0 : stats_data[:redcards]
           end
         end
+        data_hash[:yellow_red][:all] = data_hash[:yellow_red][:home] + data_hash[:yellow_red][:away]
+        data_hash[:red][:all] = data_hash[:red][:home] + data_hash[:red][:away]
         match.data = data_hash.to_json
         match.save
         live_matches.push(match)
@@ -146,8 +166,8 @@ class Match < ApplicationRecord
 
   def self.read_events
     json = {}
-    api_url = "https://soccer.sportmonks.com/api/v2.0/fixtures/between/2021-03-04/2021-03-04?api_token=#{ENV["SPORTMONKS_URL"]}&include=localTeam,visitorTeam,events,lineup,bench,stats"
-    # api_url = "https://soccer.sportmonks.com/api/v2.0/livescores?api_token=#{ENV["SPORTMONKS_URL"]}&include=localTeam,visitorTeam,events,lineup,bench,stats"
+    # api_url = "https://soccer.sportmonks.com/api/v2.0/fixtures/between/2021-03-04/2021-03-04?api_token=#{ENV["SPORTMONKS_URL"]}&include=localTeam,visitorTeam,events,lineup,bench,stats"
+    api_url = "https://soccer.sportmonks.com/api/v2.0/livescores?api_token=#{ENV["SPORTMONKS_URL"]}&include=localTeam,visitorTeam,events,lineup,bench,stats"
     open(api_url) do |stream|
       json = JSON.parse(stream.read, symbolize_names: true)
     end

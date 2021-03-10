@@ -5,18 +5,17 @@ class MatchEvent < ApplicationRecord
   require 'json'
 
   def self.generate(match)
+    match.match_events.destroy_all
     %w[all home away].each do |agent|
       %w[goals fouls yellow yellow_red red penalties_scored penalties_saved woodwork own_goals joker_goals].each do |action|
         m = MatchEvent.new(match: match, agent: agent, action: action, amount: 1)
         m.describe_event
-        p m.description
         m.save
       end
       %w[goals fouls yellow].each do |action|
         [2, 3].each do |amount|
           m = MatchEvent.new(match: match, agent: agent, action: action, amount: amount)
           m.describe_event
-          p m.description
           m.save
         end
       end
@@ -25,7 +24,6 @@ class MatchEvent < ApplicationRecord
       [4, 5].each do |amount|
         m = MatchEvent.new(match: match, agent: 'all', action: action, amount: amount)
         m.describe_event
-        p m.description
         m.save
       end
     end
@@ -38,25 +36,25 @@ class MatchEvent < ApplicationRecord
 
   def self.update(match)
     data_hash = JSON.parse(match.data, symbolize_names: true)
-    revert_action = false;
+    revert_action = false
     match.match_events.each do |match_event|
       if %w[all home away].include?(match_event.agent)
-        if data_hash[match_event.action].present? && data_hash[match_event.action][match_event.agent].present? && data_hash[match_event.action][match_event.agent] >= match_event.amount
+        if data_hash[match_event.action.to_sym].present? && data_hash[match_event.action.to_sym][match_event.agent.to_sym].present? && data_hash[match_event.action.to_sym][match_event.agent.to_sym] >= match_event.amount
           match_event.status = "happened"
-        elsif data_hash[match_event.action].present? && data_hash[match_event.action][match_event.agent].present? && data_hash[match_event.action][match_event.agent] < match_event.amount
+        elsif data_hash[match_event.action.to_sym].present? && data_hash[match_event.action.to_sym][match_event.agent.to_sym].present? && data_hash[match_event.action.to_sym][match_event.agent.to_sym] < match_event.amount
           match_event.status = "not_happened"
         end
       else
         if match.event.agent.present? && match.event.agent[0] == "h"
-          if data_hash[match_event.action].present? && data_hash[match_event.action][:home_players].present? && data_hash[match_event.action][:home_players][match_event.agent].present? && data_hash[match_event.action][:home_players][match_event.agent] >= match_event.amount
+          if data_hash[match_event.action.to_sym].present? && data_hash[match_event.action.to_sym][:home_players.to_sym].present? && data_hash[match_event.action.to_sym][:home_players][match_event.agent.to_sym.to_sym].present? && data_hash[match_event.action.to_sym][:home_players][match_event.agent.to_sym] >= match_event.amount
             match_event.status = "happened"
-          elsif data_hash[match_event.action].present? && data_hash[match_event.action][:home_players].present? && data_hash[match_event.action][:home_players][match_event.agent].present? && data_hash[match_event.action][:home_players][match_event.agent] < match_event.amount
+          elsif data_hash[match_event.action.to_sym].present? && data_hash[match_event.action.to_sym][:home_players.to_sym].present? && data_hash[match_event.action.to_sym][:home_players][match_event.agent.to_sym].present? && data_hash[match_event.action.to_sym][:home_players][match_event.agent.to_sym] < match_event.amount
             match_event.status = "not_happened"
           end
         elsif match.event.agent.present? && match.event.agent[0] == "a"
-          if data_hash[match_event.action].present? && data_hash[match_event.action][:away_players].present? && data_hash[match_event.action][:away_players][match_event.agent].present? && data_hash[match_event.action][:away_players][match_event.agent] >= match_event.amount
+          if data_hash[match_event.action.to_sym].present? && data_hash[match_event.action.to_sym][:away_players.to_sym].present? && data_hash[match_event.action.to_sym][:away_players][match_event.agent.to_sym].present? && data_hash[match_event.action.to_sym][:away_players][match_event.agent.to_sym] >= match_event.amount
             match_event.status = "happened"
-          elsif data_hash[match_event.action].present? && data_hash[match_event.action][:away_players].present? && data_hash[match_event.action][:away_players][match_event.agent].present? && data_hash[match_event.action][:away_players][match_event.agent] < match_event.amount
+          elsif data_hash[match_event.action.to_sym].present? && data_hash[match_event.action.to_sym][:away_players.to_sym].present? && data_hash[match_event.action.to_sym][:away_players][match_event.agent.to_sym].present? && data_hash[match_event.action.to_sym][:away_players][match_event.agent.to_sym] < match_event.amount
             match_event.status = "not_happened"
           end
         end
@@ -66,6 +64,7 @@ class MatchEvent < ApplicationRecord
         revert_action = true if bingo_tile.update == "reverted"
       end
     end
+    match.save
     revert_action
   end
 
