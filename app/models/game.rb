@@ -21,7 +21,6 @@ class Game < ApplicationRecord
     BingoCard.where(game: self).each do |bingo_card|
       Winner.create(game: self, user: bingo_card.user) if bingo_card.bingo?
     end
-    save
     winners
   end
 end

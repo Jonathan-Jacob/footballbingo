@@ -6,14 +6,22 @@ class BingoTilesController < ApplicationController
     authorize @bingo_tile
     @bingo_tile.check
     @game.check_winners
-<<<<<<< HEAD
+    @game.bingo_cards.each do |bingo_card|
+      BingoCardChannel.broadcast_to(
+        bingo_card,
+        ["bt-#{@bingo_tile.match_event.id}", @bingo_tile.match_event.status]
+      )
+      other_bingo_tile = bingo_card.bingo_tiles.find_by(match_event: @bingo_tile.match_event)
+      if other_bingo_tile.present?
+        if other_bingo_tile.status == "pending" && @bingo_tile.match_event.status == "happened"
+          other_bingo_tile.status = "accepted"
+        elsif other_bingo_tile.status == "accepted" && @bingo_tile.match_event.status == "not_happened"
+          other_bingo_tile.status = "unchecked"
+        end
+        other_bingo_tile.save
+      end
+    end
     redirect_to game_bingo_card_path(@game, @bingo_tile.bingo_card)
-=======
-    # BingoCardChannel.broadcast_to(
-    #   @bingo_card,
-
-    # )
->>>>>>> jj-js-bingo-check
   end
 
   private

@@ -33,5 +33,4 @@ const initChatroomCable = () => {
   }
 }
 
-
 export { initChatroomCable };

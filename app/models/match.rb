@@ -9,6 +9,15 @@ class Match < ApplicationRecord
   require 'json'
   require 'open-uri'
 
+  def broadcasting
+    bingo_cards.each do |bingo_card|
+      BingoCardChannel.broadcast_to(
+        bingo_card,
+        bingo_card.bingo_tiles
+      )
+    end
+  end
+
   def teams
     "#{team_1} vs #{team_2} - kickoff #{date_time.strftime("%d.%B %Y - %H:%Mh")}"
   end
