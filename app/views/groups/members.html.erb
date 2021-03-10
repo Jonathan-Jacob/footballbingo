@@ -18,7 +18,7 @@
     <%end%>
   <% if @group.user == current_user %>
       <%= simple_form_for([@group, @user_group], remote: true) do |f| %>
-      <%= f.association :user, label: "New teammember", collection: User.all.map { |user| [ user.id, user.nickname ] }, input_html: { class: 'select2 js-example-responsive' }, label_method: :second, value_method: :first %>
+      <%= f.association :user, label: "New team member", collection: User.all.map { |user| [ user.id, user.nickname ] }, input_html: { class: 'select2 js-example-responsive' }, label_method: :second, value_method: :first %>
       <%= f.submit "Add to team", class: "btn btn-greenstart" %>
       <% end %>
     <% end %>
