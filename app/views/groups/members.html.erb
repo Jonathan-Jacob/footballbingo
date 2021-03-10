@@ -1,32 +1,25 @@
 <div class="container-xl text-center" style="max-width: 310px;">
-  <h1 class="p-3 text-center"><%= @group.name %></h1>
-
-
-
+  <h1 class="p-3 text-center text-decoration-none"><%= link_to @group.name, @group %></h1>
   <h2 class="text-center px-3 mt-3">Team members</h2>
   <br>
     <% @group.users.each do |user| %>
       <div class="card-member">
-        <%= image_tag "Placeholder.jpg", class: "avatar-bordered-medium avatar-position" %>
+        <% if user.photo.attached? %>
+          <%= cl_image_tag user.photo.key, class: "avatar-bordered-medium avatar-position" %>
+        <% else %>
+         <%= image_tag "Placeholder.jpg", class: "avatar-bordered-medium avatar-position" %>
+        <% end %>
         <div class="card-member-infos">
           <p><%= user.nickname.capitalize %></p>
         </div>
       </div>
-    <br>
-    <br>
+      <br>
+      <br>
     <%end%>
-
- <% if @group.user == current_user %>
-      <%= simple_form_for [@group, @user_group] do |f| %>
-      <%= f.association :user, label: "New teammember", collection: User.all.map { |user| [ user.id, user.nickname ] }, label_method: :second, value_method: :first %>
-      <%= f.submit "Add to team", class: "btn btn-greenstart" %>
-      <% end %>
+  <% if @group.user == current_user %>
+    <%= simple_form_for [@group, @user_group] do |f| %>
+    <%= f.association :user, label: "New team member", collection: User.all.map { |user| [ user.id, user.nickname ] }, label_method: :second, value_method: :first %>
+    <%= f.submit "Add to team", class: "btn btn-greenstart" %>
     <% end %>
-
-
-
+  <% end %>
 </div>
-
-
-
-
