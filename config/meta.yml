@@ -1,0 +1,5 @@
+meta_product_name: "Football Bingo"
+meta_title: "Football Bingo"
+meta_description: "Watch Football! Tick the tiles! Win the bingo!"
+meta_image: "learn_more2.jpg" # should exist in `app/assets/images/`
+# twitter_account: "@product_twitter_account"   # required for Twitter Cards

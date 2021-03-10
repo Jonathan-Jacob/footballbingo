@@ -8,22 +8,19 @@ class Game < ApplicationRecord
   # validate :match_must_be_fresh
 
   def match_must_be_fresh
-    if too_late_to_start?
-      errors.add(:match, "has already started")
-    end
+    errors.add(:match, "has already started") if too_late_to_start?
   end
 
   def too_late_to_start?
-    self.match.status != "not_started" && self.match.date_time + 300 < Time.now.utc
+    match.status != "not_started" && match.date_time + 300 < Time.now.utc
   end
 
   def check_winners
     return winners if winners.present?
 
     BingoCard.where(game: self).each do |bingo_card|
-      Winner.create(game: bingo_card.game, user: bingo_card.user)
+      Winner.create(game: self, user: bingo_card.user) if bingo_card.bingo?
     end
-    save
     winners
   end
 end

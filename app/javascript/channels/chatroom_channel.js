@@ -2,8 +2,8 @@ import consumer from "./consumer";
 
 const pickMessageSide = () => {
  // let messages = document.querySelectorAll(".message-container");
- let messages = document.querySelectorAll(".message-container");
- let  container = document.getElementById("messages");
+  let messages = document.querySelectorAll(".message-container");
+  let container = document.getElementById("messages");
 
   if (messages.length > 0 && container) {
       // messages.forEach( (message) => {
@@ -32,6 +32,5 @@ const initChatroomCable = () => {
     });
   }
 }
-
 
 export { initChatroomCable };

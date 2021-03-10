@@ -17,8 +17,14 @@ class BingoCard < ApplicationRecord
     save
   end
 
+  def num_pending
+    BingoTile.where(bingo_card: self, status: "pending").count
+  end
+
   def bingo?
     card_tiles = BingoTile.where(bingo_card: self)
+    return false if card_tiles.count != 16
+
     return true if card_tiles[0].status == "accepted" && card_tiles[1].status == "accepted" && card_tiles[2].status == "accepted" && card_tiles[3].status == "accepted"
 
     return true if card_tiles[4].status == "accepted" && card_tiles[5].status == "accepted" && card_tiles[6].status == "accepted" && card_tiles[7].status == "accepted"

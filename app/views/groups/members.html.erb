@@ -1,5 +1,5 @@
 <div class="container-xl text-center" style="max-width: 310px;">
-  <h1 class="p-3 text-center text-decoration-none"><%= link_to @group.name, @group %></h1>
+  <h1 class="mt-3 team-link"><%= link_to @group.name, @group %></h1>
   <h2 class="text-center px-3 mt-3">Team members</h2>
   <br>
     <% @group.users.each do |user| %>
@@ -17,9 +17,9 @@
       <br>
     <%end%>
   <% if @group.user == current_user %>
-    <%= simple_form_for [@group, @user_group] do |f| %>
-    <%= f.association :user, label: "New team member", collection: User.all.map { |user| [ user.id, user.nickname ] }, label_method: :second, value_method: :first %>
-    <%= f.submit "Add to team", class: "btn btn-greenstart" %>
+      <%= simple_form_for([@group, @user_group], remote: true) do |f| %>
+      <%= f.association :user, label: "New teammember", collection: User.all.map { |user| [ user.id, user.nickname ] }, input_html: { class: 'select2' }, label_method: :second, value_method: :first %>
+      <%= f.submit "Add to team", class: "btn btn-greenstart" %>
+      <% end %>
     <% end %>
-  <% end %>
 </div>

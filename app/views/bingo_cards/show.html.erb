@@ -1,35 +1,35 @@
 <div class="bingo-container" style="padding: 0 clamp(0px, calc(40vw - 166px), 35vw)">
   <div class="before-grid">
+  <h6><%= "#{@game.match.team_1} vs #{@game.match.team_2}" %></h6>
   </div>
   <% if @bingo_tiles.count == 16 %>
     <div class="the-grid">
-      <div class="grid">
+      <div class="grid" id="grid" data-bingo-card-id="<%= @bingo_card.id %>">
         <% (0..15).each do |index| %>
           <div>
             <% bingo_tile = BingoTile.find_by(bingo_card: @bingo_card, position: index) %>
-            <%= link_to game_bingo_card_bingo_tile_path(@game, @bingo_card, bingo_tile), class: "bingo-tile #{bingo_tile.status}", method: "patch" do %>
+            <%= link_to game_bingo_card_bingo_tile_path(@game, @bingo_card, bingo_tile), class: "bingo-tile #{bingo_tile.status}", id: "bt-#{bingo_tile.match_event.id}", method: "patch" do %>
               <p style="font-size: clamp(12px, 3vw, 18px);"><%= bingo_tile.match_event.description %></p>
             <% end %>
           </div>          
         <% end %>
       </div>
+      <div class="container">
+        <div class="container-chat bingo-chat" id="messages" data-chatroom-id="<%= @bingo_card.game.chatroom.id %>">
+          <% @bingo_card.game.chatroom.messages.each do |message| %>
+            <%= render "messages/message", message: message %>
+          <% end %>
+        </div>
+        <%= simple_form_for [@bingo_card.game.chatroom, @message], remote: true do |f| %>
+        <%= f.input :content, label: false %>
+        <% end %>
+      </div>
     </div>
   <% else %>
-    <h3>Your Bingo card will be created before the game begins.</h3>
+    <h3 class="text-center">Your Bingo card will be created before the game begins.</h3>
   <% end %>
 
-  <div class="container">
-    <h3>Team-Chat</h3>
-    <div class="container-chat" id="messages" data-chatroom-id="<%= @bingo_card.game.chatroom.id %>">
-      <% @bingo_card.game.chatroom.messages.each do |message| %>
-        <%= render "messages/message", message: message %>
-      <% end %>
-    </div>
-    <br>
-    <%= simple_form_for [@bingo_card.game.chatroom, @message], remote: true do |f| %>
-    <%= f.input :content, label: false %>
-    <% end %>
-  </div>
+  
 
 
 </div>

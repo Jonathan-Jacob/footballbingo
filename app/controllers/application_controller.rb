@@ -20,6 +20,10 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:sign_up, keys: [:photo, :nickname])
   end
 
+  def default_url_options
+  { host: ENV["DOMAIN"] || "football.bingo" }
+  end
+
   private
 
   def skip_pundit?
