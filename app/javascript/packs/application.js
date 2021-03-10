@@ -36,4 +36,5 @@ document.addEventListener('turbolinks:load', () => {
   initFilter()
   initBingoCardCable();
   initChatroomCable();
+  $(".alert").fadeOut(8000); 
 });
