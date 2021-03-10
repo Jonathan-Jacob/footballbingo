@@ -16,6 +16,16 @@ class UpdateLivescoresWorker
           )
         end
       end
+      # match.games.each do |game|
+      #   game.bingo_cards.each do |bingo_card|
+      #     # if game.check_winners
+      #     BingoCardChannel.broadcast_to(
+      #       bingo_card,
+      #       ["winners"] + game.winners.map { |winner| winner.user.nickname }
+      #     )
+      #     # end
+      #   end
+      # end
     end
   end
 end

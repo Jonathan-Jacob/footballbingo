@@ -16,11 +16,11 @@ class Game < ApplicationRecord
   end
 
   def check_winners
-    return winners if winners.present?
+    return false if winners.present?
 
     BingoCard.where(game: self).each do |bingo_card|
       Winner.create(game: self, user: bingo_card.user) if bingo_card.bingo?
     end
-    winners
+    winners.present? ? true : false
   end
 end
