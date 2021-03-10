@@ -13,6 +13,10 @@ class Match < ApplicationRecord
     "#{team_1} vs #{team_2} - kickoff #{date_time.strftime("%d.%B %Y - %H:%Mh")}"
   end
 
+  def normal_time
+    date_time.strftime("%d.%B %Y - %H:%Mh")
+  end
+
   def self.update_matches
     Match.where("date_time < ?", start_date).destroy_all
     matches = read_matches
