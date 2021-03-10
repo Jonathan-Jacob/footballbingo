@@ -21,32 +21,25 @@
         <p class="text-center">New Game</p>
       </div>
       <div class="card-game form adapt d-flex justify-content-center align-items-center">
-        <div>
           <h1>
             <%= link_to new_group_game_path(@group) do %>
             <i class="fas fa-plus btn btn-plus"></i>
             <% end %>
           </h1>
-        </div>
       </div>
     </div>
   </div>
-
   <%= link_to "Show team members", members_group_path, class: "btn btn-team"  %>
-
   <!-- Group Chat Function -->
-  <br>
-  <br>
-  <div class="container">
-    <div class="container-chat" id="messages" data-chatroom-id="<%= @group.chatroom.id %>" data-current-user="<%= current_user.id %>">
+  <div class="container mt-3">
+    <div class="container-chat mb-1" id="messages" data-chatroom-id="<%= @group.chatroom.id %>" data-current-user="<%= current_user.id %>">
       <% @group.chatroom.messages.each do |message| %>
         <%= render "messages/message", message: message %>
       <% end %>
     </div>
-    <br>
-    <%= simple_form_for [@group.chatroom, @message ], remote: true do |f| %>
-      <%= f.input :content, label: false %>
-    <% end %>
+      <%= simple_form_for [@group.chatroom, @message ], remote: true do |f| %>
+        <%= f.input :content, label: false, placeholder: 'text your football buddies...'%>
+      <% end %>
   </div>
 </div>
 
