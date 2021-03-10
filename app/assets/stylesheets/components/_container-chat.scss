@@ -6,6 +6,11 @@
   height: 30vh;
   overflow: scroll;
   padding: 6px;
+  &.bingo-chat {
+    margin-top: 30px;
+    margin-bottom: 8px;
+    height: 15vh;
+  }
 }
 
 .user-message {

@@ -8,6 +8,14 @@ class UpdateLivescoresWorker
           # create chat message that an event has been reverted
         end
       end
+      match.bingo_cards.each do |bingo_card|
+        match.match_events.each do |match_event|
+          BingoCardChannel.broadcast_to(
+            bingo_card,
+            ["bt-#{match_event.id}", match_event.status]
+          )
+        end
+      end
     end
   end
 end
