@@ -17,12 +17,13 @@
   border: 1px solid black;
   border-radius: 4px;
   background-color: $light-gray;
+  margin: 4px;
   span {
     font-weight: bold;
     font-size: 12px;
   }
   p {
-    padding: 0 2px 2px 12px;
+    padding-left: 12px;
     text-align: left;
     color: $gray;
     border-radius: 8px;
