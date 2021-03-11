@@ -8,14 +8,13 @@ const initBingoCardCable = () => {
 
     consumer.subscriptions.create({ channel: "BingoCardChannel", id: id }, {
       received(data) {
-        console.log("ActionCable says ho!");
         console.log(data);
-        if (data[0] === "winners") {
+        if (data[0] == "bingo") {
           console.log("winner");
           swal({
-            title: "Bingo",
-            text: "Bingo",
-            icon: "success"
+            title: "Bingo!",
+            timer: 3500,
+            buttons: false
           })
         }
         else if (document.getElementById(data[0]) && document.getElementById(data[0]).classList.contains("pending")) {

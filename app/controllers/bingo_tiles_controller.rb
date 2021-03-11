@@ -21,6 +21,12 @@ class BingoTilesController < ApplicationController
         other_bingo_tile.save
       end
     end
+    if @game.check_winners
+      ChatroomChannel.broadcast_to(
+        @game.chatroom,
+        render_to_string(partial: "message_bot", locals: { game: @game })
+      )
+    end
     redirect_to game_bingo_card_path(@game, @bingo_tile.bingo_card)
   end
 

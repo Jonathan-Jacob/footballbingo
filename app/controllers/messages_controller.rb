@@ -15,7 +15,7 @@ class MessagesController < ApplicationController
         )
         redirect_to group_path(@chatroom.group, anchor: "message-#{@message.id}")
       else
-        ender "groups/show"
+        render "groups/show"
       end
     else
       if @message.save

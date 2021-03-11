@@ -10,6 +10,13 @@ class BingoCardsController < ApplicationController
     @bingo_card = BingoCard.find(params[:id])
     authorize @bingo_card
     @bingo_tiles = BingoTile.where(bingo_card: @bingo_card)
+    if @bingo_card.new_bingo?
+      BingoCardChannel.broadcast_to(
+        @bingo_card,
+        ["bingo"]
+      )
+      sleep(3)
+    end
   end
 
   def create

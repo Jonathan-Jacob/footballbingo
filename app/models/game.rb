@@ -19,7 +19,7 @@ class Game < ApplicationRecord
     return false if winners.present?
 
     BingoCard.where(game: self).each do |bingo_card|
-      Winner.create(game: self, user: bingo_card.user) if bingo_card.bingo?
+      Winner.create(game: self, user: bingo_card.user) if bingo_card.status == "bingo"
     end
     winners.present? ? true : false
   end

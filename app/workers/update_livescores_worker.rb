@@ -15,17 +15,21 @@ class UpdateLivescoresWorker
             ["bt-#{match_event.id}", match_event.status]
           )
         end
+        if bingo_card.new_bingo?
+          BingoCardChannel.broadcast_to(
+            bingo_card,
+            ["bingo"]
+          )
+        end
       end
-      # match.games.each do |game|
-      #   game.bingo_cards.each do |bingo_card|
-      #     # if game.check_winners
-      #     BingoCardChannel.broadcast_to(
-      #       bingo_card,
-      #       ["winners"] + game.winners.map { |winner| winner.user.nickname }
-      #     )
-      #     # end
-      #   end
-      # end
+      match.games.each do |game|
+        if game.check_winners
+          ChatbotChannel.broadcast_to(
+            game.chatroom,
+            render_to_string(partial: "message_bot", locals: { game: game })
+          )
+        end
+      end
     end
   end
 end
