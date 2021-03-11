@@ -20,7 +20,7 @@
             <%= render "messages/message", message: message %>
           <% end %>
         </div>
-        <%= simple_form_for [@bingo_card.game.chatroom, @message], remote: true do |f| %>
+        <%= simple_form_for [@bingo_card.game.chatroom, @message] do |f| %>
         <%= f.input :content, label: false %>
         <% end %>
       </div>

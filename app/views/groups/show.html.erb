@@ -30,7 +30,7 @@
         <%= render "messages/message", message: message %>
       <% end %>
     </div>
-      <%= simple_form_for [@group.chatroom, @message ], remote: true do |f| %>
+      <%= simple_form_for [@group.chatroom, @message ] do |f| %>
         <%= f.input :content, label: false, placeholder: 'text your football buddies...'%>
       <% end %>
   </div>

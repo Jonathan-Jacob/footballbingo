@@ -13,7 +13,6 @@ class MessagesController < ApplicationController
           @chatroom,
           render_to_string(partial: "message", locals: { message: @message })
         )
-        redirect_to group_path(@chatroom.group, anchor: "message-#{@message.id}")
       else
         render "groups/show"
       end
@@ -23,7 +22,6 @@ class MessagesController < ApplicationController
           @chatroom,
           render_to_string(partial: "message", locals: { message: @message })
         )
-        redirect_to game_bingo_card_path(@chatroom.game, @bingo_card, anchor: "message-#{@message.id}")
       else
         render "bingo_cards/show"
       end
