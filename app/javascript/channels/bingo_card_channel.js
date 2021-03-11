@@ -14,7 +14,8 @@ const initBingoCardCable = () => {
           swal({
             title: "⚽",
             text: "Bingo!",
-            buttons: false
+            buttons: false,
+            timer: 5000
           });
         }
         else if (document.getElementById(data[0]) && document.getElementById(data[0]).classList.contains("pending")) {

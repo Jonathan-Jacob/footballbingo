@@ -1,6 +1,8 @@
 class BingoTilesController < ApplicationController
   before_action :set_game
 
+  include ActionView::Helpers::TextHelper
+
   def show
     @bingo_tile = BingoTile.find(params[:id])
     @bingo_tiles = @bingo_card.bingo_tiles
@@ -33,25 +35,31 @@ class BingoTilesController < ApplicationController
         end
         other_bingo_tile.save
       end
+
+      if bingo_card.new_bingo?
+        BingoCardChannel.broadcast_to(
+          bingo_card,
+          ["bingo"]
+        )
+        sleep(5) if bingo_card == @bingo_card
+      end
     end
 
     #WIP
-    if @game.check_winners
-      @message = Message.new
-      Message.create
+    if (names = @game.winners?)
+      content = "Congratulations to the #{pluralize(@game.winners.count, 'winner')}: #{names.sort.to_sentence}!"
+      message = Message.new(chatroom: @game.chatroom, user: User.find_by(nickname: "BingoBot"), content: content)
+      if message.save
+        ChatroomChannel.broadcast_to(
+          @game.chatroom,
+          render_to_string(partial: "messages/message", locals: { message: message })
+        )
+      end
     end
 
     #needed for rendering bingo_card show
     @bingo_tiles = @bingo_card.bingo_tiles
     @message = Message.new
-
-    if @bingo_card.new_bingo?
-      BingoCardChannel.broadcast_to(
-        @bingo_card,
-        ["bingo"]
-      )
-      sleep(5)
-    end
 
     render 'bingo_cards/show'
   end

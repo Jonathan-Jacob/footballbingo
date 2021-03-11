@@ -1,5 +1,6 @@
 class UpdateLivescoresWorker
   include Sidekiq::Worker
+  include ActionView::Helpers::TextHelper
 
   def perform
     Match.update_livescores.each do |match|
@@ -23,11 +24,15 @@ class UpdateLivescoresWorker
         end
       end
       match.games.each do |game|
-        if game.check_winners
-          ChatbotChannel.broadcast_to(
-            game.chatroom,
-            render_to_string(partial: "message_bot", locals: { game: game })
-          )
+        if (names = game.winners?)
+          content = "Congratulations to the #{pluralize(game.winners.count, 'winner')}: #{names.sort.to_sentence}!"
+          message = Message.new(chatroom: game.chatroom, user: User.find_by(nickname: "BingoBot"), content: content)
+          if message.save
+            ChatroomChannel.broadcast_to(
+              game.chatroom,
+              render_to_string(partial: "messages/message", locals: { message: message })
+            )
+          end
         end
       end
     end
