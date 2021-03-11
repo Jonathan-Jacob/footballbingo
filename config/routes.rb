@@ -29,7 +29,7 @@ Rails.application.routes.draw do
   resources :matches, only: [:index]
   resources :games, only: [:show, :new, :create] do
     resources :bingo_cards, only: [:show, :create, :index] do
-      resources :bingo_tiles, only: [:update]
+      resources :bingo_tiles, only: [:show, :update]
     end
   end
 

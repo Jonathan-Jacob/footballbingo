@@ -10,3 +10,27 @@
   color: white;
   border-radius: 4px;
 }
+
+.swal-overlay {
+  background-color: $football-green;
+}
+
+.swal-modal {
+  background-color: $football-green;
+  border: none;
+}
+
+.swal-text {
+  font-size: 96px;
+  font-family: $headers-font;
+  color: white;
+  &:last-child {
+    margin-bottom: 145px;
+  }
+}
+
+.swal-title {
+  font-size: 144px;
+  font-family: $headers-font;
+  color: white;
+}
