@@ -15,18 +15,11 @@
         <% end %>
       <% end %>
     <% end %>
-    <!-- New Game Button -->
+      <!-- New Game Button -->
     <div class="card-dashboard">
-      <div class="card-groupname">
-        <p class="text-center">New Game</p>
-      </div>
-      <div class="card-game form adapt d-flex justify-content-center align-items-center">
-          <h1>
-            <%= link_to new_group_game_path(@group) do %>
-            <i class="fas fa-plus btn btn-plus"></i>
-            <% end %>
-          </h1>
-      </div>
+      <%= link_to new_group_game_path(@group) do %>
+        <i class="fas fa-plus fa-3x btn btn-plus"></i>
+      <% end %>
     </div>
   </div>
   <%= link_to "Show team members", members_group_path, class: "btn btn-team"  %>
@@ -41,5 +34,6 @@
         <%= f.input :content, label: false, placeholder: 'text your football buddies...'%>
       <% end %>
   </div>
+  <%= link_to "Back to Dashboard", dashboard_path, class: "btn btn-greenstart"  %>
 </div>
 

@@ -30,6 +30,10 @@ body, h2, h3 {
 
 .card-dashboard {
   // width: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   background-color: white;
   opacity: 0.8;
   border-radius: 8px;
@@ -57,7 +61,13 @@ body, h2, h3 {
   font-size: 1.5em;
   margin: auto 0px;
   color:$football-green;
+  width: 100%;
+
 }
+
+.card-groupname > p {
+    margin: 0;
+  }
 
 .card-game {
   font-weight: bold;

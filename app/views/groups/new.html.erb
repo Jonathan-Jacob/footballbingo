@@ -3,7 +3,7 @@
   <h1>New team</h1>
   <br>
   <%= simple_form_for @group, html: {multipart: true} do |f| %>
-    <%= f.input :name, label: "Enter group name" %>
+    <%= f.input :name, label: "Enter team name" %>
     <%# <%= f.association :user, collection: User.all.map { |user| user.nickname }, label: "Add user" %>
     <%= f.submit 'New team', class: "btn btn-greenstart mt-2" %>
   <% end %>
