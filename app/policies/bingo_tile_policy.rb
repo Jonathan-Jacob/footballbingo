@@ -5,6 +5,10 @@ class BingoTilePolicy < ApplicationPolicy
     end
   end
 
+  def show?
+    record.bingo_card.user == @user
+  end
+
   def update?
     record.bingo_card.user == @user
   end

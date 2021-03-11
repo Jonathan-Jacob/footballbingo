@@ -15,12 +15,18 @@ class Game < ApplicationRecord
     match.status != "not_started" && match.date_time + 300 < Time.now.utc
   end
 
-  def check_winners
-    return winners if winners.present?
+  def winners?
+    return false if winners.present?
 
+    won = false
+    names = []
     BingoCard.where(game: self).each do |bingo_card|
-      Winner.create(game: self, user: bingo_card.user) if bingo_card.bingo?
+      if bingo_card.status == "bingo"
+        Winner.create(game: self, user: bingo_card.user)
+        won = true
+        names.push(bingo_card.user.nickname)
+      end
     end
-    winners
+    won ? names : nil
   end
 end

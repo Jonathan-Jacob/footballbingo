@@ -6,6 +6,7 @@ class BingoCardsController < ApplicationController
   end
 
   def show
+    # raise
     @message = Message.new
     @bingo_card = BingoCard.find(params[:id])
     authorize @bingo_card
