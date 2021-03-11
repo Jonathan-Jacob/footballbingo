@@ -1,9 +1,0 @@
-<div class="message-container" id="message-<%= message.id %>" data-sender-id="message.user.id">
-  <div class="user-message" style="color: $football-green">
-    <i class="author">
-      <span>BingoBot</span>
-      <small><%= DateTime.now.strftime("%a %b %e at %l:%M%p") %></small>
-    </i>
-    <p class="mb-0"><%= "Congratulations to the #{pluralize(game.winners.count, "winner")}: #{game.winners.map { |winner| winner.user.nickname }.order.to_sentence}!" %></p>
-  </div>
-</div>
