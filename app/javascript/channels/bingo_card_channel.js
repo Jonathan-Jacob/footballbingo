@@ -10,12 +10,12 @@ const initBingoCardCable = () => {
       received(data) {
         console.log(data);
         if (data[0] == "bingo") {
-          console.log("winner");
+          console.log("bingo!");
           swal({
-            title: "Bingo!",
-            timer: 3500,
+            title: "⚽",
+            text: "Bingo!",
             buttons: false
-          })
+          });
         }
         else if (document.getElementById(data[0]) && document.getElementById(data[0]).classList.contains("pending")) {
           if (data[1] == "happened") {

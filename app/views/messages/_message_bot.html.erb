@@ -1,5 +1,5 @@
-<div class="message-container" id="bot-<%= game.id %>" data-sender-id="0">
-  <div class="user-message">
+<div class="message-container" id="message-<%= message.id %>" data-sender-id="message.user.id">
+  <div class="user-message" style="color: $football-green">
     <i class="author">
       <span>BingoBot</span>
       <small><%= DateTime.now.strftime("%a %b %e at %l:%M%p") %></small>
