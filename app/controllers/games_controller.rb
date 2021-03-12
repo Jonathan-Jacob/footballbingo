@@ -40,12 +40,13 @@ class GamesController < ApplicationController
     @game = Game.new(game_params)
     @game.group = @group
     authorize @game
-    @chatroom = Chatroom.new()
+    @chatroom = Chatroom.new
     @chatroom.save
     @game.chatroom = @chatroom
     if @game.save
       @bingo_card = BingoCard.new(user: current_user, game: @game)
       authorize @bingo_card
+      @bingo_card.save
       @bingo_card.populate
       redirect_to group_path(@group)
     else

@@ -15,8 +15,13 @@ const updateMatches = (event) => {
          const day = match_date.getDate()
          const monthIndex = match_date.getMonth()
          const hours = match_date.getHours()
+         const minutes = match_date.getMinutes()
          const years = 1900 + match_date.getYear()
-         optionsHtml += `<option value="${match.id}">${match.team_1} vs ${match.team_2} - ${day}.${months[monthIndex]} ${years} at ${hours}H</option>`
+         const buffer = ""
+         if (minutes < 10){
+           buffer = "0"
+         }
+         optionsHtml += `<option value="${match.id}">${match.team_1} vs ${match.team_2} - ${day}.${months[monthIndex]} ${years} at ${hours}:${buffer}${minutes}h</option>`
        });
        matchesInput.innerHTML = optionsHtml
      }

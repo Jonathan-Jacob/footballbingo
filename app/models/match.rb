@@ -19,7 +19,7 @@ class Match < ApplicationRecord
   end
 
   def teams
-    "#{team_1} vs #{team_2} - kickoff #{date_time.strftime("%d.%B %Y - %H:%Mh")}"
+    "#{team_1} vs #{team_2} - kickoff #{normal_time}"
   end
 
   def normal_time
