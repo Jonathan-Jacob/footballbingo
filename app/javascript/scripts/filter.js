@@ -17,7 +17,7 @@ const updateMatches = (event) => {
          const hours = match_date.getHours()
          const minutes = match_date.getMinutes()
          const years = 1900 + match_date.getYear()
-         const buffer = ""
+         let buffer = ""
          if (minutes < 10){
            buffer = "0"
          }
