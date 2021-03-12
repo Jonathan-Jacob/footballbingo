@@ -6,6 +6,9 @@
   align-items: center;
   justify-content: center;
   // background-image: url(images/scr_field.jpeg);
+  h2, h3 {
+    font-family: $headers-font
+  }
 }
 
 .before-grid {
