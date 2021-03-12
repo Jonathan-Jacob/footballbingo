@@ -4,7 +4,7 @@
   <!-- Games Grid with New Game Button at end -->
   <div class="cards-dashboard">
 
-    <% @group.games.each do |game| %>
+    <% @group.games.sort_by { |game| game.match.team_1 }.sort_by { |game| game.match.date_time }.each do |game| %>
       <% if BingoCard.find_by(game: game, user: current_user) %>
         <%= link_to game_bingo_card_path(game, BingoCard.find_by(game: game, user: current_user)), class: "dashboard-link" do %>
           <%= render "card_game_new", game: game %>
@@ -30,7 +30,7 @@
         <%= render "messages/message", message: message %>
       <% end %>
     </div>
-      <%= simple_form_for [@group.chatroom, @message ] do |f| %>
+      <%= simple_form_for [@group.chatroom, @message ], remote: true do |f| %>
         <%= f.input :content, label: false, placeholder: 'text your football buddies...'%>
       <% end %>
   </div>

@@ -1,6 +1,6 @@
 <div class="bingo-container" id="bingo-container" style="padding: 0 clamp(0px, calc(40vw - 166px), 35vw)">
   <div class="before-grid">
-    <h4><%= link_to "#{@game.match.team_1} vs #{@game.match.team_2}", group_path(@game.group_id), class: "dashboard-link"%></h4>
+    <h3><%= link_to "#{@game.match.team_1} vs #{@game.match.team_2}", group_path(@game.group_id), class: "dashboard-link"%></h3>
   </div>
   <% if @bingo_tiles.count == 16 %>
     <div class="the-grid">
@@ -20,13 +20,15 @@
             <%= render "messages/message", message: message %>
           <% end %>
         </div>
-        <%= simple_form_for [@bingo_card.game.chatroom, @message] do |f| %>
+        <%= simple_form_for [@bingo_card.game.chatroom, @message], remote: true do |f| %>
         <%= f.input :content, label: false %>
         <% end %>
       </div>
     </div>
   <% else %>
-    <h3 class="text-center">Your Bingo card will be created before the game begins.</h3>
+    <br><br><br>
+    <h4 class="text-center">Your Bingo card will be created before the game begins.</h3>
+    <br><br><br>
   <% end %>
   <%= link_to "Back to Team", group_path(@bingo_card.game.group), class: "btn btn-team"  %>
 </div>
