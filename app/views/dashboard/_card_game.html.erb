@@ -4,7 +4,7 @@
       <p> <%= bingo_card.game.group.name %> </p>
     </div>
     <div class="card-game">
-      <h6 style="margin-bottom: 12px"> <%= bingo_card.game.group.user_groups.count %> Players </h6>
+      <h6 style="margin-bottom: 12px"> <%= pluralize(bingo_card.game.bingo_cards.count, "Player") %></h6>
       <p> <%= bingo_card.game.match.team_1 %>  </p>
       <div class="d-flex justify-content-center align-items-center m-1">
         <i class="fas fa-tshirt shirt-shadow" style="color: <%= bingo_card.game.match.home_color %>;"></i>

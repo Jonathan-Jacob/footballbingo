@@ -1,7 +1,7 @@
 class Game < ApplicationRecord
   belongs_to :match
   belongs_to :group
-  belongs_to :chatroom
+  belongs_to :chatroom, dependent: :destroy
   has_many :bingo_cards, dependent: :destroy
   has_many :winners, dependent: :destroy
   validates :match, uniqueness: { scope: :group, message: 'is already in group' }
