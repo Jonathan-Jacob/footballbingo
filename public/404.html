@@ -20,10 +20,13 @@
 
   .rails-default-error-page div.dialog > div {
     border: 1px solid #CCC;
-    border-right-color: #999;
-    border-left-color: #999;
+    border-right-color: #2f6e25;
+    border-left-color: #2f6e25;
     border-bottom-color: #BBB;
-    border-top: #B00100 solid 4px;
+    border-top: #2f6e25 solid 8px;
+    border-bottom:#2f6e25 solid 8px;
+    border-left:#2f6e25 solid 8px;
+    border-right:#2f6e25 solid 8px;
     border-top-left-radius: 9px;
     border-top-right-radius: 9px;
     background-color: white;
@@ -32,9 +35,17 @@
   }
 
   .rails-default-error-page h1 {
-    font-size: 100%;
-    color: #730E15;
+    font-size: 50px;
+    color: #2f6e25;
     line-height: 1.5em;
+    font-weight: bold;
+  }
+
+   .rails-default-error-page h2, p {
+    font-size: 25px;
+    color: #2f6e25;
+    line-height: 1.5em;
+    font-weight: bold;
   }
 
   .rails-default-error-page div.dialog > p {
@@ -50,18 +61,22 @@
     border-top-color: #DADADA;
     color: #666;
     box-shadow: 0 3px 8px rgba(50, 50, 50, 0.17);
+    font-size: 15px;
   }
   </style>
 </head>
 
 <body class="rails-default-error-page">
   <!-- This file lives in public/404.html -->
-  <div class="dialog">
-    <div>
-      <h1>The page you were looking for doesn't exist.</h1>
+    <div class="dialog">
+      <div>
+        <h1>&#x26BD 404 &#x26BD</h1>
+        <h2> PAGE DOES NOT EXIST! </h2>
+        <p> YOU BETTER GO BACK AND PLAY SOME FOOTBALL BINGO! </p>
+      </div>
       <p>You may have mistyped the address or the page may have moved.</p>
     </div>
-    <p>If you are the application owner check the logs for more information.</p>
-  </div>
 </body>
 </html>
+
+
