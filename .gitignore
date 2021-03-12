@@ -41,3 +41,11 @@ yarn-debug.log*
 .DS_Store
 # Ignore Redis dump
 dump.rdb
+
+# Ignore SSL key
+server.crt
+server.csr
+server.key
+server.pass.key
+www_football_bingo.ca-bundle
+www_football_bingo.crt
