@@ -110,7 +110,7 @@ class Match < ApplicationRecord
             data_hash[:away_players][:"a#{player_data[:number]}"] = player_data[:player_name]
             data_hash[:goals][:away_players][:"a#{player_data[:number]}"] = player_data[:stats][:goals][:scored].nil? ? 0 : player_data[:stats][:goals][:scored]
             if player_data[:type] == 'bench' && data_hash[:goals][:home_players][:"h#{player_data[:number]}"].present?
-              joker_goals_away += data_hash[:goals][:home_players][:"h#{player_data[:number]}"]
+              joker_goals_away += data_hash[:goals][:away_players][:"a#{player_data[:number]}"]
             end
             data_hash[:assists][:away_players][:"a#{player_data[:number]}"] = player_data[:stats][:goals][:assists].nil? ? 0 : player_data[:stats][:goals][:assists]
             data_hash[:fouls][:away_players][:"a#{player_data[:number]}"] = player_data[:stats][:fouls][:committed].nil? ? 0 : player_data[:stats][:fouls][:committed]
@@ -140,9 +140,9 @@ class Match < ApplicationRecord
         data_hash[:joker_goals][:home] = joker_goals_home
         data_hash[:joker_goals][:away] = joker_goals_away
         data_hash[:joker_goals][:all] = joker_goals_home + joker_goals_away
-        data_hash[:goals][:home] = goals_home
-        data_hash[:goals][:away] = goals_away
-        data_hash[:goals][:all] = goals_home + goals_away
+        data_hash[:goals][:home] = goals_home + own_goals_away
+        data_hash[:goals][:away] = goals_away + own_goals_home
+        data_hash[:goals][:all] = goals_home + goals_away + own_goals_away + own_goals_home
         data_hash[:fouls][:home] = fouls_home
         data_hash[:fouls][:away] = fouls_away
         data_hash[:fouls][:all] = fouls_home + fouls_away
