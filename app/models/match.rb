@@ -18,6 +18,10 @@ class Match < ApplicationRecord
     end
   end
 
+  def start_possible?
+    status == "not_started" || date_time + 300 >= Time.now.utc
+  end
+
   def teams
     "#{team_1} vs #{team_2} - kickoff #{normal_time}"
   end
@@ -30,8 +34,7 @@ class Match < ApplicationRecord
     Match.where("date_time < ?", start_date).destroy_all
     matches = read_matches
     if matches[:data].present?
-      matches[:data].each do |match_json|
-        
+      matches[:data].each do |match_json|        
         if (match = Match.find_by(api_id: match_json[:id]))
           home_color = match_json[:colors].present? && match_json[:colors][:localteam].present? && match_json[:colors][:localteam][:color].present? ? match_json[:colors][:localteam][:color] : match.home_color
           away_color = match_json[:colors].present? && match_json[:colors][:visitorteam].present? && match_json[:colors][:visitorteam][:color].present? ? match_json[:colors][:visitorteam][:color] : match.away_color
@@ -41,6 +44,7 @@ class Match < ApplicationRecord
                        home_color: home_color,
                        away_color: away_color,
                        date_time: DateTime.strptime(match_json[:time][:starting_at][:date_time], '%Y-%m-%d %H:%M:%S'))
+          match.update_status(match_json[:time][:status])
         else
           home_color = match_json[:colors].present? && match_json[:colors][:localteam].present? && match_json[:colors][:localteam][:color].present? ? match_json[:colors][:localteam][:color] : "#AAAAAA"
           away_color = match_json[:colors].present? && match_json[:colors][:visitorteam].present? && match_json[:colors][:visitorteam][:color].present? ? match_json[:colors][:visitorteam][:color] : "#AAAAAA"
@@ -51,8 +55,8 @@ class Match < ApplicationRecord
                        home_color: home_color,
                        away_color: away_color,
                        date_time: DateTime.strptime(match_json[:time][:starting_at][:date_time], '%Y-%m-%d %H:%M:%S'))
+          match.update_status(match_json[:time][:status])
         end
-        match.update_status(match_json[:time][:status])
       end
     end
   end
@@ -161,6 +165,7 @@ class Match < ApplicationRecord
         data_hash[:red][:all] = data_hash[:red][:home] + data_hash[:red][:away]
         match.data = data_hash.to_json
         match.save
+        match.update_status(api_data[:time][:status])
         live_matches.push(match)
       end
     end
@@ -205,9 +210,9 @@ class Match < ApplicationRecord
   end
 
   def update_status(status)
-    not_started = %w[NS POSTP DELAYED TBA]
+    not_started = %w[NS DELAYED]
     ongoing = %w[LIVE HT ET PEN_LIVE BREAK INT ABAN SUSP]
-    finished = %w[FT AET FT_PEN CANCL AWARDED WO Deleted]
+    finished = %w[FT AET FT_PEN CANCL AWARDED WO POSTP Deleted]
     if not_started.include?(status)
       self.status = "not_started"
     elsif ongoing.include?(status)

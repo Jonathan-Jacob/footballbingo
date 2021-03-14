@@ -24,7 +24,7 @@ class GamesController < ApplicationController
     authorize Game.new
     competition = Competition.find(params[:competition_id])
     render json: {
-      matches: competition.matches
+      matches: competition.matches.order(:date_time).to_a.select(&:start_possible?)
     }
   end
 

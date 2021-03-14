@@ -2,7 +2,7 @@
   <%= render "choose_competition", group: @group, game: @game %>
   <div class="px-3">
     <%= simple_form_for [@group, @game] do |f| %>
-      <%= f.association :match, collection: Match.order(:date_time), label: "Choose a match", label_method: :teams %>
+      <%= f.association :match, collection: Match.order(:date_time).to_a.select(&:start_possible?), label: "Choose a match", label_method: :teams %>
       <%= f.submit 'Create Game', class: "btn btn-greenstart" %>
     <% end %>
   </div>
