@@ -26,9 +26,7 @@
       </div>
     </div>
   <% else %>
-    <br><br><br>
-    <h4 class="text-center">Your Bingo card will be created before the game begins.</h3>
-    <br><br><br>
+    <h4 class="text-center" style="margin-top: 25vh; margin-bottom: 25vh"> Your Bingo card will be created before the game begins.</h3>
   <% end %>
   <%= link_to "Back to Team", group_path(@bingo_card.game.group), class: "btn btn-team"  %>
 </div>

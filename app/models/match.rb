@@ -50,7 +50,7 @@ class Match < ApplicationRecord
                        api_id: match_json[:id],
                        home_color: home_color,
                        away_color: away_color,
-                       date_time: DateTime.strptime(match_json[:time][:starting_at][:date_time], '%Y-%m-%d %H:%M:%S'))
+                       date_time: DateTime.strptime(match_json[:time][:starting_at][:date_time], '%Y-%m-%d %H:%M:%S')) if Competition.find_by(api_id: match_json[:league_id])
         end
         match.update_status(match_json[:time][:status])
       end
