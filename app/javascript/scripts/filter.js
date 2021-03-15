@@ -7,17 +7,14 @@ const updateMatches = (event) => {
   if (event.currentTarget.value === ""){
     competition_query = "";
   }
-  console.log(competition_query)
   Rails.ajax({
     type: "GET",
     url: "/competition_matches",
     data: competition_query,
     success: (data) => {
-      console.log(data);
       let optionsHtml = '<option value=""></option>'
       data.matches.forEach((match) => {
         const match_date = new Date(match.date_time)
-        console.log(match_date)
         const day = match_date.getDate()
         const monthIndex = match_date.getMonth()
         const hours = match_date.getHours()
