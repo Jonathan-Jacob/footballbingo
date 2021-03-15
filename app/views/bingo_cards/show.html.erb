@@ -1,12 +1,12 @@
 <div class="bingo-container" id="bingo-container" style="padding: 0 clamp(0px, calc(40vw - 166px), 35vw)">
   <div class="before-grid">
-    <h3><%= link_to "#{@game.match.team_1} vs #{@game.match.team_2}", group_path(@game.group_id), class: "dashboard-link"%></h3>
+    <h2><%= link_to "#{@game.match.team_1} vs #{@game.match.team_2}", group_path(@game.group_id), class: "dashboard-link"%></h2>
   </div>
   <% if @bingo_tiles.count == 16 %>
     <div class="the-grid">
       <div class="grid" id="grid" data-bingo-card-id="<%= @bingo_card.id %>">
         <% (0..15).each do |index| %>
-          <div>
+          <div class="grid-item">
             <% bingo_tile = BingoTile.find_by(bingo_card: @bingo_card, position: index) %>
             <%= link_to game_bingo_card_bingo_tile_path(@game, @bingo_card, bingo_tile), class: "bingo-tile #{bingo_tile.status}", id: "bt-#{bingo_tile.match_event.id}", method: "patch", remote: true do %>
               <p style="font-size: clamp(12px, 3vw, 18px);"><%= bingo_tile.match_event.description %></p>
@@ -14,22 +14,23 @@
           </div>
         <% end %>
       </div>
-      <div class="container">
-        <div class="container-chat bingo-chat" id="messages" data-chatroom-id="<%= @bingo_card.game.chatroom.id %>">
-          <% @bingo_card.game.chatroom.messages.each do |message| %>
-            <%= render "messages/message", message: message %>
-          <% end %>
-        </div>
-        <%= simple_form_for [@bingo_card.game.chatroom, @message], remote: true do |f| %>
-        <%= f.input :content, label: false %>
-        <% end %>
-      </div>
     </div>
-  <% else %>
-    <br><br><br>
-    <h4 class="text-center">Your Bingo card will be created before the game begins.</h3>
-    <br><br><br>
+  </div>
+<% else %>
+  <h4 class="text-center" style="margin-top: 25vw; margin-bottom: 25vw">Your Bingo card will be created before the game begins.</h3>
+<% end %>
+<div>
+  <div class="container text-center my-3">
+    <div class="container-chat bingo-chat" id="messages" data-chatroom-id="<%= @bingo_card.game.chatroom.id %>">
+      <% @bingo_card.game.chatroom.messages.each do |message| %>
+        <%= render "messages/message", message: message %>
+      <% end %>
+    </div>    
+    <%= simple_form_for [@bingo_card.game.chatroom, @message], remote: true, html: { autocomplete: 'off' } do |f| %>
+    <%= f.input :content, label: false %>
   <% end %>
   <%= link_to "Back to Team", group_path(@bingo_card.game.group), class: "btn btn-team"  %>
+  </div>
 </div>
+
 
