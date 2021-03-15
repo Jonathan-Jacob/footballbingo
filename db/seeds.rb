@@ -22,10 +22,9 @@ competition_seed_data = [
   [72, 'Eredivisie', 'NED'],
   [82, 'Bundesliga', 'GER'],
   [85, '2. Bundesliga', 'GER'],
+  [109, 'DFB-Pokal', 'GER'],
   [181, 'Tipico Bundesliga', 'AUT'],
-  [262, 'Fortuna Liga', 'CZE'],
   [301, 'Ligue 1', 'FRA'],
-  [325, 'Super League', 'GRE'],
   [384, 'Serie A', 'ITA'],
   [387, 'Serie B', 'ITA'],
   [462, 'Primeira Liga', 'POR'],
@@ -34,6 +33,7 @@ competition_seed_data = [
   [591, 'Super League', 'SUI'],
   [600, 'Süper Lig', 'TUR'],
   [732, 'World Cup', 'FIFA'],
+  [779, 'Major League Soccer', 'USA'],
   [1326, 'European Championship', 'UEFA']
 ]
 competition_seed_data.each do |data|
