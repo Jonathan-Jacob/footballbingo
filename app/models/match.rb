@@ -82,13 +82,15 @@ class Match < ApplicationRecord
     return if Match.count < 1
 
     live_matches = []
-    raw_data = read_matches
+    raw_data = read_events
     raw_data[:data].each do |api_data|
       if (match = Match.find_by(api_id: api_data[:id]))
         match.init_data unless match.data.present?
         data_hash = JSON.parse(match.data, symbolize_names: true)
         home_id = api_data[:localteam_id]
         away_id = api_data[:visitorteam_id]
+        data_hash[:home_id] = home_id
+        data_hash[:away_id] = away_id
         woodwork_home = 0
         woodwork_away = 0
         penalties_scored_home = 0
@@ -192,8 +194,7 @@ class Match < ApplicationRecord
   def self.read_matches
     pages = 0
     json = {}
-    # api_url = "https://soccer.sportmonks.com/api/v2.0/fixtures/between/#{start_date}/#{end_date}?api_token=#{ENV["SPORTMONKS_URL"]}&include=localTeam,visitorTeam,league,deleted=1"
-    api_url = "https://soccer.sportmonks.com/api/v2.0/fixtures/between/2021-01-01/2021-03-14?api_token=#{ENV["SPORTMONKS_URL"]}&include=localTeam,visitorTeam,league,deleted=1,events,lineup,bench,stats"
+    api_url = "https://soccer.sportmonks.com/api/v2.0/fixtures/between/#{start_date}/#{end_date}?api_token=#{ENV["SPORTMONKS_URL"]}&include=localTeam,visitorTeam,league,deleted=1"
     open(api_url) do |stream|
       json = JSON.parse(stream.read, symbolize_names: true)
       pages = json[:meta][:pagination][:total_pages]
