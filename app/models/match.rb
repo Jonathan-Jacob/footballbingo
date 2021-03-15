@@ -45,6 +45,20 @@ class Match < ApplicationRecord
     end
   end
 
+  def self.write_csv
+    CSV.open('matches.csv', 'wb') do |csv|
+      csv << ['competition_id', 'competition_name', 'date', 'team_1_id', 'team_2_id', 'team_1_name', 'team_2_name', 'color_1', 'color_2', 'goals', 'fouls', 'yellow', 'yellow_red', 'red', 'penalties_scored', 'penalties_saved', 'woodwork', 'own_goals', 'joker_goals']
+      Match.all.each do |match|
+        data_hash = match.data.present? ? JSON.parse(match.data, symbolize_names: true) : nil
+        if data_hash.present? && data_hash[:home_id].present? && data_hash[:away_id].present?
+          csv << [match.competition.api_id, match.competition.name, match.date_time, data_hash[:home_id], data_hash[:away_id], match.team_1, match.team_2, match.home_color, match.away_color, data_hash[:goals][:all], data_hash[:fouls][:all], data_hash[:yellow][:all], data_hash[:yellow_red][:all], data_hash[:red][:all], data_hash[:penalties_scored][:all], data_hash[:penalties_saved][:all], data_hash[:woodwork][:all], data_hash[:own_goals][:all], data_hash[:joker_goals][:all]]
+        else
+          csv << [match.competition.api_id, match.competition.name, match.date_time]
+        end
+      end
+    end
+  end
+
   def self.update_matches
     Match.where("date_time < ?", start_date).destroy_all
     matches = read_matches
@@ -243,6 +257,8 @@ class Match < ApplicationRecord
 
   def init_data
     data_hash = {
+      home_id: "",
+      away_id: "",
       home_players: {},
       away_players: {},
       goals: {
