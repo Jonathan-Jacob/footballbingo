@@ -8,6 +8,7 @@ class Match < ApplicationRecord
 
   require 'json'
   require 'open-uri'
+  require 'csv'
 
   def broadcasting
     bingo_cards.each do |bingo_card|
@@ -18,6 +19,10 @@ class Match < ApplicationRecord
     end
   end
 
+  def start_possible?
+    status == "not_started" || date_time + 300 >= Time.now.utc
+  end
+
   def teams
     "#{team_1} vs #{team_2} - kickoff #{normal_time}"
   end
@@ -26,12 +31,25 @@ class Match < ApplicationRecord
     date_time.strftime("%d.%B %Y - %H:%Mh")
   end
 
+  def self.write_csv
+    CSV.open('matches.csv', 'wb') do |csv|
+      csv << ['competition_id', 'competition_name', 'date', 'team_1_id', 'team_2_id', 'team_1_name', 'team_2_name', 'color_1', 'color_2', 'goals', 'fouls', 'yellow', 'yellow_red', 'red', 'penalties_scored', 'penalties_saved', 'woodwork', 'own_goals', 'joker_goals']
+      Match.all.each do |match|
+        data_hash = match.data.present? ? JSON.parse(match.data, symbolize_names: true) : nil
+        if data_hash.present? && data_hash[:home_id].present? && data_hash[:away_id].present?
+          csv << [match.competition.api_id, match.competition.name, match.date_time, data_hash[:home_id], data_hash[:away_id], match.team_1, match.team_2, match.home_color, match.away_color, data_hash[:goals][:all], data_hash[:fouls][:all], data_hash[:yellow][:all], data_hash[:yellow_red][:all], data_hash[:red][:all], data_hash[:penalties_scored][:all], data_hash[:penalties_saved][:all], data_hash[:woodwork][:all], data_hash[:own_goals][:all], data_hash[:joker_goals][:all]]
+        else
+          csv << [match.competition.api_id, match.competition.name, match.date_time]
+        end
+      end
+    end
+  end
+
   def self.update_matches
     Match.where("date_time < ?", start_date).destroy_all
     matches = read_matches
     if matches[:data].present?
-      matches[:data].each do |match_json|
-        
+      matches[:data].each do |match_json|        
         if (match = Match.find_by(api_id: match_json[:id]))
           home_color = match_json[:colors].present? && match_json[:colors][:localteam].present? && match_json[:colors][:localteam][:color].present? ? match_json[:colors][:localteam][:color] : match.home_color
           away_color = match_json[:colors].present? && match_json[:colors][:visitorteam].present? && match_json[:colors][:visitorteam][:color].present? ? match_json[:colors][:visitorteam][:color] : match.away_color
@@ -41,6 +59,7 @@ class Match < ApplicationRecord
                        home_color: home_color,
                        away_color: away_color,
                        date_time: DateTime.strptime(match_json[:time][:starting_at][:date_time], '%Y-%m-%d %H:%M:%S'))
+          match.update_status(match_json[:time][:status])
         else
           home_color = match_json[:colors].present? && match_json[:colors][:localteam].present? && match_json[:colors][:localteam][:color].present? ? match_json[:colors][:localteam][:color] : "#AAAAAA"
           away_color = match_json[:colors].present? && match_json[:colors][:visitorteam].present? && match_json[:colors][:visitorteam][:color].present? ? match_json[:colors][:visitorteam][:color] : "#AAAAAA"
@@ -52,7 +71,6 @@ class Match < ApplicationRecord
                        away_color: away_color,
                        date_time: DateTime.strptime(match_json[:time][:starting_at][:date_time], '%Y-%m-%d %H:%M:%S')) if Competition.find_by(api_id: match_json[:league_id])
         end
-        match.update_status(match_json[:time][:status])
       end
     end
   end
@@ -68,6 +86,8 @@ class Match < ApplicationRecord
         data_hash = JSON.parse(match.data, symbolize_names: true)
         home_id = api_data[:localteam_id]
         away_id = api_data[:visitorteam_id]
+        data_hash[:home_id] = home_id
+        data_hash[:away_id] = away_id
         woodwork_home = 0
         woodwork_away = 0
         penalties_scored_home = 0
@@ -106,7 +126,7 @@ class Match < ApplicationRecord
             data_hash[:away_players][:"a#{player_data[:number]}"] = player_data[:player_name]
             data_hash[:goals][:away_players][:"a#{player_data[:number]}"] = player_data[:stats][:goals][:scored].nil? ? 0 : player_data[:stats][:goals][:scored]
             if player_data[:type] == 'bench' && data_hash[:goals][:home_players][:"h#{player_data[:number]}"].present?
-              joker_goals_away += data_hash[:goals][:home_players][:"h#{player_data[:number]}"]
+              joker_goals_away += data_hash[:goals][:away_players][:"a#{player_data[:number]}"]
             end
             data_hash[:assists][:away_players][:"a#{player_data[:number]}"] = player_data[:stats][:goals][:assists].nil? ? 0 : player_data[:stats][:goals][:assists]
             data_hash[:fouls][:away_players][:"a#{player_data[:number]}"] = player_data[:stats][:fouls][:committed].nil? ? 0 : player_data[:stats][:fouls][:committed]
@@ -136,9 +156,9 @@ class Match < ApplicationRecord
         data_hash[:joker_goals][:home] = joker_goals_home
         data_hash[:joker_goals][:away] = joker_goals_away
         data_hash[:joker_goals][:all] = joker_goals_home + joker_goals_away
-        data_hash[:goals][:home] = goals_home
-        data_hash[:goals][:away] = goals_away
-        data_hash[:goals][:all] = goals_home + goals_away
+        data_hash[:goals][:home] = goals_home + own_goals_away
+        data_hash[:goals][:away] = goals_away + own_goals_home
+        data_hash[:goals][:all] = goals_home + goals_away + own_goals_away + own_goals_home
         data_hash[:fouls][:home] = fouls_home
         data_hash[:fouls][:away] = fouls_away
         data_hash[:fouls][:all] = fouls_home + fouls_away
@@ -161,6 +181,7 @@ class Match < ApplicationRecord
         data_hash[:red][:all] = data_hash[:red][:home] + data_hash[:red][:away]
         match.data = data_hash.to_json
         match.save
+        match.update_status(api_data[:time][:status])
         live_matches.push(match)
       end
     end
@@ -205,9 +226,9 @@ class Match < ApplicationRecord
   end
 
   def update_status(status)
-    not_started = %w[NS POSTP DELAYED TBA]
+    not_started = %w[NS DELAYED]
     ongoing = %w[LIVE HT ET PEN_LIVE BREAK INT ABAN SUSP]
-    finished = %w[FT AET FT_PEN CANCL AWARDED WO Deleted]
+    finished = %w[FT AET FT_PEN CANCL AWARDED WO POSTP Deleted]
     if not_started.include?(status)
       self.status = "not_started"
     elsif ongoing.include?(status)
@@ -220,6 +241,8 @@ class Match < ApplicationRecord
 
   def init_data
     data_hash = {
+      home_id: "",
+      away_id: "",
       home_players: {},
       away_players: {},
       goals: {

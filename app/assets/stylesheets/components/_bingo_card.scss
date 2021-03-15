@@ -26,7 +26,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr 1fr;
-  grid-gap: 1.5%;
+  // grid-gap: 1.5%;
 }
 
 .grid > div {
@@ -45,6 +45,10 @@
 .grid > div::before,
 .grid > div > .bingo-tile {
   grid-area: 1 / 1 / 2 / 2;
+}
+
+.grid-item {
+  margin: 0 3% 6% 3%;
 }
 
 .bingo-tile {
