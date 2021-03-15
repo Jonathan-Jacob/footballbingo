@@ -8,6 +8,7 @@ class Match < ApplicationRecord
 
   require 'json'
   require 'open-uri'
+  require 'csv'
 
   def broadcasting
     bingo_cards.each do |bingo_card|
@@ -28,6 +29,20 @@ class Match < ApplicationRecord
 
   def normal_time
     date_time.strftime("%d.%B %Y - %H:%Mh")
+  end
+  
+  def self.write_csv
+    CSV.open('matches.csv', 'wb') do |csv|
+      csv << ['competition_id', 'competition_name', 'date', 'team_1_id', 'team_2_id', 'team_1_name', 'team_2_name', 'color_1', 'color_2', 'goals', 'fouls', 'yellow', 'yellow_red', 'red', 'penalties_scored', 'penalties_saved', 'woodwork', 'own_goals', 'joker_goals']
+      Match.all.each do |match|
+        data_hash = match.data.present? ? JSON.parse(match.data, symbolize_names: true) : nil
+        if data_hash.present? && data_hash[:home_id].present? && data_hash[:away_id].present?
+          csv << [match.competition.api_id, match.competition.name, match.date_time, data_hash[:home_id], data_hash[:away_id], match.team_1, match.team_2, match.home_color, match.away_color, data_hash[:goals][:all], data_hash[:fouls][:all], data_hash[:yellow][:all], data_hash[:yellow_red][:all], data_hash[:red][:all], data_hash[:penalties_scored][:all], data_hash[:penalties_saved][:all], data_hash[:woodwork][:all], data_hash[:own_goals][:all], data_hash[:joker_goals][:all]]
+        else
+          csv << [match.competition.api_id, match.competition.name, match.date_time]
+        end
+      end
+    end
   end
 
   def self.update_matches
@@ -67,7 +82,7 @@ class Match < ApplicationRecord
     return if Match.count < 1
 
     live_matches = []
-    raw_data = read_events
+    raw_data = read_matches
     raw_data[:data].each do |api_data|
       if (match = Match.find_by(api_id: api_data[:id]))
         match.init_data unless match.data.present?
@@ -196,9 +211,7 @@ class Match < ApplicationRecord
 
   def self.read_events
     json = {}
-    # api_url = "https://soccer.sportmonks.com/api/v2.0/fixtures/between/2021-03-04/2021-03-04?api_token=#{ENV["SPORTMONKS_URL"]}&include=localTeam,visitorTeam,events,lineup,bench,stats"
-    # api_url = "https://soccer.sportmonks.com/api/v2.0/livescores?api_token=#{ENV["SPORTMONKS_URL"]}&include=localTeam,visitorTeam,events,lineup,bench,stats"
-    api_url = "https://soccer.sportmonks.com/api/v2.0/fixtures/between/2021-01-01/2021-03-14?api_token=#{ENV["SPORTMONKS_URL"]}&include=localTeam,visitorTeam,league,deleted=1,events,lineup,bench,stats"
+    api_url = "https://soccer.sportmonks.com/api/v2.0/livescores?api_token=#{ENV["SPORTMONKS_URL"]}&include=localTeam,visitorTeam,events,lineup,bench,stats"
     open(api_url) do |stream|
       json = JSON.parse(stream.read, symbolize_names: true)
     end
