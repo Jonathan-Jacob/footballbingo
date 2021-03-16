@@ -1,6 +1,0 @@
-<div class="px-3 text-center">
-  <h1 class="my-3 team-link text-center"> <%= @group.name %> </h1>
-  <%= simple_form_for :competition do |f| %>
-    <%= f.input :match, collection: @competitions, label: "Choose a competition"%>
-  <% end %>
-</div>

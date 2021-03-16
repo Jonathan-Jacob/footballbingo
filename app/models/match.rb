@@ -45,23 +45,18 @@ class Match < ApplicationRecord
     end
   end
 
-  def self.write_csv
-    CSV.open('matches.csv', 'wb') do |csv|
-      csv << ['competition_id', 'competition_name', 'date', 'team_1_id', 'team_2_id', 'team_1_name', 'team_2_name', 'color_1', 'color_2', 'goals', 'fouls', 'yellow', 'yellow_red', 'red', 'penalties_scored', 'penalties_saved', 'woodwork', 'own_goals', 'joker_goals']
-      Match.all.each do |match|
-        data_hash = match.data.present? ? JSON.parse(match.data, symbolize_names: true) : nil
-        if data_hash.present? && data_hash[:home_id].present? && data_hash[:away_id].present?
-          csv << [match.competition.api_id, match.competition.name, match.date_time, data_hash[:home_id], data_hash[:away_id], match.team_1, match.team_2, match.home_color, match.away_color, data_hash[:goals][:all], data_hash[:fouls][:all], data_hash[:yellow][:all], data_hash[:yellow_red][:all], data_hash[:red][:all], data_hash[:penalties_scored][:all], data_hash[:penalties_saved][:all], data_hash[:woodwork][:all], data_hash[:own_goals][:all], data_hash[:joker_goals][:all]]
-        else
-          csv << [match.competition.api_id, match.competition.name, match.date_time]
-        end
-      end
+  def self.read_colors
+    colors = {}
+    open('config/colors.json') do |stream|
+      colors = JSON.parse(stream.read)
     end
+    colors
   end
 
   def self.update_matches
     Match.where("date_time < ?", start_date).destroy_all
     matches = read_matches
+    colors = read_colors
     if matches[:data].present?
       matches[:data].each do |match_json|        
         if (match = Match.find_by(api_id: match_json[:id]))
@@ -76,8 +71,8 @@ class Match < ApplicationRecord
           match.update_status(match_json[:time][:status])
         else
           if Competition.find_by(api_id: match_json[:league_id])
-            home_color = match_json[:colors].present? && match_json[:colors][:localteam].present? && match_json[:colors][:localteam][:color].present? ? match_json[:colors][:localteam][:color] : "#AAAAAA"
-            away_color = match_json[:colors].present? && match_json[:colors][:visitorteam].present? && match_json[:colors][:visitorteam][:color].present? ? match_json[:colors][:visitorteam][:color] : "#AAAAAA"
+            home_color = match_json[:colors].present? && match_json[:colors][:localteam].present? && match_json[:colors][:localteam][:color].present? ? match_json[:colors][:localteam][:color] : colors[match_json[:localTeam][:data][:id].to_s].present? ? colors[match_json[:localTeam][:data][:id].to_s] : "#AAAAAA"
+            away_color = match_json[:colors].present? && match_json[:colors][:visitorteam].present? && match_json[:colors][:visitorteam][:color].present? ? match_json[:colors][:visitorteam][:color] : colors[match_json[:visitorTeam][:data][:id].to_s].present? ? colors[match_json[:visitorTeam][:data][:id].to_s] : "#AAAAAA"
             match = Match.create(competition: Competition.find_by(api_id: match_json[:league_id]),
                         team_1: match_json[:localTeam][:data][:name],
                         team_2: match_json[:visitorTeam][:data][:name],
