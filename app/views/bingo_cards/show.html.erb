@@ -1,6 +1,6 @@
 <div class="bingo-container" id="bingo-container" style="padding: 0 clamp(0px, calc(40vw - 166px), 35vw)">
   <div class="before-grid">
-    <h2><%= link_to "#{@game.match.team_1} vs #{@game.match.team_2}", group_path(@game.group_id), class: "dashboard-link"%></h2>
+    <h1><%="#{@game.match.team_1} vs #{@game.match.team_2}"%></h1>
   </div>
   <% if @bingo_tiles.count == 16 %>
     <div class="the-grid">
@@ -17,7 +17,7 @@
     </div>
   </div>
 <% else %>
-  <h4 class="text-center" style="margin-top: 25vw; margin-bottom: 25vw">Your Bingo card will be created before the game begins.</h3>
+  <h4 class="text-center" style="margin-top: 20vh; margin-bottom: 20vh">Your Bingo card will be created before the game begins.</h3>
 <% end %>
 <div>
   <div class="container text-center my-3">
