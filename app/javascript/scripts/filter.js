@@ -24,7 +24,7 @@ const updateMatches = (event) => {
         if (minutes < 10){
           buffer = "0"
         }
-        optionsHtml += `<option value="${match.id}">${match.team_1} vs ${match.team_2} - ${day}.${months[monthIndex]} ${years} at ${hours}:${buffer}${minutes}h</option>`
+        optionsHtml += `<option value="${match.id}">${match.team_1} vs ${match.team_2} – ${months[monthIndex]} ${day}, ${years}, ${hours}:${buffer}${minutes}</option>`
       });
       matchesInput.innerHTML = optionsHtml
     }
