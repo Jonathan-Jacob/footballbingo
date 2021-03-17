@@ -30,11 +30,13 @@ import { initBingoCardCable } from '../channels/bingo_card_channel';
 import { initChatroomCable } from '../channels/chatroom_channel';
 import { initSelect2 } from '../components/init_select2';
 import { initFilter } from "../scripts/filter"
+import { initMessageTime } from "../scripts/message_time"
 document.addEventListener('turbolinks:load', () => {
   // Call your functions here, e.g:
   initSelect2();
   initFilter()
   initBingoCardCable();
   initChatroomCable();
-  $(".alert").fadeOut(8000); 
+  initMessageTime();
+  $(".alert").fadeOut(8000);
 });
