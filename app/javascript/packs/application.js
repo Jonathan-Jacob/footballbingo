@@ -31,6 +31,8 @@ import { initChatroomCable } from '../channels/chatroom_channel';
 import { initSelect2 } from '../components/init_select2';
 import { initFilter } from "../scripts/filter"
 import { initMessageTime } from "../scripts/message_time"
+import { initMessageTimeNew } from "../scripts/message_time"
+
 document.addEventListener('turbolinks:load', () => {
   // Call your functions here, e.g:
   initSelect2();
@@ -38,5 +40,6 @@ document.addEventListener('turbolinks:load', () => {
   initBingoCardCable();
   initChatroomCable();
   initMessageTime();
+  initMessageTimeNew();
   $(".alert").fadeOut(8000);
 });

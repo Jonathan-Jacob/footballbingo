@@ -58,7 +58,7 @@ class Match < ApplicationRecord
     matches = read_matches
     colors = read_colors
     if matches[:data].present?
-      matches[:data].each do |match_json|        
+      matches[:data].each do |match_json|
         if (match = Match.find_by(api_id: match_json[:id]))
           home_color = match_json[:colors].present? && match_json[:colors][:localteam].present? && match_json[:colors][:localteam][:color].present? ? match_json[:colors][:localteam][:color] : match.home_color
           away_color = match_json[:colors].present? && match_json[:colors][:visitorteam].present? && match_json[:colors][:visitorteam][:color].present? ? match_json[:colors][:visitorteam][:color] : match.away_color
