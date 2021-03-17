@@ -32,10 +32,9 @@
   }
 }
 
-.user-message {
+.buddy-message {
   position: relative;
   z-index: -1;
-  display: inline-block;
   clear: both;
   float: left;
   width: 75%;
@@ -45,33 +44,62 @@
   background-color: $light-gray;
   margin: 4px;
   span {
+    padding-left: 2px;
     font-weight: bold;
     font-size: 12px;
   }
   p {
-    padding-left: 12px;
     text-align: left;
     color: $gray;
-    border-radius: 8px;
+    background-color: $light-gray;
+    padding: 2px 2px 2px 12px;
+    border-radius: 4px;
+  }
+  &:last-child {
+    position: relative;
+    &::after {
+      position: absolute;
+      content: '';
+      bottom: -12px;
+      height: 12px;
+      width: 100%;
+    }
   }
 }
 
-.buddy-message {
-  text-align: center;
-  display: inline-block;
+.user-message {
+  position: relative;
+  z-index: -1;
   clear: both;
   float: right;
+  width: 75%;
+  text-align: left;
+  border: 1px solid $football-light-green;
+  border-radius: 4px;
+  background-color: $football-light-green;
+  margin: 4px;
   max-width: 75%;
   span {
+    padding-left: 2px;
     font-weight: bold;
     font-size: 12px;
   }
   p {
-    text-align: center;
-    color: black;
+    text-align: left;
+    color: $gray;
     background-color: $football-light-green;
-    padding: 2px;
+    padding: 2px 2px 2px 12px;
     border-radius: 4px;
+  }
+  &:last-child {
+    position: relative;
+    &::after {
+      position: absolute;
+      content: '';
+      bottom: -12px;
+      height: 12px;
+      width: 100%;
+    }
   }
 }
 

@@ -1,9 +1,19 @@
 <div class="message-container" id="message-<%= message.id %>" data-sender-id="message.user.id">
-  <div class="user-message">
-    <i class="author">
-      <span><%= message.user.nickname %></span>
-      <small><%= message.created_at.strftime("%a %b %e at %l:%M%p") %></small>
-    </i>
-    <p class="mb-0"><%= message.content %></p>
-  </div>
+  <% if message.user == current_user %>
+    <div class="user-message">
+      <i class="author">
+        <span><%= message.user.nickname %></span>
+        <small><%= message.created_at.strftime("%B %d %Y, %H:%Mh") %></small>
+      </i>
+      <p class="mb-0"><%= message.content %></p>
+    </div>
+  <% else %>
+    <div class="buddy-message">
+      <i class="author">
+        <span><%= message.user.nickname %></span>
+        <small><%= message.created_at.strftime("%B %d %Y, %H:%Mh") %></small>
+      </i>
+      <p class="mb-0"><%= message.content %></p>
+    </div>
+  <% end %>
 </div>
