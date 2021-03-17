@@ -1,6 +1,9 @@
 <div class="container-xl">
-  <%= render "choose_competition", group: @group, game: @game %>
-  <div class="px-3">
+  <div class="px-3 text-center">
+    <h1 class="my-3 team-link text-center"> <%= @group.name %>: new game </h1>
+    <%= simple_form_for :competition do |f| %>
+      <%= f.input :match, collection: @competitions, label: "Choose a competition"%>
+    <% end %>
     <%= simple_form_for [@group, @game] do |f| %>
       <%= f.association :match, collection: Match.order(:date_time).to_a.select(&:start_possible?), label: "Choose a match", label_method: :teams %>
       <%= f.submit 'Create Game', class: "btn btn-greenstart" %>
