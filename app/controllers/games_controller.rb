@@ -22,10 +22,15 @@ class GamesController < ApplicationController
 
   def filter
     authorize Game.new
-    competition = Competition.find(params[:competition_id])
-    render json: {
-      matches: competition.matches.order(:date_time).to_a.select(&:start_possible?)
-    }
+    if params[:competition_id].present?
+      render json: {
+        matches: Competition.find(params[:competition_id]).matches.order(:date_time).to_a.select(&:start_possible?)
+      }
+    else
+      render json: {
+        matches: Match.order(:date_time).to_a.select(&:start_possible?)
+      }
+    end
   end
 
   def choose_competition
