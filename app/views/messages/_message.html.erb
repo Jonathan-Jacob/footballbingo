@@ -3,7 +3,7 @@
     <div class="user-message">
       <i class="author">
         <span><%= message.user.nickname %></span>
-        <small><%= message.created_at.strftime("%B %d %Y, %H:%Mh") %></small>
+        <small class="time"><%= message.created_at.strftime("%B %d, %Y, %H:%M") %></small>
       </i>
       <p class="mb-0"><%= message.content %></p>
     </div>
@@ -11,7 +11,7 @@
     <div class="buddy-message">
       <i class="author">
         <span><%= message.user.nickname %></span>
-        <small><%= message.created_at.strftime("%B %d %Y, %H:%Mh") %></small>
+        <small class="time"><%= message.created_at.strftime("%B %d, %Y, %H:%M") %></small>
       </i>
       <p class="mb-0"><%= message.content %></p>
     </div>
