@@ -48,12 +48,11 @@ const changeMessageTime = (message) => {
   const monthIndex = localDate.getMonth();
   const hours = localDate.getHours();
   const minutes = localDate.getMinutes();
-  const years = 1900 + localDate.getYear();
   let buffer = "";
   if (minutes < 10){
     buffer = "0";
   }
-  const dateString = `${months[monthIndex]} ${day}, ${years}, ${hours}:${buffer}${minutes}`;
+  const dateString = `${months[monthIndex]} ${day}, ${hours}:${buffer}${minutes}`;
   message.getElementsByClassName('time')[0].innerHTML = dateString;
 }
 

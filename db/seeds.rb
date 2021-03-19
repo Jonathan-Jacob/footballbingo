@@ -15,26 +15,26 @@ puts "done.\n\n"
 puts "creating competitions..."
 competition_seed_data = [
   #api_id, name, country
-  [2, 'Champions League', 'UEFA'],
-  [5, 'Europa League', 'UEFA'],
-  [8, 'Premier League', 'ENG'],
-  [9, 'Championship', 'ENG'],
-  [72, 'Eredivisie', 'NED'],
-  [82, 'Bundesliga', 'GER'],
-  [85, '2. Bundesliga', 'GER'],
-  [109, 'DFB-Pokal', 'GER'],
-  [181, 'Tipico Bundesliga', 'AUT'],
-  [301, 'Ligue 1', 'FRA'],
-  [384, 'Serie A', 'ITA'],
-  [387, 'Serie B', 'ITA'],
-  [462, 'Primeira Liga', 'POR'],
-  [486, 'Premier League', 'RUS'],
-  [564, 'La Liga', 'ESP'],
-  [591, 'Super League', 'SUI'],
-  [600, 'Süper Lig', 'TUR'],
-  [732, 'World Cup', 'FIFA'],
-  [779, 'Major League Soccer', 'USA'],
-  [1326, 'European Championship', 'UEFA']
+  [2, 'Champions League', 'eu'],
+  [5, 'Europa League', 'eu'],
+  [8, 'Premier League', 'en'],
+  [9, 'Championship', 'en'],
+  [72, 'Eredivisie', 'nl'],
+  [82, 'Bundesliga', 'de'],
+  [85, '2. Bundesliga', 'de'],
+  [109, 'DFB-Pokal', 'de'],
+  [181, 'Bundesliga', 'at'],
+  [301, 'Ligue 1', 'fr'],
+  [384, 'Serie A', 'it'],
+  [387, 'Serie B', 'it'],
+  [462, 'Primeira Liga', 'pt'],
+  [486, 'Premier League', 'ru'],
+  [564, 'La Liga', 'es'],
+  [591, 'Super League', 'ch'],
+  [600, 'Süper Lig', 'tr'],
+  [732, 'World Cup', 'un'],
+  [779, 'MLS', 'us'],
+  [1326, 'Euro Championship', 'eu']
 ]
 competition_seed_data.each do |data|
   Competition.create(api_id: data[0], name: data[1], country: data[2])

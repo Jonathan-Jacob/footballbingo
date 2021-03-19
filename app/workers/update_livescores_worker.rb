@@ -3,6 +3,9 @@ class UpdateLivescoresWorker
   include ActionView::Helpers::TextHelper
 
   def perform
+    Match.all.each do |match|
+      MatchEvent.generate(match) if match.match_events.empty?
+    end
     Match.update_livescores.each do |match|
       if MatchEvent.update(match) # returns true if a match event has been reverted
         match.games.each do |game|

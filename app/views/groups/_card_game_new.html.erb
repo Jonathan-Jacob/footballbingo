@@ -1,15 +1,19 @@
 <div class="card-dashboard">
-  <div class="card-groupname text-center">
-    <p> <%= game.group.name %> </p>
+  <div class="card-groupname">
+    <p><%= game.match.competition.name %></p>
+    <div class="flag"><span class="flag-icon <%= "flag-icon-#{game.match.competition.country}" %> flag-shadow"></span></div>
   </div>
   <div class="card-game">
-    <p style="margin-bottom: 12px"> <%= pluralize(game.bingo_cards.count, "Player") %></p>
-    <p> <%= game.match.team_1 %>  </p>
-    <div class="d-flex justify-content-center align-items-center m-1">
-      <i class="fas fa-tshirt shirt-shadow" style="color: <%= game.match.home_color %>;"></i>
-      <p class="mx-2 pb-1"> vs</p>
-      <i class="fas fa-tshirt shirt-shadow" style="color: <%= game.match.away_color %>;"></i>
+    <div class="players"><i class="fas fa-user"></i> <%= game.bingo_cards.count %></div>
+    <div class="inner">
+      <p> <%= game.match.team_1 %>  </p>
+      <div class="d-flex justify-content-center align-items-center mt-1 mb-0">
+        <i class="fas fa-tshirt shirt-shadow" style="color: <%= game.match.home_color %>;"></i>
+        <p class="mx-2 pb-1"> vs</p>
+        <i class="fas fa-tshirt shirt-shadow" style="color: <%= game.match.away_color %>;"></i>
+      </div>
+      <p class="mb-2"><%= game.match.team_2 %></p>
     </div>
-    <p> <%= game.match.team_2 %> </p>
+    <p><%= game.match.normal_time %></p>
   </div>
 </div>

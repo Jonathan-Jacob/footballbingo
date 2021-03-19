@@ -18,13 +18,13 @@ body, h2, h3, h4, h5, h6 {
 }
 
 .dashboard-link {
-  color: black;
+  color: $gray;
   text-decoration: none;
 }
 
 .dashboard-link:hover {
   opacity: 0.6;
-  color: black;
+  color: $gray;
   text-decoration: none;
 }
 
@@ -34,15 +34,14 @@ body, h2, h3, h4, h5, h6 {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: white;
-  opacity: 0.8;
-  border-radius: 8px;
+  background-color: $light-gray;
+  border-radius: 2px;
   text-align: center;
-  border: 1px solid black;
-  box-shadow: rgba(255, 255, 255, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  border: 1px solid $light-gray;
+  box-shadow: rgba(40, 40, 40, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px, rgba(80, 80, 80, 0.3) 0px 0px 10px -5px;;
   // background: linear-gradient(to bottom, white 59%, $football-green 31%);
   a {
-    color: black;
+    color: $gray;
     text-decoration: none;
   }
   .add {
@@ -55,14 +54,15 @@ body, h2, h3, h4, h5, h6 {
 
 .card-groupname {
   font-weight: bold;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid $gray;
   text-align: left;
   padding: 4px;
-  font-size: 1.5em;
+  font-size: 16px;
   margin: auto 0px;
   color:$football-green;
   width: 100%;
-
+  display: flex;
+  justify-content: space-between;
 }
 
 .card-groupname > p {
@@ -70,25 +70,39 @@ body, h2, h3, h4, h5, h6 {
   }
 
 .card-game {
-  font-weight: bold;
-  padding: 8px;
+  position: relative;
+  padding: 8px 0px;
+  .inner {
+    padding: 0px 24px;
+  }
+  font-size: 14px;
+  width: 100%;
   // background-color:$football-green;
   a {
-    color: black;
+    color: $gray;
   }
   p {
     margin-bottom: -5px;
   }
   h6 {
-    font-weight: bold;
     font-family: $body-font;
     font-size: 20px;
   }
-  min-height:90px;
+  min-height: 90px;
+  .players {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    padding: 4px;
+  }
 }
 
 .shirt-shadow {
   text-shadow:  0px 0px 2px $gray;
+}
+
+.flag-shadow {
+  box-shadow:  rgba(40, 40, 40, 0.25) 0px 0px 4px 0px inset;
 }
 
 @media(max-width: 992px) {

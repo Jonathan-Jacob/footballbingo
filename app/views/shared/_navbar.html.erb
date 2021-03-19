@@ -1,8 +1,8 @@
 <div class="navbar navbar-light navbar-lewagon">
-  <%= link_to dashboard_path, class: "navbar-brand" do %>
+  <%= link_to dashboard_path, class: "navbar-brand d-flex" do %>
     <%= image_tag "grid_logo.svg" %>
-    <% end %>
-
+    <div><h1 class="text-white ml-2" style="font-size: 20px">Football Bingo</h1></div> 
+  <% end %>
   <button class="navbar-toggler px-0" style="color: white" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -29,6 +29,7 @@
         </li>
       <% else %>
         <li class="nav-item">
+        <i class="fas fa-sign-in-alt"></i>
           <%= link_to "Login", new_user_session_path, class: "nav-link" %>
         </li>
       <% end %>
