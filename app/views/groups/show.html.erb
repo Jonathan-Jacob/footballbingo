@@ -3,6 +3,17 @@
   <h1 class="mt-3 text-center"><%= @group.name %></h1>
   <!-- Games Grid with New Game Button at end -->
   <div class="cards-dashboard">
+    <!-- New Game Button -->
+    <%= link_to new_group_game_path(@group), class: "dashboard-link" do %>
+      <div class="card-dashboard">
+        <div class="card-groupname">
+          <p>New game</p>
+        </div>
+        <div class="card-game mt-3">
+          <i class="fas fa-plus fa-3x"></i>
+        </div>
+      </div>
+    <% end %>
 
     <% @group.games.sort_by { |game| game.match.team_1 }.sort_by { |game| game.match.date_time }.each do |game| %>
       <% if BingoCard.find_by(game: game, user: current_user) %>
@@ -15,12 +26,7 @@
         <% end %>
       <% end %>
     <% end %>
-      <!-- New Game Button -->
-    <div class="card-dashboard">
-      <%= link_to new_group_game_path(@group) do %>
-        <i class="fas fa-plus fa-3x btn btn-plus"></i>
-      <% end %>
-    </div>
+      
   </div>
   <%= link_to "Show team members", members_group_path, class: "btn btn-team"  %>
   <!-- Group Chat Function -->

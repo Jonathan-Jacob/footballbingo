@@ -1,7 +1,10 @@
-<div class="card-dashboard">
-  <div class="new-stuff">
-    <%= link_to new_group_path do %>
-      <i class="fas fa-plus fa-3x btn btn-plus"></i>
-    <% end %>
+<%= link_to new_group_path, class: "dashboard-link" do %>
+  <div class="card-dashboard">
+    <div class="card-groupname">
+      <p>New group</p>
+    </div>
+    <div class="card-game mt-3">
+      <i class="fas fa-plus fa-3x"></i>
+    </div>
   </div>
-</div>
+<% end %>
