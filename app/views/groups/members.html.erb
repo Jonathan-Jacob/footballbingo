@@ -1,43 +1,56 @@
 <div class="container-xl text-center" style="max-width: 310px;">
   <h1 class="mt-3 team-link"><%= link_to @group.name, @group %></h1>
-  <h2 class="text-center px-3 mt-3">Team members</h2>
-  <div class="container-members">
-    <% @group.users.each do |user| %>
-      <div class="card-member px-1">
-        <% if user.photo.attached? %>
-          <%= cl_image_tag user.photo.key, class: "avatar-bordered avatar-position" %>
-        <% else %>
-         <%= image_tag "Placeholder.jpg", class: "avatar-bordered avatar-position" %>
-        <% end %>
-        <div class="card-member-infos">
-          <p><%= user.nickname.capitalize %></p>
+  <div class="container-members my-2">
+    <% @group.users.order(:nickname).each do |user| %>
+      <div class="wrapper">
+        <div class="card-member px-1">
+          <% if user.photo.attached? %>
+            <%= cl_image_tag user.photo.key, class: "avatar-bordered avatar-position" %>
+          <% else %>
+          <%= image_tag "Placeholder.jpg", class: "avatar-bordered avatar-position" %>
+          <% end %>
+          <div class="card-member-infos">
+            <% if user == @group.user %>
+              <p><%= user.nickname.capitalize %> <span style="font-size: x-small; font-weight: bold">HOST</span></p>
+            <% else %>
+              <p><%= user.nickname.capitalize %></p>
+            <% end %>
+          </div>
         </div>
       </div>
     <%end%>
   </div>
   <% if @group.user == current_user %>
-      <%= simple_form_for :query, method: 'GET', url: members_group_path do |f| %>
-      <%= f.input :nickname, label: "Search member to add" %>
-      <%= f.submit "Search", class: "btn btn-greenstart" %>
-      <% end %>
-      <% if @members.present? %>
-        <% (0...[@members.length, 5].min).each do |i| %>
-          <% user = @members[i] %>
-          <%= link_to group_user_groups_path(@group, ), method: 'POST', class: "dashboard-link"  do %>
-            <div class="card-member mt-3">
-              <% if user.photo.attached? %>
-                <%= cl_image_tag user.photo.key, class: "avatar-bordered-medium avatar-position" %>
+    <%= simple_form_for :query, method: 'GET', url: members_group_path do |f| %>
+      <div class="search-form-control form-group">
+        <input class="form-control string required" placeholder="add user" type="text" name="query[nickname]" id="search_query" />
+        <button name="button" type="submit" class="btn m-0 p-0">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+    <% end %>
+
+    <% if @members.present? %>
+      <p class="m-1">Select user to add to group</p>
+      <div class="container-members">
+        <% (0...[@members.length, 10].min).each do |i| %>
+          <% @user = @members.sort_by { |member| member.nickname }[i] %>
+          <%= link_to group_user_user_groups_path(@group, @user), method: 'POST', class: "dashboard-link"  do %>
+            <div class="card-member px-1">
+              <% if @user.photo.attached? %>
+                <%= cl_image_tag @user.photo.key, class: "avatar-bordered-medium avatar-position" %>
               <% else %>
               <%= image_tag "Placeholder.jpg", class: "avatar-bordered-medium avatar-position" %>
               <% end %>
               <div class="card-member-infos">
-                <p><%= user.nickname.capitalize %></p>
+                <p><%= @user.nickname.capitalize %></p>
               </div>
             </div>
           <% end %>
         <% end %>
-      <% end %>
+      </div>
     <% end %>
+  <% end %>
   <br>
-  <%= link_to "Back to Team", group_path(@group), class: "btn btn-greenstart"  %>
+  <%= link_to "Back to Team", group_path(@group), class: "btn btn-greenstart mb-2"  %>
 </div>

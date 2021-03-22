@@ -2,7 +2,7 @@
   border: 1px solid $football-green;
   background-color: white;
   border-radius: 8px;
-  max-height: 30vh;
+  max-height: 25vh;
   overflow-y: auto;
   overflow-x: hidden;
   z-index: 999;
@@ -24,6 +24,16 @@
   }
 
   padding: 0px;
+  .wrapper:last-child {
+    .card-member {
+      border-bottom: none;
+    }
+  }
+  a:last-child {
+    .card-member {
+      border-bottom: none;
+    }
+  }
 }
 
 .card-member {
@@ -35,9 +45,7 @@
   align-items: center;
   border-bottom: solid 1px $gray;
   // border-radius: 8px;
-  &:last-child {
-    border-bottom: none;
-  }
+  
 }
 
 .card-member h2 {

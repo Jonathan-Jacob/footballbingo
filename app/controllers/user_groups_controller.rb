@@ -1,5 +1,6 @@
 class UserGroupsController < ApplicationController
   before_action :set_group
+  before_action :set_user
 
   def index
     policy_scope(UserGroup)
@@ -7,8 +8,7 @@ class UserGroupsController < ApplicationController
   end
 
   def create
-    @user_group = UserGroup.new(user_group_params)
-    @user_group.group = @group
+    @user_group = UserGroup.new(user: @user, group: @group)
     authorize @user_group
     if @user_group.save
       redirect_to members_group_path(@group, anchor: "member-#{@group.user.id}")
@@ -20,8 +20,8 @@ class UserGroupsController < ApplicationController
 
   private
 
-  def user_group_params
-    params.require(:user_group).permit(:user_id)
+  def set_user
+    @user = User.find(params[:user_id])
   end
 
   def set_group
