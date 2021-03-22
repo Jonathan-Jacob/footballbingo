@@ -1,7 +1,8 @@
 <div class="container-xl text-center" style="max-width: 310px;">
   <h1 class="mt-3 team-link"><%= link_to @group.name, @group %></h1>
   <div class="container-members my-2">
-    <% @group.users.order('LOWER(nickname)').each do |user| %>
+    <% @group.user_groups.where(status: 'member').joins(:user).order('LOWER(nickname)').each do |user_group| %>
+      <% user = user_group.user %>
       <div class="wrapper">
         <div class="card-member px-1">
           <% if user.photo.attached? %>
@@ -27,6 +28,54 @@
         <button name="button" type="submit" class="btn m-0 p-0">
           <i class="fas fa-search"></i>
         </button>
+      </div>
+    <% end %>
+    <% if @group.user_groups.where(status: 'requested').present? %>
+      <p class="m-1">Requests to join group</p>
+      <div class="container-members my-2">
+        <% @group.user_groups.where(status: 'requested').joins(:user).order('LOWER(nickname)').each do |user_group| %>
+          <% user = user_group.user %>
+          <div class="wrapper">
+            <div class="card-member px-1">
+              <% if user.photo.attached? %>
+                <%= cl_image_tag user.photo.key, class: "avatar-bordered avatar-position" %>
+              <% else %>
+              <%= image_tag "Placeholder.jpg", class: "avatar-bordered avatar-position" %>
+              <% end %>
+              <div class="card-member-infos">
+                <% if user == @group.user %>
+                  <p><%= user.nickname.capitalize %> <span style="font-size: x-small; font-weight: bold">HOST</span></p>
+                <% else %>
+                  <p><%= user.nickname.capitalize %></p>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        <%end%>
+      </div>
+    <% end %>
+    <% if @group.user_groups.where(status: 'invited').present? %>
+      <p class="m-1">Invited users</p>
+      <div class="container-members my-2">
+        <% @group.user_groups.where(status: 'invited').joins(:user).order('LOWER(nickname)').each do |user_group| %>
+          <% user = user_group.user %>
+          <div class="wrapper">
+            <div class="card-member px-1">
+              <% if user.photo.attached? %>
+                <%= cl_image_tag user.photo.key, class: "avatar-bordered avatar-position" %>
+              <% else %>
+              <%= image_tag "Placeholder.jpg", class: "avatar-bordered avatar-position" %>
+              <% end %>
+              <div class="card-member-infos">
+                <% if user == @group.user %>
+                  <p><%= user.nickname.capitalize %> <span style="font-size: x-small; font-weight: bold">HOST</span></p>
+                <% else %>
+                  <p><%= user.nickname.capitalize %></p>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        <%end%>
       </div>
     <% end %>
     <% if @members.present? %>

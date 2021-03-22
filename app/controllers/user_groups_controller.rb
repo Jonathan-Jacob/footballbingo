@@ -8,7 +8,7 @@ class UserGroupsController < ApplicationController
   end
 
   def create
-    @user_group = UserGroup.new(user: @user, group: @group)
+    @user_group = UserGroup.new(user: @user, group: @group, status: 'invited')
     authorize @user_group
     if @user_group.save
       redirect_to members_group_path(@group, anchor: "member-#{@group.user.id}")
