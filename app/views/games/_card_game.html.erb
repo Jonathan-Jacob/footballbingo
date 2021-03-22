@@ -1,0 +1,19 @@
+<%= link_to game_bingo_card_path(bingo_card.game, bingo_card), class: "dashboard-link" do %>
+  <div class="card-dashboard">
+    <div class="card-groupname">
+      <p><%= bingo_card.game.match.competition.name %></p>
+      <div class="flag"><span class="flag-icon <%= "flag-icon-#{bingo_card.game.match.competition.country}" %>"></span></div>
+    </div>
+    <div class="card-game">
+      <div class="players"><i class="fas fa-user"></i> <%= bingo_card.game.bingo_cards.count %></div>
+      <p> <%= bingo_card.game.match.team_1 %>  </p>
+      <div class="d-flex justify-content-center align-items-center mt-1 mb-0">
+        <i class="fas fa-tshirt shirt-shadow" style="color: <%= bingo_card.game.match.home_color %>;"></i>
+        <p class="mx-2 pb-1"> vs</p>
+        <i class="fas fa-tshirt shirt-shadow" style="color: <%= bingo_card.game.match.away_color %>;"></i>
+      </div>
+      <p class="mb-2"><%= bingo_card.game.match.team_2 %></p>
+      <p><%= bingo_card.game.match.normal_time %></p>
+    </div>
+  </div>
+<% end %>

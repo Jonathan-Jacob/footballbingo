@@ -28,7 +28,7 @@ class Match < ApplicationRecord
   end
 
   def normal_time
-    date_time.strftime("%B %d, %Y, %H:%M")
+    date_time.strftime("%B %d, %H:%M")
   end
   
   def self.write_csv

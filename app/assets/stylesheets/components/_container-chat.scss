@@ -39,7 +39,7 @@
   float: left;
   width: 75%;
   text-align: left;
-  border: 1px solid black;
+  border: 1px solid $gray;
   border-radius: 4px;
   background-color: $light-gray;
   margin: 4px;
@@ -74,9 +74,9 @@
   float: right;
   width: 75%;
   text-align: left;
-  border: 1px solid $football-light-green;
+  border: 1px solid $gray;
   border-radius: 4px;
-  background-color: $football-light-green;
+  background-color: $football-very-light-green;
   margin: 4px;
   max-width: 75%;
   span {
@@ -87,7 +87,7 @@
   p {
     text-align: left;
     color: $gray;
-    background-color: $football-light-green;
+    background-color: $football-very-light-green;
     padding: 2px 2px 2px 12px;
     border-radius: 4px;
   }
