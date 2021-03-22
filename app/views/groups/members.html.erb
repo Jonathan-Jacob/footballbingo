@@ -1,7 +1,7 @@
 <div class="container-xl text-center" style="max-width: 310px;">
   <h1 class="mt-3 team-link"><%= link_to @group.name, @group %></h1>
   <div class="container-members my-2">
-    <% @group.users.order(:nickname).each do |user| %>
+    <% @group.users.order('LOWER(nickname)').each do |user| %>
       <div class="wrapper">
         <div class="card-member px-1">
           <% if user.photo.attached? %>
@@ -29,13 +29,12 @@
         </button>
       </div>
     <% end %>
-
     <% if @members.present? %>
       <p class="m-1">Select user to add to group</p>
       <div class="container-members">
         <% (0...[@members.length, 10].min).each do |i| %>
-          <% @user = @members.sort_by { |member| member.nickname }[i] %>
-          <%= link_to group_user_user_groups_path(@group, @user), method: 'POST', class: "dashboard-link"  do %>
+          <% @user = @members[i] %>
+          <%= link_to group_user_user_groups_path(@group, @user), method: 'POST', class: "dashboard-link", remote: true do %>
             <div class="card-member px-1">
               <% if @user.photo.attached? %>
                 <%= cl_image_tag @user.photo.key, class: "avatar-bordered-medium avatar-position" %>

@@ -36,7 +36,7 @@ class GroupsController < ApplicationController
     @group = Group.find(params[:id])
     authorize @group
     @user_group = UserGroup.new
-    @members = User.search_user(query_params[:nickname]).to_a.reject { |user| user == User.find_by(nickname: "BingoBot") }.reject { |user| @group.users.include?(user) } if query_params.present?
+    @members = User.order('LOWER(nickname)').search_user(query_params[:nickname]).where.not(nickname: "BingoBot") - User.joins(:user_groups).where(user_groups: {group: @group} ) if query_params.present?
   end
 
   private
