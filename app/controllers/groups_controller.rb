@@ -36,6 +36,7 @@ class GroupsController < ApplicationController
     @group = Group.find(params[:id])
     authorize @group
     @user_group = UserGroup.new
+    @members = User.order('LOWER(nickname)').search_user(query_params[:nickname]).where.not(nickname: "BingoBot") - User.joins(:user_groups).where(user_groups: {group: @group} ) if query_params.present?
   end
 
   private
@@ -47,6 +48,9 @@ class GroupsController < ApplicationController
   def group_params
     params.require(:group).permit(:name)
   end
+
+  def query_params
+    params.require(:query).permit(:nickname) if params[:query].present?
+  end
 end
 
-#simple_form_for [@group, @users_group] points to users_group_id

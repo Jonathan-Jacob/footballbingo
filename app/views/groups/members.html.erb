@@ -1,99 +1,104 @@
 <div class="container-xl text-center" style="max-width: 310px;">
   <h1 class="mt-3 team-link"><%= link_to @group.name, @group %></h1>
-  <h2 class="text-center px-3 mt-3">Team members</h2>
-  <br>
-    <% @group.users.each do |user| %>
-      <div class="card-member">
-        <% if user.photo.attached? %>
-          <%= cl_image_tag user.photo.key, class: "avatar-bordered-medium avatar-position" %>
-        <% else %>
-         <%= image_tag "Placeholder.jpg", class: "avatar-bordered-medium avatar-position" %>
-        <% end %>
-        <div class="card-member-infos">
-          <p><%= user.nickname.capitalize %></p>
+  <div class="container-members my-2">
+    <% @group.user_groups.where(status: 'member').joins(:user).order('LOWER(nickname)').each do |user_group| %>
+      <% user = user_group.user %>
+      <div class="wrapper">
+        <div class="card-member px-1">
+          <% if user.photo.attached? %>
+            <%= cl_image_tag user.photo.key, class: "avatar-bordered avatar-position" %>
+          <% else %>
+          <%= image_tag "Placeholder.jpg", class: "avatar-bordered avatar-position" %>
+          <% end %>
+          <div class="card-member-infos">
+            <% if user == @group.user %>
+              <p><%= user.nickname.capitalize %> <span style="font-size: x-small; font-weight: bold">HOST</span></p>
+            <% else %>
+              <p><%= user.nickname.capitalize %></p>
+            <% end %>
+          </div>
         </div>
       </div>
-      <br>
-      <br>
     <%end%>
+  </div>
   <% if @group.user == current_user %>
-      <%= simple_form_for([@group, @user_group], remote: true) do |f| %>
-      <% sorted_users = [] %>
-      <%  @group.user_groups.each { |user| sorted_users << user.user_id } %>
-      <% available_users =  User.all.map { |user| user unless sorted_users.include?(user.id) }%>
-      <%= f.association :user, label: "New team member", collection: available_users.compact.map { |user| [user.id, user.nickname] } , input_html: { class: 'select2 js-example-responsive' }, label_method: :second, value_method: :first %>
-      <%= f.submit "Add to team", class: "btn btn-greenstart" %>
-      <% end %>
+    <%= simple_form_for :query, method: 'GET', url: members_group_path do |f| %>
+      <div class="search-form-control form-group">
+        <input class="form-control string required" placeholder="add user" type="text" name="query[nickname]" id="search_query" />
+        <button name="button" type="submit" class="btn m-0 p-0">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
     <% end %>
+    <% if @group.user_groups.where(status: 'requested').present? %>
+      <p class="m-1">Requests to join group</p>
+      <div class="container-members my-2">
+        <% @group.user_groups.where(status: 'requested').joins(:user).order('LOWER(nickname)').each do |user_group| %>
+          <% user = user_group.user %>
+          <div class="wrapper">
+            <div class="card-member px-1">
+              <% if user.photo.attached? %>
+                <%= cl_image_tag user.photo.key, class: "avatar-bordered avatar-position" %>
+              <% else %>
+              <%= image_tag "Placeholder.jpg", class: "avatar-bordered avatar-position" %>
+              <% end %>
+              <div class="card-member-infos">
+                <% if user == @group.user %>
+                  <p><%= user.nickname.capitalize %> <span style="font-size: x-small; font-weight: bold">HOST</span></p>
+                <% else %>
+                  <p><%= user.nickname.capitalize %></p>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        <%end%>
+      </div>
+    <% end %>
+    <% if @group.user_groups.where(status: 'invited').present? %>
+      <p class="m-1">Invited users</p>
+      <div class="container-members my-2">
+        <% @group.user_groups.where(status: 'invited').joins(:user).order('LOWER(nickname)').each do |user_group| %>
+          <% user = user_group.user %>
+          <div class="wrapper">
+            <div class="card-member px-1">
+              <% if user.photo.attached? %>
+                <%= cl_image_tag user.photo.key, class: "avatar-bordered avatar-position" %>
+              <% else %>
+              <%= image_tag "Placeholder.jpg", class: "avatar-bordered avatar-position" %>
+              <% end %>
+              <div class="card-member-infos">
+                <% if user == @group.user %>
+                  <p><%= user.nickname.capitalize %> <span style="font-size: x-small; font-weight: bold">HOST</span></p>
+                <% else %>
+                  <p><%= user.nickname.capitalize %></p>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        <%end%>
+      </div>
+    <% end %>
+    <% if @members.present? %>
+      <p class="m-1">Select user to add to group</p>
+      <div class="container-members">
+        <% (0...[@members.length, 10].min).each do |i| %>
+          <% @user = @members[i] %>
+          <%= link_to group_user_user_groups_path(@group, @user), method: 'POST', class: "dashboard-link", remote: true do %>
+            <div class="card-member px-1">
+              <% if @user.photo.attached? %>
+                <%= cl_image_tag @user.photo.key, class: "avatar-bordered-medium avatar-position" %>
+              <% else %>
+              <%= image_tag "Placeholder.jpg", class: "avatar-bordered-medium avatar-position" %>
+              <% end %>
+              <div class="card-member-infos">
+                <p><%= @user.nickname.capitalize %></p>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
   <br>
-  <%= link_to "Back to Team", group_path(@group), class: "btn btn-greenstart"  %>
+  <%= link_to "Back to Team", group_path(@group), class: "btn btn-greenstart mb-2"  %>
 </div>
-<style>
-  .select2-selection{
-    padding: 30px;
-  }
-  .select2-container--default .select2-selection--single .select2-selection__arrow {
-    height: 26px;
-    position: relative;
-    top: 1px;
-    right: 1px;
-    width: 20px;
-}
-.select2-container .select2-selection--single {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-sizing: border-box;
-    border: none;
-    cursor: pointer;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    -webkit-user-select: none;
-    overflow: hidden;
-    height: 65px;
-    background: white;
-    box-shadow: 0 0 15px rgb(0 0 0 / 20%);
-    display: flex;
-    align-items: center;
-    border-radius: 8px;
-}
-
-.select2-container--default .select2-selection--single .select2-selection__rendered {
-  color: #2f6e25;
-  font-size: 25px;
-    line-height: 1.4;
-    opacity: .7;
-    margin-bottom: 0;
-    font-weight: lighter;
-    padding-left: 18px;
-}
-
-.select2-container--default .select2-results > .select2-results__options {
-    max-height: 200px;
-    overflow-y: auto;
-    color: #2f6e25;
-    font-size: 25px;
-    line-height: 1.4;
-    opacity: .7;
-    margin-bottom: 0;
-    font-weight: lighter;
-    padding-left: 18px;
-}
-
-.select2-container--default .select2-search--dropdown .select2-search__field {
-    border: 1px solid #aaa;
-    border-radius: 8px;
-}
-
-.select2-container--default .select2-results__option--highlighted.select2-results__option--selectable {
-    background-color: #2f6e25;
-}
-
-.select2-container--open .select2-dropdown--above {
-    border-radius: 8px 8px 0 0;
-    border-bottom: none;
-    box-shadow: 0 0 15px rgb(0 0 0 / 20%);
-}
-
-</style>
